@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Common Tides Coffee — Gift Card Print</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ── SCREEN layout ────────────────────────────────────── */
+    body {
+      background: #EDECEA;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Sans', sans-serif;
+      padding: 48px 32px;
+      gap: 28px;
+    }
+
+    .screen-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      color: #999;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    /* ── PRINT BUTTON ─────────────────────────────────────── */
+    .print-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #4A9E93;
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 12px 28px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(74, 158, 147, 0.35);
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .print-btn:hover {
+      background: #3d8a80;
+      box-shadow: 0 6px 20px rgba(74, 158, 147, 0.45);
+    }
+    .print-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: #fff;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .print-hint {
+      font-size: 12px;
+      color: #aaa;
+      text-align: center;
+      line-height: 1.7;
+      max-width: 480px;
+    }
+    .print-hint strong { color: #777; }
+
+    /* ── GIFT CARD ────────────────────────────────────────── */
+    .gift-card {
+      width: 560px;
+      height: 320px;
+      border-radius: 18px;
+      background: linear-gradient(140deg, #2d7a70 0%, #4A9E93 28%, #5EB3A7 55%, #78C8BC 78%, #A3DDD6 100%);
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 24px 64px rgba(45, 122, 112, 0.45),
+        0 6px 20px rgba(0,0,0,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.25);
+    }
+
+    /* Noise texture overlay */
+    .gift-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 180px;
+      opacity: 0.6;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Decorative circles */
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.07);
+    }
+    .c1 { width: 260px; height: 260px; top: -110px; right: -80px; }
+    .c2 { width: 140px; height: 140px; bottom: -55px; left: -40px; }
+    .c3 { width: 80px;  height: 80px;  top: 55px; left: 210px; background: rgba(255,255,255,0.05); }
+
+    /* Wave */
+    .wave-svg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 1;
+      opacity: 0.12;
+    }
+
+    /* Card inner layout */
+    .card-inner {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      padding: 28px 30px 24px 32px;
+    }
+
+    .card-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-right {
+      width: 176px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .logo-wrap img {
+      height: 48px;
+      width: auto;
+      filter: brightness(0) invert(1);
+      opacity: 0.92;
+      display: block;
+    }
+    .brand-sub {
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      color: rgba(255,255,255,0.65);
+      text-transform: uppercase;
+      margin-top: 7px;
+    }
+
+    .offer-eyebrow {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      color: rgba(255,255,255,0.7);
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+    .offer-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: 44px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1;
+      text-shadow: 0 3px 14px rgba(0,0,0,0.18);
+      letter-spacing: -0.5px;
+    }
+    .offer-sub {
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.78);
+      margin-top: 6px;
+      letter-spacing: 0.01em;
+    }
+
+    .insta {
+      font-size: 9px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.06em;
+    }
+
+    .card-tag {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      color: rgba(255,255,255,0.55);
+      text-transform: uppercase;
+      text-align: right;
+    }
+
+    .code-box {
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.28);
+      border-radius: 10px;
+      padding: 11px 14px;
+      text-align: right;
+      backdrop-filter: blur(6px);
+    }
+    .code-label {
+      font-size: 7.5px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: rgba(255,255,255,0.65);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .code-value {
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.18em;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.15);
+    }
+
+    .valid-text {
+      font-size: 8.5px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.58);
+      text-align: right;
+      line-height: 1.6;
+    }
+
+    /* ── PRINT STYLES ─────────────────────────────────────── */
+    @media print {
+      /* Hide everything on screen except the card */
+      body {
+        background: #fff;
+        margin: 0;
+        padding: 0;
+        display: block;
+      }
+
+      .screen-label,
+      .print-btn,
+      .print-hint {
+        display: none !important;
+      }
+
+      /* Center card on the printed page */
+      .print-page {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Scale card to true credit-card size: 3.5" × 2" at print resolution */
+      .gift-card {
+        width: 3.5in;
+        height: 2in;
+        border-radius: 0.18in;
+        box-shadow: none;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        color-adjust: exact;
+      }
+
+      /* Scale all internal text proportionally (card shrinks ~63% from 560px to 3.5in@96dpi=336px) */
+      .logo-wrap img   { height: 0.3in; }
+      .brand-sub       { font-size: 5.5pt; margin-top: 4pt; }
+      .offer-eyebrow   { font-size: 5pt; margin-bottom: 3pt; }
+      .offer-headline  { font-size: 27pt; }
+      .offer-sub       { font-size: 7pt; margin-top: 4pt; }
+      .insta           { font-size: 5.5pt; }
+      .card-tag        { font-size: 5pt; }
+      .code-box        { padding: 6pt 8pt; border-radius: 6pt; }
+      .code-label      { font-size: 5pt; margin-bottom: 2pt; }
+      .code-value      { font-size: 11pt; }
+      .valid-text      { font-size: 5.5pt; }
+      .card-inner      { padding: 0.17in 0.18in 0.15in 0.2in; }
+      .card-right      { width: 1.1in; }
+
+      .c1 { width: 1.6in; height: 1.6in; top: -0.69in; right: -0.5in; }
+      .c2 { width: 0.88in; height: 0.88in; bottom: -0.34in; left: -0.25in; }
+      .c3 { width: 0.5in; height: 0.5in; top: 0.34in; left: 1.31in; }
+    }
+  </style>
+</head>
+<body>
+
+  <p class="screen-label">Common Tides Coffee &nbsp;·&nbsp; Gift Card — Print Version</p>
+
+  <button class="print-btn" onclick="window.print()">
+    <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+    Print / Save as PDF
+  </button>
+
+  <div class="print-page">
+    <div class="gift-card">
+      <div class="circle c1"></div>
+      <div class="circle c2"></div>
+      <div class="circle c3"></div>
+
+      <svg class="wave-svg" viewBox="0 0 560 100" preserveAspectRatio="none">
+        <path d="M0,50 C100,15 200,80 320,45 C400,22 480,65 560,50 L560,100 L0,100 Z" fill="white"/>
+        <path d="M0,70 C130,35 260,90 400,55 C470,38 515,68 560,70 L560,100 L0,100 Z" fill="white" opacity="0.55"/>
+      </svg>
+
+      <div class="card-inner">
+        <div class="card-left">
+          <div>
+            <div class="logo-wrap">
+              <img src="https://raw.githubusercontent.com/commontidescoffee/images/main/logo-03.png" alt="Common Tides Coffee Logo">
+            </div>
+            <div class="brand-sub">Common Tides Coffee</div>
+          </div>
+
+          <div>
+            <div class="offer-eyebrow">Complimentary</div>
+            <div class="offer-headline">1 Free<br>Drink</div>
+            <div class="offer-sub">Any menu item of your choice</div>
+          </div>
+
+          <div class="insta">@commontidescoffee</div>
+        </div>
+
+        <div class="card-right">
+          <div class="card-tag">Gift Card</div>
+
+          <div class="code-box">
+            <div class="code-label">Redemption Code</div>
+            <div class="code-value">CT-FREE-7X4K</div>
+          </div>
+
+          <div class="valid-text">
+            Valid at any Common Tides<br>
+            pop-up or market event<br>
+            Wilmington, NC
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="print-hint">
+    Click the button above, then choose <strong>"Save as PDF"</strong> as the destination.<br>
+    In print settings: set paper to <strong>Letter</strong>, scale to <strong>100%</strong>, and enable <strong>background graphics</strong>.
+  </p>
+
+</body>
+</html>
