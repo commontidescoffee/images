@@ -194,11 +194,11 @@
     }
     .week-range {
       margin-top: 10px;
-      font-size: 15px;
+      font-size: 26px;
       font-weight: 500;
       color: rgba(255,255,255,0.38);
       letter-spacing: 0.04em;
-      min-height: 20px;
+      min-height: 32px;
     }
     .wave-divider {
       margin-top: 16px;
@@ -721,6 +721,11 @@
         // Set week range label
         document.getElementById('weekRange').textContent = fmtWeekLabel(monday, sunday)
 
+        // Fit text on all fields after calendar data loads
+        requestAnimationFrame(() => {
+          document.querySelectorAll('.field-val').forEach(fitText)
+        })
+
         setStatus(`✓ Loaded ${events.length} event${events.length !== 1 ? 's' : ''} · Edit any field before saving`, 'success')
         setTimeout(() => setStatus('', ''), 5000)
 
@@ -730,9 +735,27 @@
       }
     }
 
+    // ── Auto-shrink text to fit container ─────
+    function fitText(el) {
+      const MAX = 34, MIN = 14
+      el.style.fontSize = MAX + 'px'
+      // Shrink 1px at a time until text fits or hits minimum
+      while (el.scrollWidth > el.clientWidth && parseInt(el.style.fontSize) > MIN) {
+        el.style.fontSize = (parseInt(el.style.fontSize) - 1) + 'px'
+      }
+    }
+
+    // Wire up live fit-text on every field as user types
+    document.querySelectorAll('.field-val').forEach(el => {
+      el.addEventListener('input', () => fitText(el))
+    })
+
     // ── Clear all ─────────────────────────────
     function clearAll() {
-      document.querySelectorAll('.field-val').forEach(el => el.textContent = '')
+      document.querySelectorAll('.field-val').forEach(el => {
+        el.textContent = ''
+        el.style.fontSize = ''
+      })
       document.getElementById('weekRange').textContent = ''
       setStatus('', '')
     }
