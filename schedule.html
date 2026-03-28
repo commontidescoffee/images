@@ -60,6 +60,44 @@
       text-align: center;
     }
 
+    /* ── Week picker ─────────────────── */
+    .week-picker {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 9px;
+      overflow: hidden;
+    }
+    .week-arrow {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.6);
+      font-size: 16px;
+      width: 36px;
+      height: 38px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .week-arrow:hover { background: rgba(74,158,147,0.2); color: #fff; }
+    .week-picker-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.04em;
+      padding: 0 14px;
+      white-space: nowrap;
+      border-left: 1px solid rgba(255,255,255,0.1);
+      border-right: 1px solid rgba(255,255,255,0.1);
+      line-height: 38px;
+      min-width: 110px;
+      text-align: center;
+    }
+
     /* ── Calendar status banner ──────── */
     #calStatus {
       display: none;
@@ -285,6 +323,12 @@
 <body>
 
   <div class="ui-bar" id="uiBar">
+    <!-- Week picker -->
+    <div class="week-picker">
+      <button class="week-arrow" onclick="shiftWeek(-1)" title="Previous week">&#8592;</button>
+      <span class="week-picker-label" id="weekPickerLabel">This Week</span>
+      <button class="week-arrow" onclick="shiftWeek(1)" title="Next week">&#8594;</button>
+    </div>
     <button class="ui-btn" onclick="loadCalendar()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       Pull from Calendar
@@ -297,7 +341,7 @@
   </div>
 
   <div id="calStatus"></div>
-  <p class="ui-hint" id="uiHint">Pull from Calendar auto-fills this week · click any field to edit · Save as PNG when ready</p>
+  <p class="ui-hint" id="uiHint">Choose a week · Pull from Calendar · edit any field · Save as PNG</p>
 
   <!-- Card -->
   <div id="scaleWrap">
@@ -480,12 +524,29 @@
     const CALENDAR_ID = 'e5d97565d2e53eae215c9b87e2a193617d2f7e019de3c8e6ccb3be0f2ac6ee27@group.calendar.google.com'
     const API_KEY     = 'AIzaSyCSiXr9WwISuQJlIQtdSZ3xEPQsTkv_etY'
 
+    let weekOffset = 0 // 0 = this week, 1 = next week, -1 = last week
+
+    // ── Shift week and reload ─────────────────
+    function shiftWeek(dir) {
+      weekOffset += dir
+      updateWeekPickerLabel()
+      loadCalendar()
+    }
+
+    function updateWeekPickerLabel() {
+      const el = document.getElementById('weekPickerLabel')
+      if (weekOffset === 0) el.textContent = 'This Week'
+      else if (weekOffset === 1) el.textContent = 'Next Week'
+      else if (weekOffset === -1) el.textContent = 'Last Week'
+      else el.textContent = weekOffset > 0 ? `+${weekOffset} Weeks` : `${weekOffset} Weeks`
+    }
+
     // ── Week bounds (Mon–Sun) ─────────────────
     function getWeekBounds() {
       const today = new Date()
       const dow = today.getDay() // 0=Sun
       const monday = new Date(today)
-      monday.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1))
+      monday.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1) + weekOffset * 7)
       monday.setHours(0, 0, 0, 0)
       const sunday = new Date(monday)
       sunday.setDate(monday.getDate() + 6)
