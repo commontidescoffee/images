@@ -220,7 +220,8 @@
       border: 1px solid rgba(74,158,147,0.18);
       border-radius: 16px;
       overflow: hidden;
-      flex: 1;
+      flex: 1 1 0;
+      min-height: fit-content;
       transition: border-color 0.2s, background 0.2s;
     }
     .day-row:focus-within {
@@ -606,6 +607,15 @@
       el.className = type
     }
 
+    // ── HTML escape helper ────────────────────
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+    }
+
     // ── Load calendar ─────────────────────────
     async function loadCalendar() {
       const { monday, sunday } = getWeekBounds()
@@ -650,12 +660,25 @@
 
         const events = data.items || []
 
-        // Group events by day number
+        // Group events by day number.
+        // IMPORTANT: date-only strings (e.g. "2025-04-07") must be parsed as local
+        // midnight, not UTC midnight — otherwise in US timezones (UTC-4/5) the date
+        // rolls back to the previous day when getDay() is called.
+        function parseDayNum(startStr) {
+          if (!startStr) return null
+          if (startStr.length === 10) {
+            // date-only "YYYY-MM-DD" — split manually to force local time
+            const [y, m, d] = startStr.split('-').map(Number)
+            return new Date(y, m - 1, d).getDay()
+          }
+          return new Date(startStr).getDay()
+        }
+
         const byDay = {}
         events.forEach(ev => {
           const startStr = ev.start?.dateTime || ev.start?.date
-          if (!startStr) return
-          const dayNum = new Date(startStr).getDay()
+          const dayNum = parseDayNum(startStr)
+          if (dayNum === null) return
           if (!byDay[dayNum]) byDay[dayNum] = []
           byDay[dayNum].push(ev)
         })
@@ -666,12 +689,14 @@
           if (!row) return
           const fields = row.querySelector('.day-fields')
 
-          // Build HTML for all events on this day
+          // Build HTML for all events on this day.
+          // escHtml() is used on any calendar-sourced text to prevent broken
+          // markup if an event name contains <, >, &, or " characters.
           const lines = evs.map((ev, i) => {
-            const loc  = ev.summary || ev.location || ''
-            const time = ev.start?.dateTime
+            const loc  = escHtml(ev.summary || ev.location || '')
+            const time = escHtml(ev.start?.dateTime
               ? `${fmtTime(ev.start.dateTime)} – ${fmtTime(ev.end?.dateTime)}`
-              : ''
+              : '')
             const sep  = i > 0 ? '<div class="event-sep"></div>' : ''
             const lbl  = i === 0
               ? '<div class="field-lbl">Location</div>'
