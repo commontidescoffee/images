@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Common Tides — Weekly Schedule</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0f14;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 20px 16px 40px;
+      font-family: 'DM Sans', sans-serif;
+      gap: 14px;
+    }
+
+    /* ── UI Controls ─────────────────────────── */
+    .ui-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .ui-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: #4A9E93;
+      color: #fff;
+      border: none;
+      padding: 11px 22px;
+      border-radius: 9px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      box-shadow: 0 4px 14px rgba(74,158,147,0.3);
+    }
+    .ui-btn:hover { background: #3a8a7f; }
+    .ui-btn:active { transform: scale(0.97); }
+    .ui-btn.ghost {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: none;
+    }
+    .ui-btn.ghost:hover { background: rgba(255,255,255,0.11); }
+
+    .ui-hint {
+      color: rgba(255,255,255,0.28);
+      font-size: 11.5px;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Scale wrapper ──────────────────────── */
+    #scaleWrap {
+      transform-origin: top center;
+      flex-shrink: 0;
+    }
+
+    /* ── Instagram card — 1080 × 1350 (4:5) ── */
+    .ig-card {
+      width: 1080px;
+      height: 1350px;
+      position: relative;
+      overflow: hidden;
+      background: #071520;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* Dot grid texture */
+    .dot-grid {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(74,158,147,0.14) 1px, transparent 1px);
+      background-size: 36px 36px;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* SVG bg */
+    .bg-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Content */
+    .card-body {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 58px 72px 54px;
+    }
+
+    /* ── Header ──────────────────────────────── */
+    .hdr {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 36px;
+      flex-shrink: 0;
+    }
+
+    .logo-wrap img {
+      height: 68px;
+      width: auto;
+      display: block;
+      filter: brightness(0) invert(1);
+      opacity: 0.93;
+    }
+
+    .hdr-eyebrow {
+      margin-top: 16px;
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.36em;
+      color: #4A9E93;
+      text-transform: uppercase;
+    }
+
+    .hdr-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 56px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.02;
+      margin-top: 5px;
+      letter-spacing: -0.5px;
+    }
+
+    .week-label {
+      margin-top: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.32);
+      letter-spacing: 0.06em;
+      outline: none;
+      display: inline-block;
+      min-width: 200px;
+      text-align: center;
+      border-bottom: 1px dashed rgba(74,158,147,0.3);
+      padding-bottom: 2px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .week-label:focus { border-color: #4A9E93; color: rgba(255,255,255,0.65); }
+    .week-label:empty:before {
+      content: attr(data-ph);
+      color: rgba(255,255,255,0.2);
+      font-style: italic;
+    }
+
+    /* Wave divider */
+    .wave-divider {
+      margin-top: 18px;
+      width: 100%;
+    }
+
+    /* ── Day rows ─────────────────────────────── */
+    .days {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+
+    .day-row {
+      display: flex;
+      align-items: stretch;
+      background: rgba(255,255,255,0.032);
+      border: 1px solid rgba(74,158,147,0.2);
+      border-radius: 14px;
+      overflow: hidden;
+      flex: 1;
+      transition: border-color 0.2s;
+    }
+    .day-row:focus-within {
+      border-color: rgba(74,158,147,0.5);
+      background: rgba(74,158,147,0.04);
+    }
+
+    /* Weekend rows — slightly warmer teal accent */
+    .day-row.weekend {
+      border-color: rgba(94,179,167,0.24);
+    }
+    .day-row.weekend:focus-within {
+      border-color: rgba(94,179,167,0.55);
+    }
+
+    .day-pill {
+      width: 84px;
+      flex-shrink: 0;
+      background: linear-gradient(170deg, #1e5e56 0%, #2d7a70 45%, #4A9E93 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+    }
+    .weekend .day-pill {
+      background: linear-gradient(170deg, #163f3a 0%, #1e5e56 45%, #2d7a70 100%);
+    }
+
+    .day-name {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      color: #fff;
+      text-transform: uppercase;
+    }
+    .day-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+      display: none;
+    }
+    .weekend .day-dot { display: block; }
+
+    .day-fields {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 14px 20px 14px 22px;
+      gap: 18px;
+    }
+
+    .field-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .field-group.time-group { flex: 0 0 200px; }
+
+    .field-lbl {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(74,158,147,0.65);
+      user-select: none;
+    }
+
+    .field-val {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 19px;
+      font-weight: 600;
+      color: #fff;
+      outline: none;
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,0.09);
+      padding-bottom: 2px;
+      min-height: 28px;
+      letter-spacing: 0.01em;
+      line-height: 1.3;
+      transition: border-color 0.15s;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .field-val:focus { border-bottom-color: rgba(74,158,147,0.6); }
+    .field-val:empty:before {
+      content: attr(data-ph);
+      color: rgba(255,255,255,0.15);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 17px;
+    }
+
+    .sep-line {
+      width: 1px;
+      background: rgba(255,255,255,0.07);
+      align-self: stretch;
+      margin: 8px 0;
+      flex-shrink: 0;
+    }
+
+    /* ── Footer ─────────────────────────────── */
+    .footer {
+      flex-shrink: 0;
+      margin-top: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .footer-dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(74,158,147,0.45); }
+    .footer-handle {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #4A9E93;
+      letter-spacing: 0.05em;
+    }
+    .footer-text {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.28);
+      letter-spacing: 0.04em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UI Controls -->
+  <div class="ui-bar" id="uiBar">
+    <button class="ui-btn" onclick="saveImage()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      Save as PNG
+    </button>
+    <button class="ui-btn ghost" onclick="clearAll()">Clear All</button>
+  </div>
+  <p class="ui-hint" id="uiHint">Click any field to fill in your location &amp; time — then hit Save as PNG.</p>
+
+  <!-- Card scale wrapper -->
+  <div id="scaleWrap">
+    <div class="ig-card" id="igCard">
+
+      <!-- Dot grid -->
+      <div class="dot-grid"></div>
+
+      <!-- BG SVG decorations -->
+      <svg class="bg-svg" viewBox="0 0 1080 1350" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="rg1" cx="90%" cy="5%" r="40%">
+            <stop offset="0%" stop-color="#4A9E93" stop-opacity="0.13"/>
+            <stop offset="100%" stop-color="#4A9E93" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="rg2" cx="8%" cy="96%" r="35%">
+            <stop offset="0%" stop-color="#2d7a70" stop-opacity="0.16"/>
+            <stop offset="100%" stop-color="#2d7a70" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="rg3" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#4A9E93" stop-opacity="0.03"/>
+            <stop offset="100%" stop-color="#4A9E93" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Glow fills -->
+        <rect width="1080" height="1350" fill="url(#rg1)"/>
+        <rect width="1080" height="1350" fill="url(#rg2)"/>
+        <rect width="1080" height="1350" fill="url(#rg3)"/>
+
+        <!-- Top tide wave -->
+        <path d="M0,0 L1080,0 L1080,72 C900,108 700,52 540,82 C380,112 190,60 0,92 Z" fill="#4A9E93" opacity="0.07"/>
+        <path d="M0,0 L1080,0 L1080,42 C860,64 630,26 420,50 C210,72 80,36 0,56 Z" fill="#5EB3A7" opacity="0.05"/>
+
+        <!-- Bottom tide wave -->
+        <path d="M0,1350 L1080,1350 L1080,1272 C870,1248 640,1290 440,1262 C240,1235 100,1268 0,1252 Z" fill="#4A9E93" opacity="0.09"/>
+        <path d="M0,1350 L1080,1350 L1080,1316 C930,1294 710,1328 500,1306 C290,1284 120,1314 0,1300 Z" fill="#2d7a70" opacity="0.06"/>
+
+        <!-- Header separator line -->
+        <line x1="72" y1="310" x2="1008" y2="310" stroke="#4A9E93" stroke-width="0.6" opacity="0.2"/>
+
+        <!-- Decorative cross / star accents -->
+        <g transform="translate(46, 316)" opacity="0.22">
+          <line x1="0" y1="-9" x2="0" y2="9" stroke="#4A9E93" stroke-width="1.4"/>
+          <line x1="-9" y1="0" x2="9" y2="0" stroke="#4A9E93" stroke-width="1.4"/>
+          <circle r="2.5" fill="#4A9E93"/>
+        </g>
+        <g transform="translate(1034, 316)" opacity="0.22">
+          <line x1="0" y1="-9" x2="0" y2="9" stroke="#4A9E93" stroke-width="1.4"/>
+          <line x1="-9" y1="0" x2="9" y2="0" stroke="#4A9E93" stroke-width="1.4"/>
+          <circle r="2.5" fill="#4A9E93"/>
+        </g>
+
+        <!-- Floating dots -->
+        <circle cx="1048" cy="200" r="2.5" fill="#4A9E93" opacity="0.22"/>
+        <circle cx="1060" cy="640" r="1.8" fill="#5EB3A7" opacity="0.18"/>
+        <circle cx="32" cy="580" r="1.8" fill="#5EB3A7" opacity="0.16"/>
+        <circle cx="42" cy="1120" r="2" fill="#4A9E93" opacity="0.2"/>
+        <circle cx="1046" cy="1100" r="2" fill="#4A9E93" opacity="0.18"/>
+      </svg>
+
+      <!-- Card content -->
+      <div class="card-body">
+
+        <!-- Header -->
+        <div class="hdr">
+          <div class="logo-wrap">
+            <img id="logoImg" src="https://raw.githubusercontent.com/commontidescoffee/images/main/logo-03.png" alt="Common Tides Coffee" crossorigin="anonymous">
+          </div>
+          <p class="hdr-eyebrow">Find Us This Week</p>
+          <h1 class="hdr-title">Weekly Schedule</h1>
+          <div class="week-label" contenteditable="true" data-ph="Week of Month DD, YYYY"></div>
+
+          <!-- Tidal wave divider -->
+          <svg class="wave-divider" viewBox="0 0 936 22" height="22" fill="none" preserveAspectRatio="xMidYMid meet">
+            <path d="M0,11 C78,3 156,19 234,11 C312,3 390,19 468,11 C546,3 624,19 702,11 C780,3 858,19 936,11" stroke="#4A9E93" stroke-width="1.6" opacity="0.45" stroke-linecap="round"/>
+            <path d="M0,16 C78,8 156,24 234,16 C312,8 390,24 468,16 C546,8 624,24 702,16 C780,8 858,24 936,16" stroke="#9FD9D0" stroke-width="0.9" opacity="0.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <!-- Days -->
+        <div class="days">
+
+          <div class="day-row">
+            <div class="day-pill"><span class="day-name">Mon</span></div>
+            <div class="day-fields">
+              <div class="field-group">
+                <div class="field-lbl">Location</div>
+                <div class="field-val" contenteditable="true" data-ph="Where we'll be..."></div>
+              </div>
+              <div class="sep-line"></div>
+              <div class="field-group time-group">
+                <div class="field-lbl">Time</div>
+                <div class="field-val" contenteditable="true" data-ph="8am – 12pm"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="day-row">
+            <div class="day-pill"><span class="day-name">Tue</span></div>
+            <div class="day-fields">
+              <div class="field-group">
+                <div class="field-lbl">Location</div>
+                <div class="field-val" contenteditable="true" data-ph="Where we'll be..."></div>
+              </div>
+              <div class="sep-line"></div>
+              <div class="field-group time-group">
+                <div class="field-lbl">Time</div>
+                <div class="field-val" contenteditable="true" data-ph="8am – 12pm"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="day-row">
+            <div class="day-pill"><span class="day-name">Wed</span></div>
+            <div class="day-fields">
+              <div class="field-group">
+                <div class="field-lbl">Location</div>
+                <div class="field-val" contenteditable="true" data-ph="Where we'll be..."></div>
+              </div>
+              <div class="sep-line"></div>
+              <div class="field-group time-group">
+                <div class="field-lbl">Time</div>
+                <div class="field-val" contenteditable="true" data-ph="8am – 12pm"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="day-row">
+            <div class="day-pill"><span class="day-name">Thu</span></div>
+            <div class="day-fields">
+              <div class="field-group">
+                <div class="field-lbl">Location</div>
+                <div class="field-val" contenteditable="true" data-ph="Where we'll be..."></div>
+              </div>
+              <div class="sep-line"></div>
+              <div class="field-group time-group">
+                <div class="field-lbl">Time</div>
+                <div class="field-val" contenteditable="true" data-ph="8am – 12pm"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="day-row">
+            <div class="day-pill"><span class="day-name">Fri</span></div>
+            <div class="day-fields">
+              <div class="field-group">
+                <div class="field-lbl">Location</div>
+                <div class="field-val" contenteditable="true" data-ph="Where we'll be..."></div>
+              </div>
+              <div class="sep-line"></div>
+              <div class="field-group time-group">
+                <div class="field-lbl">Time</div>
+                <div class="field-val" contenteditable="true" data-ph="8am – 12pm"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="day-row weekend">
+            <div class="day-pill">
+              <span class="day-name">Sat</span>
+              <div class="day-dot"></div>
+            </div>
+            <div class="day-fields">
+              <div class="field-group">
+                <div class="field-lbl">Location</div>
+                <div class="field-val" contenteditable="true" data-ph="Where we'll be..."></div>
+              </div>
+              <div class="sep-line"></div>
+              <div class="field-group time-group">
+                <div class="field-lbl">Time</div>
+                <div class="field-val" contenteditable="true" data-ph="8am – 12pm"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="day-row weekend">
+            <div class="day-pill">
+              <span class="day-name">Sun</span>
+              <div class="day-dot"></div>
+            </div>
+            <div class="day-fields">
+              <div class="field-group">
+                <div class="field-lbl">Location</div>
+                <div class="field-val" contenteditable="true" data-ph="Where we'll be..."></div>
+              </div>
+              <div class="sep-line"></div>
+              <div class="field-group time-group">
+                <div class="field-lbl">Time</div>
+                <div class="field-val" contenteditable="true" data-ph="8am – 12pm"></div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- .days -->
+
+        <!-- Footer -->
+        <div class="footer">
+          <span class="footer-handle">@commontidescoffee</span>
+          <div class="footer-dot"></div>
+          <span class="footer-text">Wilmington, NC</span>
+          <div class="footer-dot"></div>
+          <span class="footer-text">commontides.com</span>
+        </div>
+
+      </div><!-- .card-body -->
+    </div><!-- .ig-card -->
+  </div><!-- #scaleWrap -->
+
+  <script>
+    // ── Scale to fit viewport ──────────────────
+    function scaleCard() {
+      const wrap = document.getElementById('scaleWrap')
+      const vw = window.innerWidth - 32
+      const vh = window.innerHeight - 130
+      const scale = Math.min(vw / 1080, vh / 1350, 1)
+      wrap.style.transform = `scale(${scale})`
+      wrap.style.height = Math.round(1350 * scale) + 'px'
+      wrap.style.width = Math.round(1080 * scale) + 'px'
+      wrap.style.overflow = 'visible'
+    }
+    scaleCard()
+    window.addEventListener('resize', scaleCard)
+
+    // ── Clear all editable fields ──────────────
+    function clearAll() {
+      document.querySelectorAll('.field-val, .week-label').forEach(el => el.textContent = '')
+    }
+
+    // ── Save as PNG ────────────────────────────
+    async function saveImage() {
+      // Blur active element
+      if (document.activeElement && document.activeElement.blur) document.activeElement.blur()
+
+      const uiBar  = document.getElementById('uiBar')
+      const uiHint = document.getElementById('uiHint')
+      const wrap   = document.getElementById('scaleWrap')
+
+      uiBar.style.visibility  = 'hidden'
+      uiHint.style.visibility = 'hidden'
+
+      // Reset scale for full-res capture
+      const prevTransform = wrap.style.transform
+      const prevH = wrap.style.height
+      const prevW = wrap.style.width
+      wrap.style.transform = 'scale(1)'
+      wrap.style.height = '1350px'
+      wrap.style.width  = '1080px'
+
+      // Wait for layout
+      await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))
+      await new Promise(r => setTimeout(r, 80))
+
+      try {
+        const canvas = await html2canvas(document.getElementById('igCard'), {
+          scale: 2,
+          useCORS: true,
+          allowTaint: false,
+          backgroundColor: '#071520',
+          width: 1080,
+          height: 1350,
+          logging: false,
+          imageTimeout: 12000,
+        })
+
+        const today = new Date()
+        const mm = String(today.getMonth()+1).padStart(2,'0')
+        const dd = String(today.getDate()).padStart(2,'0')
+        const link = document.createElement('a')
+        link.download = `ct-schedule-${mm}${dd}.png`
+        link.href = canvas.toDataURL('image/png')
+        link.click()
+      } catch(err) {
+        alert('Save failed — try a full-page screenshot instead.\n\n' + err.message)
+      }
+
+      // Restore
+      wrap.style.transform = prevTransform
+      wrap.style.height = prevH
+      wrap.style.width  = prevW
+      uiBar.style.visibility  = 'visible'
+      uiHint.style.visibility = 'visible'
+    }
+  </script>
+</body>
+</html>
