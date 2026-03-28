@@ -130,7 +130,7 @@
 
     .hdr-eyebrow {
       margin-top: 16px;
-      font-size: 11.5px;
+      font-size: 15px;
       font-weight: 800;
       letter-spacing: 0.36em;
       color: #4A9E93;
@@ -147,26 +147,6 @@
       letter-spacing: -0.5px;
     }
 
-    .week-label {
-      margin-top: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.32);
-      letter-spacing: 0.06em;
-      outline: none;
-      display: inline-block;
-      min-width: 200px;
-      text-align: center;
-      border-bottom: 1px dashed rgba(74,158,147,0.3);
-      padding-bottom: 2px;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .week-label:focus { border-color: #4A9E93; color: rgba(255,255,255,0.65); }
-    .week-label:empty:before {
-      content: attr(data-ph);
-      color: rgba(255,255,255,0.2);
-      font-style: italic;
-    }
 
     /* Wave divider */
     .wave-divider {
@@ -220,7 +200,7 @@
     }
 
     .day-name {
-      font-size: 14px;
+      font-size: 18px;
       font-weight: 800;
       letter-spacing: 0.16em;
       color: #fff;
@@ -252,7 +232,7 @@
     .field-group.time-group { flex: 0 0 200px; }
 
     .field-lbl {
-      font-size: 9px;
+      font-size: 12px;
       font-weight: 800;
       letter-spacing: 0.28em;
       text-transform: uppercase;
@@ -277,13 +257,6 @@
       overflow: hidden;
     }
     .field-val:focus { border-bottom-color: rgba(74,158,147,0.6); }
-    .field-val:empty:before {
-      content: attr(data-ph);
-      color: rgba(255,255,255,0.15);
-      font-style: italic;
-      font-weight: 400;
-      font-size: 17px;
-    }
 
     .sep-line {
       width: 1px;
@@ -403,8 +376,6 @@
           </div>
           <p class="hdr-eyebrow">Find Us This Week</p>
           <h1 class="hdr-title">Weekly Schedule</h1>
-          <div class="week-label" contenteditable="true" data-ph="Week of Month DD, YYYY"></div>
-
           <!-- Tidal wave divider -->
           <svg class="wave-divider" viewBox="0 0 936 22" height="22" fill="none" preserveAspectRatio="xMidYMid meet">
             <path d="M0,11 C78,3 156,19 234,11 C312,3 390,19 468,11 C546,3 624,19 702,11 C780,3 858,19 936,11" stroke="#4A9E93" stroke-width="1.6" opacity="0.45" stroke-linecap="round"/>
