@@ -253,9 +253,23 @@
     .day-fields {
       flex: 1;
       display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 12px 24px 12px 26px;
+      gap: 8px;
+    }
+
+    /* Single event line inside a day row */
+    .event-line {
+      display: flex;
       align-items: center;
-      padding: 16px 24px 16px 26px;
       gap: 0;
+    }
+    /* Separator between stacked events */
+    .event-sep {
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      margin: 0 0 0 0;
     }
 
     .field-group {
@@ -411,13 +425,15 @@
           <div class="day-row" data-day="1">
             <div class="day-pill"><span class="day-name">Mon</span></div>
             <div class="day-fields">
-              <div class="field-group">
-                <div class="field-lbl">Location</div>
-                <div class="field-val loc" contenteditable="true"></div>
-              </div>
-              <div class="field-group time-group">
-                <div class="field-lbl">Time</div>
-                <div class="field-val time" contenteditable="true"></div>
+              <div class="event-line">
+                <div class="field-group">
+                  <div class="field-lbl">Location</div>
+                  <div class="field-val loc" contenteditable="true"></div>
+                </div>
+                <div class="field-group time-group">
+                  <div class="field-lbl">Time</div>
+                  <div class="field-val time" contenteditable="true"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -425,13 +441,15 @@
           <div class="day-row" data-day="2">
             <div class="day-pill"><span class="day-name">Tue</span></div>
             <div class="day-fields">
-              <div class="field-group">
-                <div class="field-lbl">Location</div>
-                <div class="field-val loc" contenteditable="true"></div>
-              </div>
-              <div class="field-group time-group">
-                <div class="field-lbl">Time</div>
-                <div class="field-val time" contenteditable="true"></div>
+              <div class="event-line">
+                <div class="field-group">
+                  <div class="field-lbl">Location</div>
+                  <div class="field-val loc" contenteditable="true"></div>
+                </div>
+                <div class="field-group time-group">
+                  <div class="field-lbl">Time</div>
+                  <div class="field-val time" contenteditable="true"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -439,13 +457,15 @@
           <div class="day-row" data-day="3">
             <div class="day-pill"><span class="day-name">Wed</span></div>
             <div class="day-fields">
-              <div class="field-group">
-                <div class="field-lbl">Location</div>
-                <div class="field-val loc" contenteditable="true"></div>
-              </div>
-              <div class="field-group time-group">
-                <div class="field-lbl">Time</div>
-                <div class="field-val time" contenteditable="true"></div>
+              <div class="event-line">
+                <div class="field-group">
+                  <div class="field-lbl">Location</div>
+                  <div class="field-val loc" contenteditable="true"></div>
+                </div>
+                <div class="field-group time-group">
+                  <div class="field-lbl">Time</div>
+                  <div class="field-val time" contenteditable="true"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -453,13 +473,15 @@
           <div class="day-row" data-day="4">
             <div class="day-pill"><span class="day-name">Thu</span></div>
             <div class="day-fields">
-              <div class="field-group">
-                <div class="field-lbl">Location</div>
-                <div class="field-val loc" contenteditable="true"></div>
-              </div>
-              <div class="field-group time-group">
-                <div class="field-lbl">Time</div>
-                <div class="field-val time" contenteditable="true"></div>
+              <div class="event-line">
+                <div class="field-group">
+                  <div class="field-lbl">Location</div>
+                  <div class="field-val loc" contenteditable="true"></div>
+                </div>
+                <div class="field-group time-group">
+                  <div class="field-lbl">Time</div>
+                  <div class="field-val time" contenteditable="true"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -467,13 +489,15 @@
           <div class="day-row" data-day="5">
             <div class="day-pill"><span class="day-name">Fri</span></div>
             <div class="day-fields">
-              <div class="field-group">
-                <div class="field-lbl">Location</div>
-                <div class="field-val loc" contenteditable="true"></div>
-              </div>
-              <div class="field-group time-group">
-                <div class="field-lbl">Time</div>
-                <div class="field-val time" contenteditable="true"></div>
+              <div class="event-line">
+                <div class="field-group">
+                  <div class="field-lbl">Location</div>
+                  <div class="field-val loc" contenteditable="true"></div>
+                </div>
+                <div class="field-group time-group">
+                  <div class="field-lbl">Time</div>
+                  <div class="field-val time" contenteditable="true"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -481,13 +505,15 @@
           <div class="day-row weekend" data-day="6">
             <div class="day-pill"><span class="day-name">Sat</span></div>
             <div class="day-fields">
-              <div class="field-group">
-                <div class="field-lbl">Location</div>
-                <div class="field-val loc" contenteditable="true"></div>
-              </div>
-              <div class="field-group time-group">
-                <div class="field-lbl">Time</div>
-                <div class="field-val time" contenteditable="true"></div>
+              <div class="event-line">
+                <div class="field-group">
+                  <div class="field-lbl">Location</div>
+                  <div class="field-val loc" contenteditable="true"></div>
+                </div>
+                <div class="field-group time-group">
+                  <div class="field-lbl">Time</div>
+                  <div class="field-val time" contenteditable="true"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -495,13 +521,15 @@
           <div class="day-row weekend" data-day="0">
             <div class="day-pill"><span class="day-name">Sun</span></div>
             <div class="day-fields">
-              <div class="field-group">
-                <div class="field-lbl">Location</div>
-                <div class="field-val loc" contenteditable="true"></div>
-              </div>
-              <div class="field-group time-group">
-                <div class="field-lbl">Time</div>
-                <div class="field-val time" contenteditable="true"></div>
+              <div class="event-line">
+                <div class="field-group">
+                  <div class="field-lbl">Location</div>
+                  <div class="field-val loc" contenteditable="true"></div>
+                </div>
+                <div class="field-group time-group">
+                  <div class="field-lbl">Time</div>
+                  <div class="field-val time" contenteditable="true"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -604,35 +632,65 @@
           return
         }
 
-        // Clear existing fields
-        document.querySelectorAll('.field-val').forEach(el => el.textContent = '')
+        // Clear existing fields and reset to single event-line per row
+        document.querySelectorAll('.day-row').forEach(row => {
+          const fields = row.querySelector('.day-fields')
+          fields.innerHTML = `
+            <div class="event-line">
+              <div class="field-group">
+                <div class="field-lbl">Location</div>
+                <div class="field-val loc" contenteditable="true"></div>
+              </div>
+              <div class="field-group time-group">
+                <div class="field-lbl">Time</div>
+                <div class="field-val time" contenteditable="true"></div>
+              </div>
+            </div>`
+        })
 
         const events = data.items || []
-        let filled = 0
 
+        // Group events by day number
+        const byDay = {}
         events.forEach(ev => {
           const startStr = ev.start?.dateTime || ev.start?.date
           if (!startStr) return
+          const dayNum = new Date(startStr).getDay()
+          if (!byDay[dayNum]) byDay[dayNum] = []
+          byDay[dayNum].push(ev)
+        })
 
-          const evDate = new Date(startStr)
-          const dayNum = evDate.getDay() // 0=Sun,1=Mon…6=Sat
-
+        // Fill each day row
+        Object.entries(byDay).forEach(([dayNum, evs]) => {
           const row = document.querySelector(`.day-row[data-day="${dayNum}"]`)
           if (!row) return
+          const fields = row.querySelector('.day-fields')
 
-          const locEl  = row.querySelector('.loc')
-          const timeEl = row.querySelector('.time')
+          // Build HTML for all events on this day
+          const lines = evs.map((ev, i) => {
+            const loc  = ev.summary || ev.location || ''
+            const time = ev.start?.dateTime
+              ? `${fmtTime(ev.start.dateTime)} – ${fmtTime(ev.end?.dateTime)}`
+              : ''
+            const sep  = i > 0 ? '<div class="event-sep"></div>' : ''
+            const lbl  = i === 0
+              ? '<div class="field-lbl">Location</div>'
+              : '<div class="field-lbl">&nbsp;</div>'
+            const tlbl = i === 0
+              ? '<div class="field-lbl">Time</div>'
+              : '<div class="field-lbl">&nbsp;</div>'
+            return `${sep}
+              <div class="event-line">
+                <div class="field-group">${lbl}
+                  <div class="field-val loc" contenteditable="true">${loc}</div>
+                </div>
+                <div class="field-group time-group">${tlbl}
+                  <div class="field-val time" contenteditable="true">${time}</div>
+                </div>
+              </div>`
+          })
 
-          // Only fill if not already filled (first event per day wins)
-          if (!locEl.textContent.trim()) {
-            locEl.textContent = ev.summary || ev.location || ''
-          }
-          if (!timeEl.textContent.trim() && ev.start?.dateTime) {
-            const start = fmtTime(ev.start.dateTime)
-            const end   = fmtTime(ev.end?.dateTime)
-            timeEl.textContent = end ? `${start} – ${end}` : start
-          }
-          filled++
+          fields.innerHTML = lines.join('')
         })
 
         // Set week range label
