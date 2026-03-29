@@ -275,6 +275,7 @@
 
     .field-group {
       flex: 1;
+      min-width: 0; /* prevent nowrap text from overflowing flex allocation */
       display: flex;
       flex-direction: column;
       gap: 4px;
@@ -295,7 +296,7 @@
     }
     .field-val {
       font-family: 'DM Sans', sans-serif;
-      font-size: 34px;
+      font-size: 26px;
       font-weight: 600;
       color: #fff;
       outline: none;
@@ -721,10 +722,9 @@
         // Set week range label
         document.getElementById('weekRange').textContent = fmtWeekLabel(monday, sunday)
 
-        // Fit text on all fields after calendar data loads
-        requestAnimationFrame(() => {
-          document.querySelectorAll('.field-val').forEach(fitText)
-        })
+        // Wait for fonts, then a 50ms buffer for flex layout to settle,
+        // then measure and shrink every field.
+        document.fonts.ready.then(() => setTimeout(fitAllFields, 50))
 
         setStatus(`✓ Loaded ${events.length} event${events.length !== 1 ? 's' : ''} · Edit any field before saving`, 'success')
         setTimeout(() => setStatus('', ''), 5000)
@@ -735,19 +735,45 @@
       }
     }
 
-    // ── Auto-shrink text to fit container ─────
+    // ── Auto-shrink text to fit its container ─────────────────
+    // Strategy: measure the element itself, not a proxy.
+    //   Step 1 — set width:max-content + overflow:visible on the element,
+    //            read getBoundingClientRect().width → true text width (forces reflow)
+    //   Step 2 — restore CSS, read getBoundingClientRect().width again
+    //            → flex-allocated container width (forces reflow)
+    //   Step 3 — scale font proportionally so text fits in container.
+    // No canvas, no hidden spans, no hardcoded widths, no font-loading race.
     function fitText(el) {
-      const MAX = 34, MIN = 14
-      el.style.fontSize = MAX + 'px'
-      // Shrink 1px at a time until text fits or hits minimum
-      while (el.scrollWidth > el.clientWidth && parseInt(el.style.fontSize) > MIN) {
-        el.style.fontSize = (parseInt(el.style.fontSize) - 1) + 'px'
-      }
+      const text = el.textContent.trim()
+      if (!text) { el.style.fontSize = ''; return }
+
+      const MAX = 26, MIN = 10
+
+      // Step 1: expand to measure natural text width at MAX size
+      el.style.fontSize  = MAX + 'px'
+      el.style.width     = 'max-content'
+      el.style.overflow  = 'visible'
+      const textW = el.getBoundingClientRect().width       // sync reflow
+
+      // Step 2: restore and measure the container-allocated width
+      el.style.width    = ''
+      el.style.overflow = ''
+      const containerW = el.getBoundingClientRect().width  // sync reflow
+
+      if (containerW === 0 || textW <= containerW) return  // already fits
+
+      // Step 3: proportional scale — one calculation, no loop
+      const newSize = Math.max(MIN, Math.floor(MAX * containerW / textW))
+      el.style.fontSize = newSize + 'px'
     }
 
-    // Wire up live fit-text on every field as user types
-    document.querySelectorAll('.field-val').forEach(el => {
-      el.addEventListener('input', () => fitText(el))
+    function fitAllFields() {
+      document.querySelectorAll('#igCard .field-val').forEach(fitText)
+    }
+
+    // Event delegation — survives innerHTML rebuilds during calendar load
+    document.getElementById('daysGrid').addEventListener('input', (e) => {
+      if (e.target.classList.contains('field-val')) fitText(e.target)
     })
 
     // ── Clear all ─────────────────────────────
