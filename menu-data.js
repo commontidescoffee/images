@@ -85,7 +85,7 @@ const MENU_DATA = {
   noncoffee: [
     {
       name:   "The Golden Hour",
-      badge:  "Signature",
+      badge:  "Healthy",
       detail: "Turmeric · Warming Spices · Hot",
       sizes:  [
         { label: "12 oz", price: "$5.50" },
