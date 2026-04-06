@@ -108,7 +108,7 @@ const MENU_DATA = {
       price:  "$2.50"
     },
     {
-      name:   "Kids Flavored Milk",
+      name:   "Kids Latte",
       badge:  "Kids",
       detail: "Caramel, Vanilla, or Maple · Whole Milk · Iced only · 16 oz",
       price:  "$4.50"
