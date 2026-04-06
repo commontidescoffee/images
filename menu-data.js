@@ -108,6 +108,11 @@ const MENU_DATA = {
       price:  "$2.50"
     },
     {
+      name:   "Kids Flavored Milk",
+      detail: "Caramel, Vanilla, or Maple · Whole Milk · Iced only · 16 oz",
+      price:  "$4.50"
+    },
+    {
       name:   "Bottled Water",
       price:  "$1.00"
     }
