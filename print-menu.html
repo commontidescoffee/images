@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Common Tides Coffee — Menu</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal:      #5EB3A7;
+    --teal-dark: #4A9E93;
+    --teal-deep: #3D8F84;
+    --teal-pale: #EBF7F5;
+    --amber:     #C8915A;
+    --amber-dk:  #A8713A;
+    --ink:       #1C1C1C;
+    --muted:     #777;
+    --sand:      #E2D6C4;
+    --sand-pale: #FAF7F2;
+    --sand-mid:  #F2EDE5;
+    --dark-bg:   #1C3A36;
+    --espresso:  #2C1810;
+  }
+
+  html, body, * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #aaa;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  /* ── PAGE ── */
+  .page {
+    width: 8.5in;
+    height: 11in;
+    background: var(--sand-pale);
+    display: grid;
+    grid-template-rows: auto auto 1fr auto auto;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+  }
+
+  /* ════════════════════════════════════
+     HEADER
+  ════════════════════════════════════ */
+  .header {
+    position: relative;
+    padding: 11px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    overflow: hidden;
+  }
+  .header-bg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    z-index: 0; display: block;
+  }
+  .header > *:not(.header-bg) { position: relative; z-index: 1; }
+
+  .logo-wrap {
+    width: 54px; height: 54px; flex-shrink: 0;
+    background: white;
+    border-radius: 50%; padding: 3px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  }
+  .logo-wrap img { width: 100%; height: 100%; border-radius: 50%; object-fit: contain; display: block; }
+  .header-mid { flex: 1; }
+  .header-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px; font-weight: 900; color: white; line-height: 1;
+  }
+  .header-sub { font-size: 11.5px; color: rgba(255,255,255,0.88); font-weight: 500; margin-top: 4px; letter-spacing: 0.3px; }
+  .header-right { text-align: right; }
+  .header-url { font-size: 13px; font-weight: 700; color: white; }
+  .header-ig  { font-size: 11px; color: rgba(255,255,255,0.78); margin-top: 3px; }
+
+  /* ════════════════════════════════════
+     SIZE BAR
+  ════════════════════════════════════ */
+  .size-bar {
+    position: relative;
+    padding: 6px 24px;
+    font-size: 11px; font-weight: 600; color: var(--teal-deep);
+    display: flex; align-items: center; gap: 8px;
+    border-bottom: 1.5px solid rgba(94,179,167,0.4);
+    overflow: hidden;
+  }
+  .size-bar-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; display: block; }
+  .size-bar > *:not(.size-bar-bg) { position: relative; z-index: 1; }
+  .size-bar-sep { color: var(--teal); }
+
+  /* ════════════════════════════════════
+     MENU BODY
+  ════════════════════════════════════ */
+  .menu-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 10px 14px;
+    gap: 10px;
+    overflow: hidden;
+    align-content: start;
+  }
+
+  /* ════════════════════════════════════
+     SECTION CARDS
+  ════════════════════════════════════ */
+  .section {
+    background: white;
+    border: 1px solid var(--sand);
+    border-radius: 9px;
+    overflow: hidden;
+  }
+  .section.full-width { grid-column: 1 / -1; }
+
+  .sec-head {
+    position: relative;
+    padding: 7px 13px;
+    display: flex; align-items: center; gap: 9px;
+    overflow: hidden;
+  }
+  .sec-head-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; display: block; }
+  .sec-head > *:not(.sec-head-bg) { position: relative; z-index: 1; }
+
+  .sec-icon {
+    width: 24px; height: 24px; flex-shrink: 0;
+    background: rgba(255,255,255,0.2);
+    border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .sec-icon svg { width: 13px; height: 13px; stroke: white; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .sec-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: white; line-height: 1.2; }
+  .sec-sub   { font-size: 10px; color: rgba(255,255,255,0.85); margin-top: 1px; }
+
+  /* ════════════════════════════════════
+     MENU ROWS
+  ════════════════════════════════════ */
+  .item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 7px 13px;
+    border-bottom: 1px solid var(--sand-mid);
+    gap: 8px; min-height: 36px;
+  }
+  .item:last-child { border-bottom: none; }
+  .item-left { flex: 1; min-width: 0; }
+  .item-name {
+    font-size: 13px; font-weight: 700; color: var(--ink);
+    display: flex; align-items: center; gap: 6px; flex-wrap: wrap; line-height: 1.3;
+  }
+  .item-detail { font-size: 10.5px; color: var(--muted); margin-top: 2px; line-height: 1.3; }
+  .price       { font-size: 13.5px; font-weight: 700; color: var(--teal-deep); flex-shrink: 0; white-space: nowrap; }
+  .price-sizes { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0; }
+  .sz-row      { display: flex; align-items: center; gap: 6px; }
+  .sz-tag      { font-size: 9.5px; font-weight: 700; color: var(--muted); background: var(--sand-mid); border-radius: 3px; padding: 1px 5px; text-transform: uppercase; }
+  .sz-price    { font-size: 13px; font-weight: 700; color: var(--teal-deep); }
+
+  .badge {
+    background: var(--amber);
+    color: white;
+    font-size: 8px; font-weight: 700; letter-spacing: 0.3px;
+    padding: 2px 7px; border-radius: 20px;
+    text-transform: uppercase; flex-shrink: 0;
+  }
+
+  /* ════════════════════════════════════
+     ADD-ONS
+  ════════════════════════════════════ */
+  .addons-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .addon-item {
+    padding: 8px 13px;
+    border-bottom: 1px solid var(--sand-mid);
+    border-right: 1px solid var(--sand-mid);
+  }
+  .addon-item:nth-child(4n) { border-right: none; }
+  .addon-item:nth-last-child(-n+4) { border-bottom: none; }
+  .addon-name  { font-size: 12.5px; font-weight: 600; color: var(--ink); }
+  .addon-price { font-size: 12px; font-weight: 700; color: var(--teal-deep); margin-top: 2px; }
+
+  .custom-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 6px 13px;
+    border-bottom: 1px solid var(--sand-mid);
+  }
+  .custom-row:last-child { border-bottom: none; }
+  .custom-label { font-size: 10px; font-weight: 700; color: var(--teal-dark); text-transform: uppercase; letter-spacing: 1px; flex-shrink: 0; min-width: 64px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .chip {
+    background: var(--sand-pale); border: 1px solid var(--sand);
+    color: #3a3a3a; font-size: 10.5px; font-weight: 500;
+    padding: 3px 9px; border-radius: 20px;
+  }
+  .chip-teal { background: var(--teal-pale); border-color: rgba(94,179,167,0.5); color: var(--teal-deep); }
+
+  /* ════════════════════════════════════
+     QR CARD
+  ════════════════════════════════════ */
+  .qr-card {
+    border: 1px solid rgba(200,145,90,0.35);
+    border-radius: 9px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .qr-card-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; display: block; }
+  .qr-card > *:not(.qr-card-bg) { position: relative; z-index: 1; }
+
+  .qr-card-head {
+    position: relative;
+    padding: 7px 13px;
+    display: flex; align-items: center; gap: 9px;
+    overflow: hidden;
+  }
+  .qr-head-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; display: block; }
+  .qr-card-head > *:not(.qr-head-bg) { position: relative; z-index: 1; }
+
+  .qr-card-head-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: white; }
+  .qr-card-head-sub   { font-size: 10px; color: rgba(255,255,255,0.78); margin-top: 1px; }
+  .qr-card-body {
+    flex: 1; padding: 8px 13px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 6px; text-align: center;
+  }
+  .qr-cta   { font-size: 14px; font-weight: 700; color: #C8915A; line-height: 1.3; }
+  .qr-games { font-size: 11px; color: #D4B896; line-height: 1.5; }
+  .qr-url   { font-size: 10px; color: rgba(200,145,90,0.65); font-style: italic; }
+  #qrcode   { background: white; padding: 5px; border-radius: 5px; }
+  #qrcode canvas, #qrcode img { display: block; }
+
+  /* ════════════════════════════════════
+     STORY BAND
+  ════════════════════════════════════ */
+  .story-band {
+    position: relative;
+    padding: 10px 24px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    overflow: hidden;
+  }
+  .story-band-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; display: block; }
+  .story-band > *:not(.story-band-bg) { position: relative; z-index: 1; }
+  .story-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px; font-weight: 700; font-style: italic; color: #5EB3A7;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .story-text { font-size: 11px; color: #B8D8D4; line-height: 1.6; }
+
+  /* ════════════════════════════════════
+     FOOTER
+  ════════════════════════════════════ */
+  .footer {
+    position: relative;
+    padding: 7px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    overflow: hidden;
+  }
+  .footer-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; display: block; }
+  .footer > *:not(.footer-bg) { position: relative; z-index: 1; }
+  .footer-left  { font-size: 10px; color: rgba(255,255,255,0.55); font-style: italic; }
+  .footer-right { font-size: 10px; color: rgba(255,255,255,0.45); }
+
+  /* ════════════════════════════════════
+     PRINT
+  ════════════════════════════════════ */
+  @media print {
+    html, body, * {
+      -webkit-print-color-adjust: exact !important;
+      color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    body { background: none !important; padding: 0; margin: 0; }
+    .page { box-shadow: none; }
+    .print-bar { display: none !important; }
+    @page { size: letter; margin: 0; }
+
+    .sec-title, .sec-sub, .qr-card-head-title, .qr-card-head-sub,
+    .header-name, .header-sub, .header-url, .header-ig,
+    .footer-left, .footer-right, .story-label, .story-text,
+    .qr-cta, .qr-games, .qr-url, .badge { color: white !important; }
+
+    .sec-sub, .qr-card-head-sub, .header-sub, .header-ig,
+    .footer-left, .footer-right, .qr-games, .qr-url { opacity: 0.85; }
+  }
+
+  .print-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;
+    background: #1C3A36;
+    padding: 10px 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+  }
+  .print-bar-msg { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #B8D8D4; }
+  .print-bar-msg strong { color: #5EB3A7; }
+  .print-bar-btn {
+    background: #4A9E93; color: white; border: none; border-radius: 8px;
+    padding: 9px 22px; font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 700; cursor: pointer; white-space: nowrap; flex-shrink: 0;
+  }
+  .print-bar-btn:hover { background: #3D8F84; }
+  @media print { .print-bar { display: none !important; } }
+</style>
+</head>
+<body>
+<div class="print-bar">
+  <div class="print-bar-msg">⚠️ &nbsp;For full colors when printing: click Print → <strong>More settings</strong> → check <strong>"Background graphics"</strong></div>
+  <button class="print-bar-btn" onclick="window.print()">🖨 Print Menu</button>
+</div>
+
+<div class="page">
+
+  <!-- ── HEADER ── -->
+  <div class="header">
+    <svg class="header-bg" viewBox="0 0 816 74" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="hg" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stop-color="#3D8F84"/>
+          <stop offset="60%"  stop-color="#5EB3A7"/>
+          <stop offset="100%" stop-color="#7ECCC3"/>
+        </linearGradient>
+      </defs>
+      <rect width="816" height="74" fill="url(#hg)"/>
+    </svg>
+    <div class="logo-wrap">
+      <img src="https://raw.githubusercontent.com/commontidescoffee/images/main/logo-03.png" alt="Common Tides Coffee">
+    </div>
+    <div class="header-mid">
+      <div class="header-name">Common Tides Coffee</div>
+      <div class="header-sub">Mobile espresso trailer &nbsp;·&nbsp; Locally roasted beans &nbsp;·&nbsp; Hand-pulled espresso &nbsp;·&nbsp; Wilmington, NC</div>
+    </div>
+    <div class="header-right">
+      <div class="header-url">commontides.com</div>
+      <div class="header-ig">@commontidescoffee</div>
+    </div>
+  </div>
+
+  <!-- ── SIZE BAR ── -->
+  <div class="size-bar">
+    <svg class="size-bar-bg" viewBox="0 0 816 28" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="816" height="28" fill="#EBF7F5"/>
+    </svg>
+    <svg style="width:14px;height:14px;stroke:#3D8F84;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+    <strong>Lattes &amp; specialty drinks: 16 oz</strong>
+    <span class="size-bar-sep">·</span>
+    <strong>Americano: 12 oz Hot · 16 oz Iced</strong>
+    <span class="size-bar-sep">·</span>
+    <strong>Non-coffee cold drinks: 16 oz</strong>
+  </div>
+
+  <!-- ── MENU BODY ── -->
+  <div class="menu-body">
+
+    <!-- ESPRESSO DRINKS -->
+    <div class="section">
+      <div class="sec-head">
+        <svg class="sec-head-bg" viewBox="0 0 400 38" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="38" fill="#4A9E93"/></svg>
+        <div class="sec-icon"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+        <div>
+          <div class="sec-title">Espresso Drinks</div>
+          <div class="sec-sub">Precision-pulled · locally roasted beans</div>
+        </div>
+      </div>
+      <div id="pm-espresso"></div>
+    </div>
+
+    <!-- NON-COFFEE -->
+    <div class="section">
+      <div class="sec-head">
+        <svg class="sec-head-bg" viewBox="0 0 400 38" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="38" fill="#4A9E93"/></svg>
+        <div class="sec-icon"><svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></div>
+        <div>
+          <div class="sec-title">Non-Coffee</div>
+          <div class="sec-sub">Something for everyone</div>
+        </div>
+      </div>
+      <div id="pm-noncoffee"></div>
+    </div>
+
+    <!-- SPECIALTY LATTES -->
+    <div class="section">
+      <div class="sec-head">
+        <svg class="sec-head-bg" viewBox="0 0 400 38" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="38" fill="#4A9E93"/></svg>
+        <div class="sec-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <div>
+          <div class="sec-title">Specialty Lattes</div>
+          <div class="sec-sub">Simple but Delicious · Hot or Iced · 16 oz · $6.75 each</div>
+        </div>
+      </div>
+      <div id="pm-specialty"></div>
+    </div>
+
+    <!-- QR ARCADE CARD -->
+    <div class="qr-card">
+      <svg class="qr-card-bg" viewBox="0 0 400 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="200" fill="#2C1810"/></svg>
+      <div class="qr-card-head">
+        <svg class="qr-head-bg" viewBox="0 0 400 38" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="38" fill="#A8713A"/></svg>
+        <div class="sec-icon"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        <div>
+          <div class="qr-card-head-title">Coffee Arcade</div>
+          <div class="qr-card-head-sub">Free browser games · no download needed</div>
+        </div>
+      </div>
+      <div class="qr-card-body">
+        <div class="qr-cta">Play a game while you wait! ☕</div>
+        <div id="qrcode"></div>
+        <div class="qr-games">Bean Bounce &nbsp;·&nbsp; Perfect Pour &nbsp;·&nbsp; Latte Stack</div>
+        <div class="qr-url">commontides.com/arcade</div>
+      </div>
+    </div>
+
+    <!-- ADD-ONS -->
+    <div class="section full-width">
+      <div class="sec-head">
+        <svg class="sec-head-bg" viewBox="0 0 816 38" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect width="816" height="38" fill="#A8713A"/></svg>
+        <div class="sec-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        <div>
+          <div class="sec-title">Add-Ons &amp; Customizations</div>
+          <div class="sec-sub">Make it yours</div>
+        </div>
+      </div>
+      <div id="pm-addons-grid" class="addons-grid"></div>
+      <div id="pm-addons-custom"></div>
+    </div>
+
+  </div><!-- /menu-body -->
+
+  <!-- OUR STORY -->
+  <div class="story-band">
+    <svg class="story-band-bg" viewBox="0 0 816 58" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect width="816" height="58" fill="#1C3A36"/></svg>
+    <div class="story-label">Our Story</div>
+    <div class="story-text">Quality matters to me, and I don't think it should be sacrificed just because a business is on wheels. I launched Common Tides to bring a legitimate craft espresso experience to farmers markets, corporate events, and pop-ups across North Carolina. By using a clean, silent battery system and locally roasted beans, I can pull every shot with the same intention you'd find in the best brick-and-mortar shops. I sought out the best so that wherever I show up, you're getting a world-class cup of coffee. - Zack Bennett</div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <svg class="footer-bg" viewBox="0 0 816 32" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect width="816" height="32" fill="#2C1810"/></svg>
+    <div class="footer-left">Menu &amp; pricing subject to change &nbsp;·&nbsp; Ask about event booking!</div>
+    <div class="footer-right">© 2025 Common Tides LLC &nbsp;·&nbsp; All Rights Reserved</div>
+  </div>
+
+</div><!-- /page -->
+
+<script src="https://cdn.jsdelivr.net/gh/commontidescoffee/images@main/menu-data.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+  // ── QR code ──────────────────────────────────────────────────────
+  new QRCode(document.getElementById("qrcode"), {
+    text: "https://www.commontides.com/arcade",
+    width: 82, height: 82,
+    colorDark: "#2C1810", colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.M
+  });
+
+  // ── Menu render ──────────────────────────────────────────────────
+  function pmItem(item) {
+    var badge  = item.badge  ? ' <span class="badge">' + item.badge + '</span>' : '';
+    var detail = item.detail ? '<div class="item-detail">' + item.detail + '</div>' : '';
+    var price;
+    if (item.sizes) {
+      price = '<div class="price-sizes">' +
+        item.sizes.map(function(s) {
+          return '<div class="sz-row"><span class="sz-tag">' + s.label + '</span><span class="sz-price">' + s.price + '</span></div>';
+        }).join('') + '</div>';
+    } else {
+      price = '<div class="price">' + item.price + '</div>';
+    }
+    return '<div class="item"><div class="item-left"><div class="item-name">' + item.name + badge + '</div>' + detail + '</div>' + price + '</div>';
+  }
+
+  function pmRender(id, items) {
+    var el = document.getElementById(id);
+    if (el && items) el.innerHTML = items.map(pmItem).join('');
+  }
+
+  function pmChip(c, accentClass) {
+    var name   = typeof c === 'string' ? c : c.name;
+    var accent = typeof c === 'object' && c.accent;
+    return '<span class="chip' + (accent ? ' ' + accentClass : '') + '">' + name + '</span>';
+  }
+
+  if (typeof MENU_DATA !== 'undefined') {
+    pmRender('pm-espresso',  MENU_DATA.espresso);
+    pmRender('pm-specialty', MENU_DATA.specialty);
+    pmRender('pm-noncoffee', MENU_DATA.noncoffee);
+
+    // Add-ons grid
+    var ag = document.getElementById('pm-addons-grid');
+    if (ag) ag.innerHTML = MENU_DATA.addons.extras.map(function(e) {
+      return '<div class="addon-item"><div class="addon-name">' + e.name + '</div><div class="addon-price">' + e.price + '</div></div>';
+    }).join('');
+
+    // Custom rows (milk / syrups / toppings)
+    var ac = document.getElementById('pm-addons-custom');
+    if (ac) {
+      var rows = [
+        { label: 'Milk',     items: MENU_DATA.addons.milks,    accent: 'chip-teal' },
+        { label: 'Syrups',   items: MENU_DATA.addons.syrups,   accent: 'chip-teal' },
+        { label: 'Toppings', items: MENU_DATA.addons.toppings,  accent: 'chip-teal' }
+      ];
+      ac.innerHTML = rows.map(function(row) {
+        return '<div class="custom-row"><span class="custom-label">' + row.label + '</span>' +
+          '<div class="chips">' + row.items.map(function(c) { return pmChip(c, row.accent); }).join('') + '</div></div>';
+      }).join('');
+    }
+  }
+</script>
+</body>
+</html>
