@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Common Tides Coffee — May 2026 Schedule</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal-deep:  #4A9E93;
+      --teal-dark:  #5EB3A7;
+      --teal:       #70C4B8;
+      --teal-pale:  #E8F7F5;
+      --teal-light: #C5EDE8;
+      --sand:       #E8DCC8;
+      --sand-pale:  #FAF7F2;
+      --ink:        #1a1a1a;
+      --muted:      #666;
+      --white:      #ffffff;
+
+      /* event category colors */
+      --apt:     #4A9E93;
+      --medical: #5B87C5;
+      --fitness: #E07B45;
+      --farm:    #6AAB5E;
+      --school:  #9B6AC7;
+      --govt:    #B05C5C;
+      --salon:   #C26A9E;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #F0F4F3;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 32px 16px 48px;
+    }
+
+    .calendar-wrap {
+      width: 100%;
+      max-width: 1080px;
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.14);
+    }
+
+    /* ── HEADER ── */
+    .cal-header {
+      background: linear-gradient(135deg, #3D8C82 0%, #4A9E93 35%, #5EB3A7 65%, #70C4B8 100%);
+      padding: 36px 40px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .cal-header-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .cal-logo {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      border: 3px solid rgba(255,255,255,0.5);
+      object-fit: contain;
+      background: rgba(255,255,255,0.15);
+      flex-shrink: 0;
+    }
+    .cal-title-block {}
+    .cal-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 4px;
+    }
+    .cal-month {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 900;
+      color: white;
+      line-height: 1;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    }
+    .cal-header-right {
+      text-align: right;
+    }
+    .cal-count {
+      font-size: 13px;
+      color: rgba(255,255,255,0.85);
+      font-weight: 500;
+      line-height: 1.5;
+    }
+    .cal-count strong {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 38px;
+      font-weight: 900;
+      color: white;
+      line-height: 1;
+    }
+
+    /* ── DAY LABELS ── */
+    .day-labels {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      background: #3D8C82;
+    }
+    .day-label {
+      text-align: center;
+      padding: 10px 4px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.9);
+    }
+    .day-label.weekend { color: rgba(255,255,255,0.65); }
+
+    /* ── GRID ── */
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      border-left: 1px solid #E8F0EE;
+      border-top: 1px solid #E8F0EE;
+    }
+
+    .cal-cell {
+      border-right: 1px solid #E8F0EE;
+      border-bottom: 1px solid #E8F0EE;
+      min-height: 110px;
+      padding: 10px 10px 8px;
+      position: relative;
+      background: white;
+      transition: background 0.15s;
+    }
+    .cal-cell.empty {
+      background: #F9FBFA;
+    }
+    .cal-cell.today {
+      background: #F0FBF9;
+    }
+    .cal-cell.weekend-col {
+      background: #FAFCFB;
+    }
+    .cal-cell.has-events {
+      background: white;
+    }
+
+    .date-num {
+      font-size: 18px;
+      font-weight: 700;
+      color: #B0C4C0;
+      line-height: 1;
+      margin-bottom: 6px;
+      display: inline-block;
+    }
+    .cal-cell.has-events .date-num {
+      color: var(--ink);
+    }
+    .cal-cell.today .date-num {
+      width: 30px; height: 30px;
+      background: var(--teal-deep);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .events-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .event-chip {
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 3px 7px;
+      border-radius: 5px;
+      line-height: 1.3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      display: block;
+    }
+    .event-chip.apt     { background: #E8F7F5; color: #2E7A72; border-left: 3px solid var(--apt); }
+    .event-chip.medical { background: #EAF1FB; color: #2E5A99; border-left: 3px solid var(--medical); }
+    .event-chip.fitness { background: #FDF1EB; color: #A04D1A; border-left: 3px solid var(--fitness); }
+    .event-chip.farm    { background: #EDF6EB; color: #3A6B30; border-left: 3px solid var(--farm); }
+    .event-chip.school  { background: #F4EEF9; color: #5E3A8C; border-left: 3px solid var(--school); }
+    .event-chip.govt    { background: #F9EEEE; color: #7A2E2E; border-left: 3px solid var(--govt); }
+    .event-chip.salon   { background: #F9EEF5; color: #7A2E5A; border-left: 3px solid var(--salon); }
+
+    /* ── LEGEND ── */
+    .cal-legend {
+      padding: 20px 40px;
+      background: var(--sand-pale);
+      border-top: 1px solid var(--sand);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 28px;
+      align-items: center;
+    }
+    .legend-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-right: 4px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .legend-dot {
+      width: 10px; height: 10px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    /* ── FOOTER ── */
+    .cal-footer {
+      background: linear-gradient(135deg, #3D8C82 0%, #5EB3A7 100%);
+      padding: 18px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .cal-footer p {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+    }
+    .cal-footer a {
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
+      text-decoration: none;
+    }
+
+    @media (max-width: 700px) {
+      .cal-cell { min-height: 80px; padding: 6px; }
+      .date-num { font-size: 14px; }
+      .event-chip { font-size: 9px; padding: 2px 5px; }
+      .cal-header { padding: 24px 20px 20px; }
+      .cal-legend { padding: 16px 20px; }
+      .cal-footer { padding: 14px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="calendar-wrap">
+
+  <!-- HEADER -->
+  <div class="cal-header">
+    <div class="cal-header-left">
+      <img
+        src="https://raw.githubusercontent.com/commontidescoffee/images/main/logo-03.png"
+        alt="Common Tides Coffee"
+        class="cal-logo"
+      >
+      <div class="cal-title-block">
+        <div class="cal-eyebrow">Common Tides Coffee</div>
+        <div class="cal-month">May 2026</div>
+      </div>
+    </div>
+    <div class="cal-header-right">
+      <div class="cal-count">
+        <strong>21</strong>
+        pop-ups this month
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY LABELS -->
+  <div class="day-labels">
+    <div class="day-label weekend">Sun</div>
+    <div class="day-label">Mon</div>
+    <div class="day-label">Tue</div>
+    <div class="day-label">Wed</div>
+    <div class="day-label">Thu</div>
+    <div class="day-label">Fri</div>
+    <div class="day-label weekend">Sat</div>
+  </div>
+
+  <!-- GRID -->
+  <!-- May 1 = Friday (column index 5, 0=Sun) -->
+  <div class="cal-grid">
+
+    <!-- Row 1: Apr 26–May 2 (blank blank blank blank blank 1 2) -->
+    <div class="cal-cell empty weekend-col"></div>
+    <div class="cal-cell empty"></div>
+    <div class="cal-cell empty"></div>
+    <div class="cal-cell empty"></div>
+    <div class="cal-cell empty"></div>
+    <div class="cal-cell">
+      <span class="date-num">1</span>
+    </div>
+    <div class="cal-cell has-events weekend-col">
+      <span class="date-num">2</span>
+      <div class="events-list">
+        <span class="event-chip apt">Element Barclay Apts</span>
+      </div>
+    </div>
+
+    <!-- Row 2: May 3–9 -->
+    <div class="cal-cell weekend-col">
+      <span class="date-num">3</span>
+    </div>
+    <div class="cal-cell has-events">
+      <span class="date-num">4</span>
+      <div class="events-list">
+        <span class="event-chip medical">Novant Scotts Hill</span>
+      </div>
+    </div>
+    <div class="cal-cell">
+      <span class="date-num">5</span>
+    </div>
+    <div class="cal-cell has-events">
+      <span class="date-num">6</span>
+      <div class="events-list">
+        <span class="event-chip salon">Colour Bar Salon</span>
+      </div>
+    </div>
+    <div class="cal-cell has-events">
+      <span class="date-num">7</span>
+      <div class="events-list">
+        <span class="event-chip apt">Townes at Blake Farm</span>
+      </div>
+    </div>
+    <div class="cal-cell has-events">
+      <span class="date-num">8</span>
+      <div class="events-list">
+        <span class="event-chip school">Island Montessori</span>
+      </div>
+    </div>
+    <div class="cal-cell weekend-col">
+      <span class="date-num">9</span>
+    </div>
+
+    <!-- Row 3: May 10–16 -->
+    <div class="cal-cell weekend-col">
+      <span class="date-num">10</span>
+    </div>
+    <div class="cal-cell has-events">
+      <span class="date-num">11</span>
+      <div class="events-list">
+        <span class="event-chip medical">Novant Scotts Hill</span>
+      </div>
+    </div>
+    <div class="cal-cell has-events">
+      <span class="date-num">12</span>
+      <div class="events-list">
+        <span class="event-chip apt">Mayfaire Flats</span>
+      </div>
+    </div>
+    <div class="cal-cell">
+      <span class="date-num">13</span>
+    </div>
+    <div class="cal-cell has-events">
+      <span class="date-num">14</span>
+      <div class="events-list">
+        <span class="event-chip apt">17 Social Apts</span>
+      </div>
+    </div>
+    <div class="cal-cell has-events">
+      <span class="date-num">15</span>
+      <div class="events-list">
+        <span class="event-chip apt">Hudson at Renaissance</span>
+      </div>
+    </div>
+    <div class="cal-cell has-events weekend-col">
+      <span class="date-num">16</span>
+      <div class="events-list">
+        <span class="event-chip farm">NHC Arboretum</span>
+      </div>
+    </div>
+
+    <!-- Row 4: May 17–23 -->
+    <div class="cal-cell weekend-col">
+      <span class="date-num">17</span>
+    </div>
+    <div class="cal-cell has-events">
+      <span class="date-num">18</span>
+      <div class="events-list">
+        <span class="event-chip medical">Novant Scotts Hill</span>
+      </div>
+    </div>
+    <div class="cal-cell has-events">
+      <span class="date-num">19</span>
+      <div class="events-list">
+        <span class="event-chip govt">NHC Courthouse</span>
+      </div>
+    </div>
+    <div class="cal-cell has-events">
+      <span class="date-num">20</span>
+      <div class="events-list">
+        <span class="event-chip fitness">ISI Elite Training</span>
+      </div>
+    </div>
+    <div class="cal-cell has-events">
+      <span class="date-num">21</span>
+      <div class="events-list">
+        <span class="event-chip apt">17 Social Apts</span>
+      </div>
+    </div>
+    <div class="cal-cell has-events">
+      <span class="date-num">22</span>
+      <div class="events-list">
+        <span class="event-chip apt">Hudson at Renaissance</span>
+      </div>
+    </div>
+    <div class="cal-cell has-events weekend-col">
+      <span class="date-num">23</span>
+      <div class="events-list">
+        <span class="event-chip farm">Oak & Fennel Farms</span>
+      </div>
+    </div>
+
+    <!-- Row 5: May 24–30 -->
+    <div class="cal-cell weekend-col">
+      <span class="date-num">24</span>
+    </div>
+    <div class="cal-cell has-events">
+      <span class="date-num">25</span>
+      <div class="events-list">
+        <span class="event-chip fitness">CrossFit Reignited</span>
+      </div>
+    </div>
+    <div class="cal-cell has-events">
+      <span class="date-num">26</span>
+      <div class="events-list">
+        <span class="event-chip medical">Novant Primary Care</span>
+      </div>
+    </div>
+    <div class="cal-cell has-events">
+      <span class="date-num">27</span>
+      <div class="events-list">
+        <span class="event-chip fitness">ISI Elite Training</span>
+      </div>
+    </div>
+    <div class="cal-cell has-events">
+      <span class="date-num">28</span>
+      <div class="events-list">
+        <span class="event-chip apt">17 Social Apts</span>
+      </div>
+    </div>
+    <div class="cal-cell has-events">
+      <span class="date-num">29</span>
+      <div class="events-list">
+        <span class="event-chip apt">Mayfaire Flats</span>
+      </div>
+    </div>
+    <div class="cal-cell weekend-col">
+      <span class="date-num">30</span>
+    </div>
+
+    <!-- Row 6: May 31 -->
+    <div class="cal-cell weekend-col">
+      <span class="date-num">31</span>
+    </div>
+    <div class="cal-cell empty"></div>
+    <div class="cal-cell empty"></div>
+    <div class="cal-cell empty"></div>
+    <div class="cal-cell empty"></div>
+    <div class="cal-cell empty"></div>
+    <div class="cal-cell empty weekend-col"></div>
+
+  </div>
+
+  <!-- LEGEND -->
+  <div class="cal-legend">
+    <span class="legend-label">Key:</span>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--apt)"></div> Apartments</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--medical)"></div> Medical</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--fitness)"></div> Fitness</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--farm)"></div> Farms & Outdoor</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--school)"></div> School & Education</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--govt)"></div> Government & Civic</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--salon)"></div> Salon & Retail</div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="cal-footer">
+    <p>Serving Wilmington, NC & the Cape Fear Coast</p>
+    <a href="https://find.commontides.com">find.commontides.com</a>
+  </div>
+
+</div>
+
+</body>
+</html>
