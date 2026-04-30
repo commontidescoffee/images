@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Common Tides Coffee — May 2026 Schedule</title>
+  <title>Common Tides Coffee — Monthly Schedule</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,12 +16,11 @@
       --teal-deep:  #4A9E93;
       --teal-dark:  #3D8C82;
       --teal:       #70C4B8;
-      --teal-pale:  #E8F7F5;
       --sand-pale:  #FAF7F2;
       --sand:       #E8DCC8;
       --ink:        #1a1a1a;
-      --muted:      #666;
-
+      --muted:      #777;
+      --border:     #E2EDEB;
       --apt:     #4A9E93;
       --medical: #5B87C5;
       --fitness: #E07B45;
@@ -31,263 +30,255 @@
       --salon:   #C26A9E;
     }
 
-    /* ── PAGE CHROME ── */
     body {
       font-family: 'DM Sans', sans-serif;
-      background: #2a3a38;
+      background: #EEF2F1;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 24px 16px 48px;
-      gap: 20px;
+      padding: 24px 16px 60px;
     }
 
-    .controls {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      width: 100%;
-      max-width: 540px;
+    .page-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
     }
 
-    .controls h1 {
+    /* ── PAGE CONTROLS ── */
+    .page-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .month-nav {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    .nav-btn {
+      width: 44px; height: 44px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--teal-deep);
+      font-size: 18px;
+      transition: background 0.15s;
+    }
+    .nav-btn:hover { background: var(--sand-pale); }
+    .nav-btn:disabled { opacity: 0.3; cursor: default; }
+    .month-label {
       font-family: 'Playfair Display', serif;
-      font-size: 22px;
-      color: white;
+      font-size: 20px;
       font-weight: 700;
+      color: var(--ink);
+      min-width: 180px;
       text-align: center;
-    }
-    .controls h1 span {
-      opacity: 0.65;
-      font-size: 14px;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 500;
-      display: block;
-      margin-top: 2px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
+      padding: 0 8px;
+      line-height: 44px;
     }
 
-    .format-toggle {
+    .dl-group {
       display: flex;
-      background: rgba(255,255,255,0.1);
-      border-radius: 10px;
-      padding: 4px;
-      gap: 4px;
+      gap: 8px;
+      align-items: center;
+    }
+    .fmt-toggle {
+      display: flex;
+      background: white;
+      border-radius: 8px;
+      padding: 3px;
+      gap: 3px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
     }
     .fmt-btn {
-      padding: 8px 22px;
+      padding: 6px 14px;
       border: none;
-      border-radius: 7px;
+      border-radius: 5px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--muted);
+      background: transparent;
+      transition: all 0.15s;
+      letter-spacing: 0.3px;
+    }
+    .fmt-btn.active {
+      background: var(--teal-deep);
+      color: white;
+    }
+    .dl-btn {
+      padding: 8px 18px;
+      border: none;
+      border-radius: 8px;
       font-family: 'DM Sans', sans-serif;
       font-size: 13px;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.2s;
-      color: rgba(255,255,255,0.6);
-      background: transparent;
-      letter-spacing: 0.5px;
-    }
-    .fmt-btn.active {
-      background: white;
-      color: #3D8C82;
-    }
-
-    .dl-buttons {
-      display: flex;
-      gap: 10px;
-    }
-    .dl-btn {
-      padding: 11px 26px;
-      border: none;
-      border-radius: 10px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.18s;
-      letter-spacing: 0.3px;
+      transition: all 0.15s;
     }
     .dl-btn.png {
-      background: #4A9E93;
+      background: var(--teal-deep);
       color: white;
     }
-    .dl-btn.png:hover { background: #3D8C82; }
+    .dl-btn.png:hover { background: var(--teal-dark); }
     .dl-btn.pdf {
-      background: rgba(255,255,255,0.15);
-      color: white;
-      border: 1.5px solid rgba(255,255,255,0.25);
+      background: white;
+      color: var(--ink);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
-    .dl-btn.pdf:hover { background: rgba(255,255,255,0.22); }
+    .dl-btn.pdf:hover { background: var(--sand-pale); }
     .dl-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    /* ── PREVIEW STAGE ── */
-    .preview-wrap {
-      /* width + height set by JS */
-      flex-shrink: 0;
+    /* API status banner */
+    .api-banner {
+      display: none;
+      background: #FFF8E6;
+      border: 1.5px solid #F5C842;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #7A5A00;
+      margin-bottom: 14px;
+      line-height: 1.5;
     }
+    .api-banner.show { display: block; }
+    .api-banner a { color: var(--teal-dark); font-weight: 700; }
 
-    /* ── THE CALENDAR (Instagram canvas) ── */
-    /* Base = 9:16 Story: 540 × 960 */
-    .cal {
-      width: 540px;
-      height: 960px;
-      overflow: hidden;
-      transform-origin: top left;
-      display: flex;
-      flex-direction: column;
+    /* ── DESKTOP CALENDAR ── */
+    #calDesk {
       background: white;
-      font-family: 'DM Sans', sans-serif;
-      box-shadow: 0 12px 60px rgba(0,0,0,0.4);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 6px 36px rgba(0,0,0,0.1);
     }
 
-    /* ── HEADER ── */
     .cal-header {
       background: linear-gradient(135deg, #3D8C82 0%, #4A9E93 40%, #5EB3A7 70%, #70C4B8 100%);
+      padding: 28px 36px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 20px;
-      flex-shrink: 0;
+      gap: 16px;
     }
-    .cal.r916 .cal-header { height: 108px; }
-    .cal.r45  .cal-header { height: 74px; }
-
     .cal-header-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
     }
     .cal-logo {
+      width: 64px; height: 64px;
       border-radius: 50%;
       border: 2.5px solid rgba(255,255,255,0.5);
       object-fit: contain;
       background: rgba(255,255,255,0.12);
       flex-shrink: 0;
     }
-    .cal.r916 .cal-logo { width: 56px; height: 56px; }
-    .cal.r45  .cal-logo { width: 42px; height: 42px; }
-
     .cal-eyebrow {
+      font-size: 10px;
       font-weight: 700;
       letter-spacing: 2.5px;
       text-transform: uppercase;
       color: rgba(255,255,255,0.8);
+      margin-bottom: 4px;
     }
-    .cal.r916 .cal-eyebrow { font-size: 9px; margin-bottom: 2px; }
-    .cal.r45  .cal-eyebrow { font-size: 8px; margin-bottom: 1px; }
-
-    .cal-month {
+    .cal-month-title {
       font-family: 'Playfair Display', serif;
+      font-size: 46px;
       font-weight: 900;
       color: white;
       line-height: 1;
     }
-    .cal.r916 .cal-month { font-size: 32px; }
-    .cal.r45  .cal-month { font-size: 24px; }
-
-    .cal-count {
+    .cal-count-block {
       text-align: right;
       color: rgba(255,255,255,0.85);
       font-weight: 500;
-      line-height: 1.4;
+      font-size: 13px;
+      line-height: 1.5;
     }
-    .cal.r916 .cal-count { font-size: 11px; }
-    .cal.r45  .cal-count { font-size: 10px; }
-
-    .cal-count strong {
+    .cal-count-block strong {
       display: block;
       font-family: 'Playfair Display', serif;
+      font-size: 42px;
       font-weight: 900;
       color: white;
       line-height: 1;
     }
-    .cal.r916 .cal-count strong { font-size: 30px; }
-    .cal.r45  .cal-count strong { font-size: 22px; }
 
-    /* ── DAY LABELS ── */
     .day-labels {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       background: #3D8C82;
-      flex-shrink: 0;
     }
-    .cal.r916 .day-labels { height: 26px; }
-    .cal.r45  .day-labels { height: 20px; }
-
-    .day-label {
+    .day-lbl {
       text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: 9px 4px;
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
       color: rgba(255,255,255,0.9);
     }
-    .cal.r916 .day-label { font-size: 9px; }
-    .cal.r45  .day-label { font-size: 8px; }
-    .day-label.wknd { color: rgba(255,255,255,0.6); }
+    .day-lbl.wk { color: rgba(255,255,255,0.6); }
 
-    /* ── GRID ── */
     .cal-grid {
-      flex: 1;
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      grid-template-rows: repeat(6, 1fr);
-      border-left: 1px solid #E2EDEB;
-      border-top: 1px solid #E2EDEB;
+      border-left: 1px solid var(--border);
+      border-top: 1px solid var(--border);
     }
 
     .cal-cell {
-      border-right: 1px solid #E2EDEB;
-      border-bottom: 1px solid #E2EDEB;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      min-height: 110px;
+      padding: 10px 10px 8px;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      gap: 5px;
       background: white;
     }
-    .cal-cell.empty  { background: #F6F9F8; }
-    .cal-cell.wknd-c { background: #FAFCFB; }
+    .cal-cell.empty   { background: #F7FAF9; }
+    .cal-cell.wknd-c  { background: #FAFCFB; }
     .cal-cell.empty.wknd-c { background: #F3F7F6; }
 
-    .cal.r916 .cal-cell { padding: 6px 5px 4px; gap: 3px; }
-    .cal.r45  .cal-cell { padding: 4px 4px 3px; gap: 2px; }
-
     .date-num {
+      font-size: 16px;
       font-weight: 700;
-      color: #C0CFCC;
+      color: #C2D4D0;
       line-height: 1;
       flex-shrink: 0;
     }
-    .cal.r916 .date-num { font-size: 13px; }
-    .cal.r45  .date-num { font-size: 11px; }
-
     .cal-cell.has-ev .date-num { color: var(--ink); }
 
     .events-list {
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      gap: 4px;
     }
-    .cal.r916 .events-list { gap: 2.5px; }
-    .cal.r45  .events-list { gap: 2px; }
 
+    /* Desktop chip — full name, wraps if needed */
     .chip {
+      font-size: 11px;
       font-weight: 600;
-      border-radius: 3px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      padding: 4px 8px 4px 9px;
+      border-radius: 5px;
+      border-left: 3px solid;
+      line-height: 1.35;
+      word-break: break-word;
+      white-space: normal;
       display: block;
-      line-height: 1.25;
-      flex-shrink: 0;
     }
-    .cal.r916 .chip { font-size: 8px; padding: 2px 4px 2px 5px; border-left-width: 2.5px; border-left-style: solid; }
-    .cal.r45  .chip { font-size: 7px; padding: 1.5px 3px 1.5px 4px; border-left-width: 2px; border-left-style: solid; }
-
     .chip.apt     { background: #E8F7F5; color: #2E7A72; border-color: var(--apt); }
     .chip.medical { background: #EAF1FB; color: #2E5A99; border-color: var(--medical); }
     .chip.fitness { background: #FDF1EB; color: #A04D1A; border-color: var(--fitness); }
@@ -296,80 +287,91 @@
     .chip.govt    { background: #F9EEEE; color: #7A2E2E; border-color: var(--govt); }
     .chip.salon   { background: #F9EEF5; color: #7A2E5A; border-color: var(--salon); }
 
-    /* ── LEGEND ── */
     .cal-legend {
+      padding: 16px 36px;
       background: var(--sand-pale);
       border-top: 1px solid var(--sand);
       display: flex;
       flex-wrap: wrap;
+      gap: 10px 24px;
       align-items: center;
-      flex-shrink: 0;
     }
-    .cal.r916 .cal-legend { padding: 7px 14px; gap: 5px 14px; }
-    .cal.r45  .cal-legend { padding: 5px 12px; gap: 4px 10px; }
-
-    .legend-lbl {
+    .leg-lbl {
+      font-size: 10px;
       font-weight: 700;
       letter-spacing: 1px;
       text-transform: uppercase;
       color: var(--muted);
     }
-    .cal.r916 .legend-lbl { font-size: 8px; }
-    .cal.r45  .legend-lbl { font-size: 7px; }
-
-    .legend-item {
+    .leg-item {
       display: flex;
       align-items: center;
+      gap: 6px;
+      font-size: 12px;
       font-weight: 600;
       color: var(--ink);
     }
-    .cal.r916 .legend-item { gap: 4px; font-size: 8.5px; }
-    .cal.r45  .legend-item { gap: 3px; font-size: 7.5px; }
-
     .ldot {
-      border-radius: 2px;
+      width: 10px; height: 10px;
+      border-radius: 3px;
       flex-shrink: 0;
     }
-    .cal.r916 .ldot { width: 8px; height: 8px; }
-    .cal.r45  .ldot { width: 6px; height: 6px; }
 
-    /* ── FOOTER ── */
     .cal-footer {
       background: linear-gradient(135deg, #3D8C82 0%, #5EB3A7 100%);
+      padding: 16px 36px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-shrink: 0;
+      flex-wrap: wrap;
+      gap: 8px;
     }
-    .cal.r916 .cal-footer { padding: 10px 18px; }
-    .cal.r45  .cal-footer { padding: 7px 14px; }
+    .cal-footer p  { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.85); }
+    .cal-footer a  { font-size: 13px; font-weight: 700; color: white; text-decoration: none; }
 
-    .cal-footer p {
-      font-weight: 600;
-      color: rgba(255,255,255,0.85);
+    /* Loading / skeleton */
+    .skeleton-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      border-left: 1px solid var(--border);
+      border-top: 1px solid var(--border);
     }
-    .cal.r916 .cal-footer p { font-size: 10px; }
-    .cal.r45  .cal-footer p { font-size: 9px; }
-
-    .cal-footer a {
-      font-weight: 700;
-      color: white;
-      text-decoration: none;
+    .sk-cell {
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      min-height: 110px;
+      padding: 10px;
+      background: white;
     }
-    .cal.r916 .cal-footer a { font-size: 10px; }
-    .cal.r45  .cal-footer a { font-size: 9px; }
+    .sk-num {
+      width: 20px; height: 14px;
+      background: #EEF2F1;
+      border-radius: 3px;
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    .sk-chip {
+      margin-top: 8px;
+      height: 24px;
+      border-radius: 5px;
+      background: #EEF2F1;
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
 
-    /* ── LOADING OVERLAY ── */
+    /* ── LOADING OVERLAY (during export) ── */
     .loading-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.65);
-      z-index: 999;
+      background: rgba(0,0,0,0.6);
+      z-index: 9999;
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
     }
     .loading-overlay.show { display: flex; }
     .spinner {
@@ -382,371 +384,512 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .loading-overlay p {
       color: white;
-      font-family: 'DM Sans', sans-serif;
       font-size: 15px;
       font-weight: 600;
+    }
+
+    @media (max-width: 700px) {
+      .cal-cell { min-height: 76px; padding: 6px 6px 5px; }
+      .date-num { font-size: 13px; }
+      .chip { font-size: 9.5px; padding: 3px 6px 3px 7px; }
+      .cal-header { padding: 20px 20px 18px; }
+      .cal-month-title { font-size: 32px; }
+      .cal-legend { padding: 12px 20px; }
+      .cal-footer { padding: 12px 20px; }
+      .page-controls { flex-direction: column; align-items: stretch; }
+      .dl-group { justify-content: center; flex-wrap: wrap; }
     }
   </style>
 </head>
 <body>
 
-<!-- PAGE CONTROLS -->
-<div class="controls">
-  <h1>May 2026 Schedule <span>Common Tides Coffee</span></h1>
+<div class="page-wrap">
 
-  <div class="format-toggle">
-    <button class="fmt-btn active" id="btn916" onclick="setFormat('916')">9:16 Story</button>
-    <button class="fmt-btn" id="btn45"  onclick="setFormat('45')">4:5 Post</button>
+  <!-- CONTROLS -->
+  <div class="page-controls">
+    <div class="month-nav">
+      <button class="nav-btn" id="btnPrev" onclick="navigate(-1)" title="Previous month">&#8249;</button>
+      <span class="month-label" id="monthLabel">May 2026</span>
+      <button class="nav-btn" id="btnNext" onclick="navigate(1)" title="Next month">&#8250;</button>
+    </div>
+
+    <div class="dl-group">
+      <div class="fmt-toggle">
+        <button class="fmt-btn active" id="btn916" onclick="setFmt('916')">9:16 Story</button>
+        <button class="fmt-btn"        id="btn45"  onclick="setFmt('45')">4:5 Post</button>
+      </div>
+      <button class="dl-btn png" onclick="downloadPNG()" id="dlPng">Save PNG</button>
+      <button class="dl-btn pdf" onclick="downloadPDF()" id="dlPdf">Save PDF</button>
+    </div>
   </div>
 
-  <div class="dl-buttons">
-    <button class="dl-btn png" onclick="downloadPNG()">Save as PNG</button>
-    <button class="dl-btn pdf" onclick="downloadPDF()">Save as PDF</button>
-  </div>
-</div>
+  <!-- API status banner -->
+  <div class="api-banner" id="apiBanner"></div>
 
-<!-- PREVIEW STAGE -->
-<div class="preview-wrap" id="previewWrap">
-  <div class="cal r916" id="cal">
-
-    <!-- HEADER -->
+  <!-- DESKTOP CALENDAR -->
+  <div id="calDesk">
     <div class="cal-header">
       <div class="cal-header-left">
         <img src="https://raw.githubusercontent.com/commontidescoffee/images/main/logo-03.png"
              alt="Common Tides Coffee" class="cal-logo" crossorigin="anonymous">
         <div>
           <div class="cal-eyebrow">Common Tides Coffee</div>
-          <div class="cal-month">May 2026</div>
+          <div class="cal-month-title" id="headerMonth">May 2026</div>
         </div>
       </div>
-      <div class="cal-count">
-        <strong>21</strong>
+      <div class="cal-count-block">
+        <strong id="eventCount">—</strong>
         pop-ups this month
       </div>
     </div>
 
-    <!-- DAY LABELS -->
     <div class="day-labels">
-      <div class="day-label wknd">Sun</div>
-      <div class="day-label">Mon</div>
-      <div class="day-label">Tue</div>
-      <div class="day-label">Wed</div>
-      <div class="day-label">Thu</div>
-      <div class="day-label">Fri</div>
-      <div class="day-label wknd">Sat</div>
+      <div class="day-lbl wk">Sun</div>
+      <div class="day-lbl">Mon</div>
+      <div class="day-lbl">Tue</div>
+      <div class="day-lbl">Wed</div>
+      <div class="day-lbl">Thu</div>
+      <div class="day-lbl">Fri</div>
+      <div class="day-lbl wk">Sat</div>
     </div>
 
-    <!-- GRID — May 1 = Friday (col 6, 0=Sun) -->
-    <div class="cal-grid">
+    <div id="calGrid" class="cal-grid">
+      <!-- Skeleton filled on load -->
+    </div>
 
-      <!-- Row 1 -->
-      <div class="cal-cell empty wknd-c"></div>
-      <div class="cal-cell empty"></div>
-      <div class="cal-cell empty"></div>
-      <div class="cal-cell empty"></div>
-      <div class="cal-cell empty"></div>
-      <div class="cal-cell">
-        <span class="date-num">1</span>
-      </div>
-      <div class="cal-cell has-ev wknd-c">
-        <span class="date-num">2</span>
-        <div class="events-list">
-          <span class="chip apt">Element Barclay</span>
-        </div>
-      </div>
-
-      <!-- Row 2 -->
-      <div class="cal-cell wknd-c"><span class="date-num">3</span></div>
-      <div class="cal-cell has-ev">
-        <span class="date-num">4</span>
-        <div class="events-list">
-          <span class="chip medical">Novant Scotts Hill</span>
-        </div>
-      </div>
-      <div class="cal-cell"><span class="date-num">5</span></div>
-      <div class="cal-cell has-ev">
-        <span class="date-num">6</span>
-        <div class="events-list">
-          <span class="chip salon">Colour Bar Salon</span>
-        </div>
-      </div>
-      <div class="cal-cell has-ev">
-        <span class="date-num">7</span>
-        <div class="events-list">
-          <span class="chip apt">Townes at Blake Farm</span>
-        </div>
-      </div>
-      <div class="cal-cell has-ev">
-        <span class="date-num">8</span>
-        <div class="events-list">
-          <span class="chip school">Island Montessori</span>
-        </div>
-      </div>
-      <div class="cal-cell wknd-c"><span class="date-num">9</span></div>
-
-      <!-- Row 3 -->
-      <div class="cal-cell wknd-c"><span class="date-num">10</span></div>
-      <div class="cal-cell has-ev">
-        <span class="date-num">11</span>
-        <div class="events-list">
-          <span class="chip medical">Novant Scotts Hill</span>
-        </div>
-      </div>
-      <div class="cal-cell has-ev">
-        <span class="date-num">12</span>
-        <div class="events-list">
-          <span class="chip apt">Mayfaire Flats</span>
-        </div>
-      </div>
-      <div class="cal-cell"><span class="date-num">13</span></div>
-      <div class="cal-cell has-ev">
-        <span class="date-num">14</span>
-        <div class="events-list">
-          <span class="chip apt">17 Social Apts</span>
-        </div>
-      </div>
-      <div class="cal-cell has-ev">
-        <span class="date-num">15</span>
-        <div class="events-list">
-          <span class="chip apt">Hudson at Renaissance</span>
-        </div>
-      </div>
-      <div class="cal-cell has-ev wknd-c">
-        <span class="date-num">16</span>
-        <div class="events-list">
-          <span class="chip farm">NHC Arboretum</span>
-        </div>
-      </div>
-
-      <!-- Row 4 -->
-      <div class="cal-cell wknd-c"><span class="date-num">17</span></div>
-      <div class="cal-cell has-ev">
-        <span class="date-num">18</span>
-        <div class="events-list">
-          <span class="chip medical">Novant Scotts Hill</span>
-        </div>
-      </div>
-      <div class="cal-cell has-ev">
-        <span class="date-num">19</span>
-        <div class="events-list">
-          <span class="chip govt">NHC Courthouse</span>
-        </div>
-      </div>
-      <div class="cal-cell has-ev">
-        <span class="date-num">20</span>
-        <div class="events-list">
-          <span class="chip fitness">ISI Elite Training</span>
-        </div>
-      </div>
-      <div class="cal-cell has-ev">
-        <span class="date-num">21</span>
-        <div class="events-list">
-          <span class="chip apt">17 Social Apts</span>
-        </div>
-      </div>
-      <div class="cal-cell has-ev">
-        <span class="date-num">22</span>
-        <div class="events-list">
-          <span class="chip apt">Hudson at Renaissance</span>
-        </div>
-      </div>
-      <div class="cal-cell has-ev wknd-c">
-        <span class="date-num">23</span>
-        <div class="events-list">
-          <span class="chip farm">Oak &amp; Fennel Farms</span>
-        </div>
-      </div>
-
-      <!-- Row 5 -->
-      <div class="cal-cell wknd-c"><span class="date-num">24</span></div>
-      <div class="cal-cell has-ev">
-        <span class="date-num">25</span>
-        <div class="events-list">
-          <span class="chip fitness">CrossFit Reignited</span>
-        </div>
-      </div>
-      <div class="cal-cell has-ev">
-        <span class="date-num">26</span>
-        <div class="events-list">
-          <span class="chip medical">Novant Primary Care</span>
-        </div>
-      </div>
-      <div class="cal-cell has-ev">
-        <span class="date-num">27</span>
-        <div class="events-list">
-          <span class="chip fitness">ISI Elite Training</span>
-        </div>
-      </div>
-      <div class="cal-cell has-ev">
-        <span class="date-num">28</span>
-        <div class="events-list">
-          <span class="chip apt">17 Social Apts</span>
-        </div>
-      </div>
-      <div class="cal-cell has-ev">
-        <span class="date-num">29</span>
-        <div class="events-list">
-          <span class="chip apt">Mayfaire Flats</span>
-        </div>
-      </div>
-      <div class="cal-cell wknd-c"><span class="date-num">30</span></div>
-
-      <!-- Row 6 -->
-      <div class="cal-cell wknd-c">
-        <span class="date-num">31</span>
-      </div>
-      <div class="cal-cell empty"></div>
-      <div class="cal-cell empty"></div>
-      <div class="cal-cell empty"></div>
-      <div class="cal-cell empty"></div>
-      <div class="cal-cell empty"></div>
-      <div class="cal-cell empty wknd-c"></div>
-
-    </div><!-- end .cal-grid -->
-
-    <!-- LEGEND -->
     <div class="cal-legend">
-      <span class="legend-lbl">Key:&nbsp;&nbsp;</span>
-      <div class="legend-item"><div class="ldot" style="background:var(--apt)"></div> Apartments</div>
-      <div class="legend-item"><div class="ldot" style="background:var(--medical)"></div> Medical</div>
-      <div class="legend-item"><div class="ldot" style="background:var(--fitness)"></div> Fitness</div>
-      <div class="legend-item"><div class="ldot" style="background:var(--farm)"></div> Farms &amp; Outdoor</div>
-      <div class="legend-item"><div class="ldot" style="background:var(--school)"></div> School</div>
-      <div class="legend-item"><div class="ldot" style="background:var(--govt)"></div> Civic</div>
-      <div class="legend-item"><div class="ldot" style="background:var(--salon)"></div> Salon</div>
+      <span class="leg-lbl">Key:</span>
+      <div class="leg-item"><div class="ldot" style="background:var(--apt)"></div> Apartments</div>
+      <div class="leg-item"><div class="ldot" style="background:var(--medical)"></div> Medical</div>
+      <div class="leg-item"><div class="ldot" style="background:var(--fitness)"></div> Fitness</div>
+      <div class="leg-item"><div class="ldot" style="background:var(--farm)"></div> Farms &amp; Outdoor</div>
+      <div class="leg-item"><div class="ldot" style="background:var(--school)"></div> School &amp; Education</div>
+      <div class="leg-item"><div class="ldot" style="background:var(--govt)"></div> Government &amp; Civic</div>
+      <div class="leg-item"><div class="ldot" style="background:var(--salon)"></div> Salon &amp; Retail</div>
     </div>
 
-    <!-- FOOTER -->
     <div class="cal-footer">
       <p>Serving Wilmington, NC &amp; the Cape Fear Coast</p>
-      <a href="https://find.commontides.com">find.commontides.com</a>
+      <a href="https://find.commontides.com" target="_blank">find.commontides.com</a>
     </div>
+  </div>
 
-  </div><!-- end .cal -->
-</div><!-- end .preview-wrap -->
+</div><!-- end .page-wrap -->
 
-<!-- LOADING OVERLAY -->
+<!-- LOADING OVERLAY (Instagram export) -->
 <div class="loading-overlay" id="loadingOverlay">
   <div class="spinner"></div>
   <p id="loadingMsg">Generating image...</p>
 </div>
 
 <script>
-  let currentFormat = '916';
+// ── CONFIG ──────────────────────────────────────────────────────────────────
+const CAL_ID  = 'e5d97565d2e53eae215c9b87e2a193617d2f7e019de3c8e6ccb3be0f2ac6ee27@group.calendar.google.com';
+const API_KEY = 'AIzaSyCSiXr9WwISuQJlIQtdSZ3xEPQsTkv_etY';
+const MONTHS  = ['January','February','March','April','May','June',
+                 'July','August','September','October','November','December'];
 
-  // Dimensions for each format
-  const FORMATS = {
-    '916': { w: 540, h: 960, exportW: 1080, exportH: 1920 },
-    '45':  { w: 540, h: 675, exportW: 1080, exportH: 1350 }
-  };
+// Hardcoded fallback for May 2026 (used if API key not yet updated for this domain)
+const MAY_2026_FALLBACK = [
+  { day: 2,  title: 'Element Barclay Apts',    cat: 'apt'     },
+  { day: 4,  title: 'Novant Scotts Hill',       cat: 'medical' },
+  { day: 6,  title: 'Colour Bar Salon',         cat: 'salon'   },
+  { day: 7,  title: 'Townes at Blake Farm',     cat: 'apt'     },
+  { day: 8,  title: 'Island Montessori',        cat: 'school'  },
+  { day: 11, title: 'Novant Scotts Hill',       cat: 'medical' },
+  { day: 12, title: 'Mayfaire Flats',           cat: 'apt'     },
+  { day: 14, title: '17 Social Apts',           cat: 'apt'     },
+  { day: 15, title: 'Hudson at Renaissance',    cat: 'apt'     },
+  { day: 16, title: 'NHC Arboretum',            cat: 'farm'    },
+  { day: 18, title: 'Novant Scotts Hill',       cat: 'medical' },
+  { day: 19, title: 'NHC Courthouse',           cat: 'govt'    },
+  { day: 20, title: 'ISI Elite Training',       cat: 'fitness' },
+  { day: 21, title: '17 Social Apts',           cat: 'apt'     },
+  { day: 22, title: 'Hudson at Renaissance',    cat: 'apt'     },
+  { day: 23, title: 'Oak & Fennel Farms',       cat: 'farm'    },
+  { day: 25, title: 'CrossFit Reignited',       cat: 'fitness' },
+  { day: 26, title: 'Novant Primary Care',      cat: 'medical' },
+  { day: 27, title: 'ISI Elite Training',       cat: 'fitness' },
+  { day: 28, title: '17 Social Apts',           cat: 'apt'     },
+  { day: 29, title: 'Mayfaire Flats',           cat: 'apt'     },
+];
 
-  function setFormat(fmt) {
-    currentFormat = fmt;
-    const cal = document.getElementById('cal');
-    cal.classList.remove('r916', 'r45');
-    cal.classList.add('r' + fmt);
-    document.getElementById('btn916').classList.toggle('active', fmt === '916');
-    document.getElementById('btn45').classList.toggle('active', fmt === '45');
-    scalePreview();
-  }
+// ── STATE ───────────────────────────────────────────────────────────────────
+const today = new Date();
+let viewYear  = today.getFullYear();
+let viewMonth = today.getMonth(); // 0-indexed
+let exportFmt = '916';
+const cache   = {}; // "YYYY-M" -> [{day, title, cat}]
 
-  function scalePreview() {
-    const fmt = FORMATS[currentFormat];
-    const cal = document.getElementById('cal');
-    const wrap = document.getElementById('previewWrap');
+// ── CATEGORY DETECTION ──────────────────────────────────────────────────────
+function getCategory(title) {
+  const t = (title || '').toLowerCase();
+  if (/\bapts?\b|apartment|helmsman|hudson|mayfaire|barclay|17 social|17social|the reserve|element at|townes|blake farm|flats|renaissance/.test(t)) return 'apt';
+  if (/novant|medical|primary care|health care|urgent care|clinic|hospital/.test(t)) return 'medical';
+  if (/crossfit|isi elite|fitness|reignited|gym/.test(t)) return 'fitness';
+  if (/\bfarm\b|arboretum|botanical|old river|oak.{0,6}fennel|outdoor market/.test(t)) return 'farm';
+  if (/montessori|school|academy|university|college|graduation/.test(t)) return 'school';
+  if (/courthouse|county|civic|government|nhc court/.test(t)) return 'govt';
+  if (/salon|colour bar|beauty|spa|nail|hair studio/.test(t)) return 'salon';
+  return 'apt';
+}
 
-    // Reset so we can measure accurately
-    cal.style.transform = '';
-    wrap.style.width = '';
-    wrap.style.height = '';
+// ── FETCH FROM GOOGLE CALENDAR ───────────────────────────────────────────────
+async function fetchEvents(year, month) {
+  const key = `${year}-${month}`;
+  if (cache[key] !== undefined) return cache[key];
 
-    const availW = Math.min(window.innerWidth - 48, 600);
-    const availH = window.innerHeight - 220;
-    const scale = Math.min(availW / fmt.w, availH / fmt.h, 1);
+  const timeMin = new Date(year, month, 1).toISOString();
+  const timeMax = new Date(year, month + 1, 1).toISOString();
+  const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CAL_ID)}/events` +
+    `?key=${API_KEY}&timeMin=${encodeURIComponent(timeMin)}&timeMax=${encodeURIComponent(timeMax)}` +
+    `&singleEvents=true&orderBy=startTime&maxResults=250`;
 
-    cal.style.transform = `scale(${scale})`;
-    cal.style.transformOrigin = 'top left';
-    wrap.style.width  = (fmt.w * scale) + 'px';
-    wrap.style.height = (fmt.h * scale) + 'px';
-  }
-
-  async function captureCanvas() {
-    const fmt = FORMATS[currentFormat];
-    const cal = document.getElementById('cal');
-
-    // Temporarily set to natural size for capture
-    cal.style.transform = 'none';
-
-    await document.fonts.ready;
-    // Give browser a frame to re-render
-    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
-
-    const canvas = await html2canvas(cal, {
-      scale: 2,
-      useCORS: true,
-      allowTaint: false,
-      backgroundColor: '#ffffff',
-      width: fmt.w,
-      height: fmt.h,
-      logging: false
-    });
-
-    // Restore scale
-    scalePreview();
-    return canvas;
-  }
-
-  async function downloadPNG() {
-    const overlay = document.getElementById('loadingOverlay');
-    const msg = document.getElementById('loadingMsg');
-    msg.textContent = 'Generating PNG...';
-    overlay.classList.add('show');
-
-    try {
-      const canvas = await captureCanvas();
-      const link = document.createElement('a');
-      link.download = `ct-may2026-${currentFormat === '916' ? 'story' : 'post'}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    } catch(e) {
-      alert('Error generating PNG: ' + e.message);
-    } finally {
-      overlay.classList.remove('show');
+  try {
+    const res = await fetch(url);
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error((err.error && err.error.message) || `HTTP ${res.status}`);
     }
-  }
-
-  async function downloadPDF() {
-    const overlay = document.getElementById('loadingOverlay');
-    const msg = document.getElementById('loadingMsg');
-    msg.textContent = 'Generating PDF...';
-    overlay.classList.add('show');
-
-    try {
-      const fmt = FORMATS[currentFormat];
-      const canvas = await captureCanvas();
-      const imgData = canvas.toDataURL('image/png');
-
-      const { jsPDF } = window.jspdf;
-      // Use px units, 72 dpi — pass export dimensions
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'px',
-        format: [fmt.exportW, fmt.exportH]
+    const data = await res.json();
+    const events = (data.items || [])
+      .filter(item => item.summary) // skip untitled
+      .map(item => {
+        let dayNum;
+        if (item.start.date) {
+          dayNum = parseInt(item.start.date.split('-')[2], 10);
+        } else {
+          const d = new Date(item.start.dateTime);
+          dayNum = parseInt(
+            d.toLocaleDateString('en-CA', { timeZone: 'America/New_York' }).split('-')[2], 10
+          );
+        }
+        return { day: dayNum, title: item.summary, cat: getCategory(item.summary) };
       });
-      pdf.addImage(imgData, 'PNG', 0, 0, fmt.exportW, fmt.exportH);
-      pdf.save(`ct-may2026-${currentFormat === '916' ? 'story' : 'post'}.pdf`);
-    } catch(e) {
-      alert('Error generating PDF: ' + e.message);
-    } finally {
-      overlay.classList.remove('show');
+
+    cache[key] = events;
+    document.getElementById('apiBanner').classList.remove('show');
+    return events;
+  } catch (e) {
+    console.warn('Calendar API error:', e.message);
+    // Show banner only once
+    const banner = document.getElementById('apiBanner');
+    if (!banner.classList.contains('show')) {
+      banner.innerHTML = `<strong>Live calendar sync needs one setup step.</strong>
+        To pull live events automatically, add <code>commontidescoffee.github.io/*</code> to
+        the Calendar API key's allowed referrers in
+        <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Google Cloud Console</a>.
+        Until then, May 2026 shows saved data and other months show no events.`;
+      banner.classList.add('show');
     }
+    // Fallback: May 2026 only
+    if (year === 2026 && month === 4) {
+      cache[key] = MAY_2026_FALLBACK;
+      return MAY_2026_FALLBACK;
+    }
+    cache[key] = [];
+    return [];
+  }
+}
+
+// ── RENDER DESKTOP CALENDAR ──────────────────────────────────────────────────
+function renderDesktop(events, year, month) {
+  const firstDay    = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const count       = events.length;
+
+  // Update header
+  document.getElementById('headerMonth').textContent = `${MONTHS[month]} ${year}`;
+  document.getElementById('monthLabel').textContent  = `${MONTHS[month]} ${year}`;
+  document.getElementById('eventCount').textContent  = count;
+
+  // Build day->events map
+  const dayMap = {};
+  events.forEach(ev => {
+    if (!dayMap[ev.day]) dayMap[ev.day] = [];
+    dayMap[ev.day].push(ev);
+  });
+
+  let html = '';
+  for (let i = 0; i < 42; i++) {
+    const day     = i - firstDay + 1;
+    const isWknd  = (i % 7 === 0) || (i % 7 === 6);
+    const isEmpty = day < 1 || day > daysInMonth;
+    const evs     = (!isEmpty && dayMap[day]) ? dayMap[day] : [];
+    const hasEv   = evs.length > 0;
+
+    html += `<div class="cal-cell${isEmpty ? ' empty' : ''}${hasEv ? ' has-ev' : ''}${isWknd ? ' wknd-c' : ''}">`;
+    if (!isEmpty) {
+      html += `<span class="date-num">${day}</span>`;
+      if (hasEv) {
+        html += `<div class="events-list">`;
+        evs.forEach(ev => {
+          html += `<span class="chip ${ev.cat}">${escHtml(ev.title)}</span>`;
+        });
+        html += `</div>`;
+      }
+    }
+    html += `</div>`;
   }
 
-  // Init
-  window.addEventListener('load', () => {
-    setFormat('916');
+  document.getElementById('calGrid').innerHTML = html;
+}
+
+// ── RENDER SKELETON ──────────────────────────────────────────────────────────
+function renderSkeleton() {
+  let html = '';
+  for (let i = 0; i < 42; i++) {
+    const rand = Math.random();
+    html += `<div class="sk-cell">
+      <div class="sk-num"></div>
+      ${rand > 0.55 ? `<div class="sk-chip" style="width:${60+Math.round(rand*40)}%"></div>` : ''}
+    </div>`;
+  }
+  document.getElementById('calGrid').innerHTML = html;
+  document.getElementById('eventCount').textContent = '—';
+}
+
+// ── NAVIGATION ───────────────────────────────────────────────────────────────
+async function navigate(delta) {
+  viewMonth += delta;
+  if (viewMonth > 11) { viewMonth = 0;  viewYear++; }
+  if (viewMonth < 0)  { viewMonth = 11; viewYear--; }
+  document.getElementById('monthLabel').textContent = `${MONTHS[viewMonth]} ${viewYear}`;
+  renderSkeleton();
+  const events = await fetchEvents(viewYear, viewMonth);
+  renderDesktop(events, viewYear, viewMonth);
+}
+
+// ── EXPORT FORMAT ─────────────────────────────────────────────────────────────
+const FMTS = {
+  '916': { w: 540, h: 960,  exportW: 1080, exportH: 1920, label: 'story' },
+  '45':  { w: 540, h: 675,  exportW: 1080, exportH: 1350, label: 'post'  }
+};
+
+function setFmt(f) {
+  exportFmt = f;
+  document.getElementById('btn916').classList.toggle('active', f === '916');
+  document.getElementById('btn45').classList.toggle('active', f === '45');
+}
+
+// ── BUILD PORTRAIT HTML (for Instagram export) ────────────────────────────────
+function buildPortraitHTML(events, year, month, fmt) {
+  const f           = FMTS[fmt];
+  const firstDay    = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const count       = events.length;
+
+  // Per-format sizing values
+  const isStory = fmt === '916';
+  const hdr     = isStory ? 108 : 74;
+  const dayH    = isStory ? 26  : 20;
+  const legH    = isStory ? 60  : 46;
+  const ftH     = isStory ? 54  : 38;
+  const gridH   = f.h - hdr - dayH - legH - ftH;
+  const rowH    = Math.floor(gridH / 6);
+  const cellW   = Math.floor(f.w / 7);
+  const logoSz  = isStory ? 54 : 40;
+  const ttlSz   = isStory ? 30 : 22;
+  const eyeSz   = isStory ? 9  : 8;
+  const cntSz   = isStory ? 28 : 20;
+  const cntLbl  = isStory ? 11 : 10;
+  const dlblSz  = isStory ? 9  : 8;
+  const dnumSz  = isStory ? 11 : 9;
+  const chipSz  = isStory ? 7.5: 6.5;
+  const chipPad = isStory ? '2px 4px 2px 5px' : '1.5px 3px 1.5px 4px';
+  const chipBdr = isStory ? '2.5px' : '2px';
+  const legSz   = isStory ? 8  : 7;
+  const ldotSz  = isStory ? 7  : 6;
+  const ftSz    = isStory ? 10 : 9;
+  const gapSz   = isStory ? 3  : 2;
+  const legPad  = isStory ? '6px 14px' : '4px 10px';
+  const legGap  = isStory ? '4px 12px' : '3px 9px';
+
+  const dayMap = {};
+  events.forEach(ev => {
+    if (!dayMap[ev.day]) dayMap[ev.day] = [];
+    dayMap[ev.day].push(ev);
   });
-  window.addEventListener('resize', scalePreview);
+
+  let cells = '';
+  for (let i = 0; i < 42; i++) {
+    const day    = i - firstDay + 1;
+    const isWknd = (i % 7 === 0) || (i % 7 === 6);
+    const empty  = day < 1 || day > daysInMonth;
+    const evs    = (!empty && dayMap[day]) ? dayMap[day] : [];
+    const hasEv  = evs.length > 0;
+
+    const bg = empty ? (isWknd ? '#F0F5F4' : '#F5F8F8')
+                     : (isWknd ? '#FAFCFB' : 'white');
+
+    cells += `<div style="width:${cellW}px;height:${rowH}px;border-right:1px solid #E2EDEB;border-bottom:1px solid #E2EDEB;padding:${isStory?'5px 4px 3px':'4px 3px 2px'};box-sizing:border-box;overflow:hidden;background:${bg};display:flex;flex-direction:column;gap:${gapSz}px;">`;
+    if (!empty) {
+      const numColor = hasEv ? '#1a1a1a' : '#C2D4D0';
+      cells += `<span style="font-family:'DM Sans',sans-serif;font-size:${dnumSz}px;font-weight:700;color:${numColor};line-height:1;flex-shrink:0;">${day}</span>`;
+      if (hasEv) {
+        cells += `<div style="display:flex;flex-direction:column;gap:${gapSz}px;overflow:hidden;">`;
+        evs.forEach(ev => {
+          const colors = {
+            apt:     ['#E8F7F5','#2E7A72','#4A9E93'],
+            medical: ['#EAF1FB','#2E5A99','#5B87C5'],
+            fitness: ['#FDF1EB','#A04D1A','#E07B45'],
+            farm:    ['#EDF6EB','#3A6B30','#6AAB5E'],
+            school:  ['#F4EEF9','#5E3A8C','#9B6AC7'],
+            govt:    ['#F9EEEE','#7A2E2E','#B05C5C'],
+            salon:   ['#F9EEF5','#7A2E5A','#C26A9E'],
+          }[ev.cat] || ['#E8F7F5','#2E7A72','#4A9E93'];
+
+          cells += `<span style="font-family:'DM Sans',sans-serif;font-size:${chipSz}px;font-weight:600;padding:${chipPad};border-radius:3px;border-left:${chipBdr} solid ${colors[2]};background:${colors[0]};color:${colors[1]};line-height:1.25;word-break:break-word;white-space:normal;display:block;overflow:hidden;">${escHtml(ev.title)}</span>`;
+        });
+        cells += `</div>`;
+      }
+    }
+    cells += `</div>`;
+  }
+
+  const legendItems = [
+    ['#4A9E93','Apartments'],['#5B87C5','Medical'],['#E07B45','Fitness'],
+    ['#6AAB5E','Farms'],['#9B6AC7','School'],['#B05C5C','Civic'],['#C26A9E','Salon'],
+  ];
+  const legHtml = legendItems.map(([c,n]) =>
+    `<span style="display:flex;align-items:center;gap:${isStory?4:3}px;font-size:${legSz}px;font-weight:600;color:#1a1a1a;">
+      <span style="width:${ldotSz}px;height:${ldotSz}px;border-radius:2px;background:${c};flex-shrink:0;display:inline-block;"></span>${n}
+    </span>`
+  ).join('');
+
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head><body style="margin:0;padding:0;font-family:'DM Sans',sans-serif;">
+<div style="width:${f.w}px;height:${f.h}px;overflow:hidden;display:flex;flex-direction:column;background:white;">
+
+  <!-- HEADER -->
+  <div style="height:${hdr}px;background:linear-gradient(135deg,#3D8C82 0%,#4A9E93 40%,#5EB3A7 70%,#70C4B8 100%);display:flex;align-items:center;justify-content:space-between;padding:0 18px;flex-shrink:0;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <img src="https://raw.githubusercontent.com/commontidescoffee/images/main/logo-03.png" style="width:${logoSz}px;height:${logoSz}px;border-radius:50%;border:2px solid rgba(255,255,255,0.45);object-fit:contain;" crossorigin="anonymous">
+      <div>
+        <div style="font-size:${eyeSz}px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.8);margin-bottom:2px;">Common Tides Coffee</div>
+        <div style="font-family:'Playfair Display',serif;font-size:${ttlSz}px;font-weight:900;color:white;line-height:1;">${MONTHS[month]} ${year}</div>
+      </div>
+    </div>
+    <div style="text-align:right;">
+      <div style="font-family:'Playfair Display',serif;font-size:${cntSz}px;font-weight:900;color:white;line-height:1;">${count}</div>
+      <div style="font-size:${cntLbl}px;font-weight:500;color:rgba(255,255,255,0.85);">pop-ups this month</div>
+    </div>
+  </div>
+
+  <!-- DAY LABELS -->
+  <div style="height:${dayH}px;display:grid;grid-template-columns:repeat(7,1fr);background:#3D8C82;flex-shrink:0;">
+    ${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map((d,i) =>
+      `<div style="display:flex;align-items:center;justify-content:center;font-size:${dlblSz}px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:${i===0||i===6?'rgba(255,255,255,0.6)':'rgba(255,255,255,0.9)'};">${d}</div>`
+    ).join('')}
+  </div>
+
+  <!-- GRID -->
+  <div style="flex:1;display:grid;grid-template-columns:repeat(7,${cellW}px);grid-template-rows:repeat(6,${rowH}px);border-left:1px solid #E2EDEB;border-top:1px solid #E2EDEB;overflow:hidden;">
+    ${cells}
+  </div>
+
+  <!-- LEGEND -->
+  <div style="height:${legH}px;padding:${legPad};background:#FAF7F2;border-top:1px solid #E8DCC8;display:flex;flex-wrap:wrap;align-items:center;gap:${legGap};flex-shrink:0;overflow:hidden;">
+    <span style="font-size:${legSz-1}px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#777;">Key:</span>
+    ${legHtml}
+  </div>
+
+  <!-- FOOTER -->
+  <div style="height:${ftH}px;background:linear-gradient(135deg,#3D8C82 0%,#5EB3A7 100%);display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0;">
+    <span style="font-size:${ftSz}px;font-weight:600;color:rgba(255,255,255,0.85);">Serving Wilmington, NC &amp; the Cape Fear Coast</span>
+    <span style="font-size:${ftSz}px;font-weight:700;color:white;">find.commontides.com</span>
+  </div>
+
+</div>
+</body></html>`;
+}
+
+// ── INSTAGRAM EXPORT ──────────────────────────────────────────────────────────
+async function capturePortrait() {
+  const f      = FMTS[exportFmt];
+  const events = cache[`${viewYear}-${viewMonth}`] || [];
+
+  // Build portrait in hidden iframe so fonts load properly
+  const iframe = document.createElement('iframe');
+  iframe.style.cssText = `position:fixed;left:-${f.w + 20}px;top:0;width:${f.w}px;height:${f.h}px;border:none;`;
+  document.body.appendChild(iframe);
+
+  const doc = iframe.contentDocument || iframe.contentWindow.document;
+  doc.open();
+  doc.write(buildPortraitHTML(events, viewYear, viewMonth, exportFmt));
+  doc.close();
+
+  // Wait for fonts + rendering
+  await new Promise(r => setTimeout(r, 1200));
+  await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+  const target = doc.querySelector('div');
+  const canvas = await html2canvas(target, {
+    scale: 2,
+    useCORS: true,
+    allowTaint: false,
+    backgroundColor: '#ffffff',
+    width: f.w,
+    height: f.h,
+    logging: false,
+    windowWidth: f.w,
+    windowHeight: f.h,
+  });
+
+  document.body.removeChild(iframe);
+  return canvas;
+}
+
+async function downloadPNG() {
+  const overlay = document.getElementById('loadingOverlay');
+  document.getElementById('loadingMsg').textContent = 'Generating PNG...';
+  overlay.classList.add('show');
+  try {
+    const canvas = await capturePortrait();
+    const a = document.createElement('a');
+    a.download = `ct-${MONTHS[viewMonth].toLowerCase()}-${viewYear}-${exportFmt === '916' ? 'story' : 'post'}.png`;
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+  } catch(e) {
+    alert('PNG error: ' + e.message);
+    console.error(e);
+  } finally {
+    overlay.classList.remove('show');
+  }
+}
+
+async function downloadPDF() {
+  const overlay = document.getElementById('loadingOverlay');
+  document.getElementById('loadingMsg').textContent = 'Generating PDF...';
+  overlay.classList.add('show');
+  try {
+    const f      = FMTS[exportFmt];
+    const canvas = await capturePortrait();
+    const imgData = canvas.toDataURL('image/png');
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ orientation: 'portrait', unit: 'px', format: [f.exportW, f.exportH] });
+    pdf.addImage(imgData, 'PNG', 0, 0, f.exportW, f.exportH);
+    pdf.save(`ct-${MONTHS[viewMonth].toLowerCase()}-${viewYear}-${exportFmt === '916' ? 'story' : 'post'}.pdf`);
+  } catch(e) {
+    alert('PDF error: ' + e.message);
+    console.error(e);
+  } finally {
+    overlay.classList.remove('show');
+  }
+}
+
+// ── UTIL ──────────────────────────────────────────────────────────────────────
+function escHtml(s) {
+  return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+(async function init() {
+  renderSkeleton();
+  const events = await fetchEvents(viewYear, viewMonth);
+  renderDesktop(events, viewYear, viewMonth);
+})();
 </script>
 
 </body>
