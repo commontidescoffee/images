@@ -7,22 +7,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --teal-deep:  #4A9E93;
-      --teal-dark:  #5EB3A7;
+      --teal-dark:  #3D8C82;
       --teal:       #70C4B8;
       --teal-pale:  #E8F7F5;
-      --teal-light: #C5EDE8;
-      --sand:       #E8DCC8;
       --sand-pale:  #FAF7F2;
+      --sand:       #E8DCC8;
       --ink:        #1a1a1a;
       --muted:      #666;
-      --white:      #ffffff;
 
-      /* event category colors */
       --apt:     #4A9E93;
       --medical: #5B87C5;
       --fitness: #E07B45;
@@ -32,482 +31,723 @@
       --salon:   #C26A9E;
     }
 
+    /* ── PAGE CHROME ── */
     body {
       font-family: 'DM Sans', sans-serif;
-      background: #F0F4F3;
+      background: #2a3a38;
       min-height: 100vh;
       display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 32px 16px 48px;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 48px;
+      gap: 20px;
     }
 
-    .calendar-wrap {
+    .controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
       width: 100%;
-      max-width: 1080px;
+      max-width: 540px;
+    }
+
+    .controls h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: white;
+      font-weight: 700;
+      text-align: center;
+    }
+    .controls h1 span {
+      opacity: 0.65;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      display: block;
+      margin-top: 2px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .format-toggle {
+      display: flex;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 4px;
+      gap: 4px;
+    }
+    .fmt-btn {
+      padding: 8px 22px;
+      border: none;
+      border-radius: 7px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: rgba(255,255,255,0.6);
+      background: transparent;
+      letter-spacing: 0.5px;
+    }
+    .fmt-btn.active {
       background: white;
-      border-radius: 24px;
+      color: #3D8C82;
+    }
+
+    .dl-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .dl-btn {
+      padding: 11px 26px;
+      border: none;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s;
+      letter-spacing: 0.3px;
+    }
+    .dl-btn.png {
+      background: #4A9E93;
+      color: white;
+    }
+    .dl-btn.png:hover { background: #3D8C82; }
+    .dl-btn.pdf {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      border: 1.5px solid rgba(255,255,255,0.25);
+    }
+    .dl-btn.pdf:hover { background: rgba(255,255,255,0.22); }
+    .dl-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* ── PREVIEW STAGE ── */
+    .preview-wrap {
+      /* width + height set by JS */
+      flex-shrink: 0;
+    }
+
+    /* ── THE CALENDAR (Instagram canvas) ── */
+    /* Base = 9:16 Story: 540 × 960 */
+    .cal {
+      width: 540px;
+      height: 960px;
       overflow: hidden;
-      box-shadow: 0 8px 48px rgba(0,0,0,0.14);
+      transform-origin: top left;
+      display: flex;
+      flex-direction: column;
+      background: white;
+      font-family: 'DM Sans', sans-serif;
+      box-shadow: 0 12px 60px rgba(0,0,0,0.4);
     }
 
     /* ── HEADER ── */
     .cal-header {
-      background: linear-gradient(135deg, #3D8C82 0%, #4A9E93 35%, #5EB3A7 65%, #70C4B8 100%);
-      padding: 36px 40px 32px;
+      background: linear-gradient(135deg, #3D8C82 0%, #4A9E93 40%, #5EB3A7 70%, #70C4B8 100%);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
+      padding: 0 20px;
+      flex-shrink: 0;
     }
+    .cal.r916 .cal-header { height: 108px; }
+    .cal.r45  .cal-header { height: 74px; }
+
     .cal-header-left {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 12px;
     }
     .cal-logo {
-      width: 72px; height: 72px;
       border-radius: 50%;
-      border: 3px solid rgba(255,255,255,0.5);
+      border: 2.5px solid rgba(255,255,255,0.5);
       object-fit: contain;
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.12);
       flex-shrink: 0;
     }
-    .cal-title-block {}
+    .cal.r916 .cal-logo { width: 56px; height: 56px; }
+    .cal.r45  .cal-logo { width: 42px; height: 42px; }
+
     .cal-eyebrow {
-      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 3px;
+      letter-spacing: 2.5px;
       text-transform: uppercase;
       color: rgba(255,255,255,0.8);
-      margin-bottom: 4px;
     }
+    .cal.r916 .cal-eyebrow { font-size: 9px; margin-bottom: 2px; }
+    .cal.r45  .cal-eyebrow { font-size: 8px; margin-bottom: 1px; }
+
     .cal-month {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(36px, 5vw, 56px);
       font-weight: 900;
       color: white;
       line-height: 1;
-      text-shadow: 0 2px 12px rgba(0,0,0,0.1);
     }
-    .cal-header-right {
-      text-align: right;
-    }
+    .cal.r916 .cal-month { font-size: 32px; }
+    .cal.r45  .cal-month { font-size: 24px; }
+
     .cal-count {
-      font-size: 13px;
+      text-align: right;
       color: rgba(255,255,255,0.85);
       font-weight: 500;
-      line-height: 1.5;
+      line-height: 1.4;
     }
+    .cal.r916 .cal-count { font-size: 11px; }
+    .cal.r45  .cal-count { font-size: 10px; }
+
     .cal-count strong {
       display: block;
       font-family: 'Playfair Display', serif;
-      font-size: 38px;
       font-weight: 900;
       color: white;
       line-height: 1;
     }
+    .cal.r916 .cal-count strong { font-size: 30px; }
+    .cal.r45  .cal-count strong { font-size: 22px; }
 
     /* ── DAY LABELS ── */
     .day-labels {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       background: #3D8C82;
+      flex-shrink: 0;
     }
+    .cal.r916 .day-labels { height: 26px; }
+    .cal.r45  .day-labels { height: 20px; }
+
     .day-label {
       text-align: center;
-      padding: 10px 4px;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.9);
-    }
-    .day-label.weekend { color: rgba(255,255,255,0.65); }
-
-    /* ── GRID ── */
-    .cal-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      border-left: 1px solid #E8F0EE;
-      border-top: 1px solid #E8F0EE;
-    }
-
-    .cal-cell {
-      border-right: 1px solid #E8F0EE;
-      border-bottom: 1px solid #E8F0EE;
-      min-height: 110px;
-      padding: 10px 10px 8px;
-      position: relative;
-      background: white;
-      transition: background 0.15s;
-    }
-    .cal-cell.empty {
-      background: #F9FBFA;
-    }
-    .cal-cell.today {
-      background: #F0FBF9;
-    }
-    .cal-cell.weekend-col {
-      background: #FAFCFB;
-    }
-    .cal-cell.has-events {
-      background: white;
-    }
-
-    .date-num {
-      font-size: 18px;
-      font-weight: 700;
-      color: #B0C4C0;
-      line-height: 1;
-      margin-bottom: 6px;
-      display: inline-block;
-    }
-    .cal-cell.has-events .date-num {
-      color: var(--ink);
-    }
-    .cal-cell.today .date-num {
-      width: 30px; height: 30px;
-      background: var(--teal-deep);
-      color: white;
-      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 15px;
-      margin-bottom: 6px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.9);
     }
+    .cal.r916 .day-label { font-size: 9px; }
+    .cal.r45  .day-label { font-size: 8px; }
+    .day-label.wknd { color: rgba(255,255,255,0.6); }
+
+    /* ── GRID ── */
+    .cal-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: repeat(6, 1fr);
+      border-left: 1px solid #E2EDEB;
+      border-top: 1px solid #E2EDEB;
+    }
+
+    .cal-cell {
+      border-right: 1px solid #E2EDEB;
+      border-bottom: 1px solid #E2EDEB;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: white;
+    }
+    .cal-cell.empty  { background: #F6F9F8; }
+    .cal-cell.wknd-c { background: #FAFCFB; }
+    .cal-cell.empty.wknd-c { background: #F3F7F6; }
+
+    .cal.r916 .cal-cell { padding: 6px 5px 4px; gap: 3px; }
+    .cal.r45  .cal-cell { padding: 4px 4px 3px; gap: 2px; }
+
+    .date-num {
+      font-weight: 700;
+      color: #C0CFCC;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .cal.r916 .date-num { font-size: 13px; }
+    .cal.r45  .date-num { font-size: 11px; }
+
+    .cal-cell.has-ev .date-num { color: var(--ink); }
 
     .events-list {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      overflow: hidden;
     }
+    .cal.r916 .events-list { gap: 2.5px; }
+    .cal.r45  .events-list { gap: 2px; }
 
-    .event-chip {
-      font-size: 10.5px;
+    .chip {
       font-weight: 600;
-      padding: 3px 7px;
-      border-radius: 5px;
-      line-height: 1.3;
+      border-radius: 3px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 100%;
       display: block;
+      line-height: 1.25;
+      flex-shrink: 0;
     }
-    .event-chip.apt     { background: #E8F7F5; color: #2E7A72; border-left: 3px solid var(--apt); }
-    .event-chip.medical { background: #EAF1FB; color: #2E5A99; border-left: 3px solid var(--medical); }
-    .event-chip.fitness { background: #FDF1EB; color: #A04D1A; border-left: 3px solid var(--fitness); }
-    .event-chip.farm    { background: #EDF6EB; color: #3A6B30; border-left: 3px solid var(--farm); }
-    .event-chip.school  { background: #F4EEF9; color: #5E3A8C; border-left: 3px solid var(--school); }
-    .event-chip.govt    { background: #F9EEEE; color: #7A2E2E; border-left: 3px solid var(--govt); }
-    .event-chip.salon   { background: #F9EEF5; color: #7A2E5A; border-left: 3px solid var(--salon); }
+    .cal.r916 .chip { font-size: 8px; padding: 2px 4px 2px 5px; border-left-width: 2.5px; border-left-style: solid; }
+    .cal.r45  .chip { font-size: 7px; padding: 1.5px 3px 1.5px 4px; border-left-width: 2px; border-left-style: solid; }
+
+    .chip.apt     { background: #E8F7F5; color: #2E7A72; border-color: var(--apt); }
+    .chip.medical { background: #EAF1FB; color: #2E5A99; border-color: var(--medical); }
+    .chip.fitness { background: #FDF1EB; color: #A04D1A; border-color: var(--fitness); }
+    .chip.farm    { background: #EDF6EB; color: #3A6B30; border-color: var(--farm); }
+    .chip.school  { background: #F4EEF9; color: #5E3A8C; border-color: var(--school); }
+    .chip.govt    { background: #F9EEEE; color: #7A2E2E; border-color: var(--govt); }
+    .chip.salon   { background: #F9EEF5; color: #7A2E5A; border-color: var(--salon); }
 
     /* ── LEGEND ── */
     .cal-legend {
-      padding: 20px 40px;
       background: var(--sand-pale);
       border-top: 1px solid var(--sand);
       display: flex;
       flex-wrap: wrap;
-      gap: 12px 28px;
       align-items: center;
+      flex-shrink: 0;
     }
-    .legend-label {
-      font-size: 11px;
+    .cal.r916 .cal-legend { padding: 7px 14px; gap: 5px 14px; }
+    .cal.r45  .cal-legend { padding: 5px 12px; gap: 4px 10px; }
+
+    .legend-lbl {
       font-weight: 700;
       letter-spacing: 1px;
       text-transform: uppercase;
       color: var(--muted);
-      margin-right: 4px;
     }
+    .cal.r916 .legend-lbl { font-size: 8px; }
+    .cal.r45  .legend-lbl { font-size: 7px; }
+
     .legend-item {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 12px;
       font-weight: 600;
       color: var(--ink);
     }
-    .legend-dot {
-      width: 10px; height: 10px;
-      border-radius: 3px;
+    .cal.r916 .legend-item { gap: 4px; font-size: 8.5px; }
+    .cal.r45  .legend-item { gap: 3px; font-size: 7.5px; }
+
+    .ldot {
+      border-radius: 2px;
       flex-shrink: 0;
     }
+    .cal.r916 .ldot { width: 8px; height: 8px; }
+    .cal.r45  .ldot { width: 6px; height: 6px; }
 
     /* ── FOOTER ── */
     .cal-footer {
       background: linear-gradient(135deg, #3D8C82 0%, #5EB3A7 100%);
-      padding: 18px 40px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
+      flex-shrink: 0;
     }
+    .cal.r916 .cal-footer { padding: 10px 18px; }
+    .cal.r45  .cal-footer { padding: 7px 14px; }
+
     .cal-footer p {
-      font-size: 13px;
       font-weight: 600;
-      color: rgba(255,255,255,0.9);
+      color: rgba(255,255,255,0.85);
     }
+    .cal.r916 .cal-footer p { font-size: 10px; }
+    .cal.r45  .cal-footer p { font-size: 9px; }
+
     .cal-footer a {
-      font-size: 13px;
       font-weight: 700;
       color: white;
       text-decoration: none;
     }
+    .cal.r916 .cal-footer a { font-size: 10px; }
+    .cal.r45  .cal-footer a { font-size: 9px; }
 
-    @media (max-width: 700px) {
-      .cal-cell { min-height: 80px; padding: 6px; }
-      .date-num { font-size: 14px; }
-      .event-chip { font-size: 9px; padding: 2px 5px; }
-      .cal-header { padding: 24px 20px 20px; }
-      .cal-legend { padding: 16px 20px; }
-      .cal-footer { padding: 14px 20px; }
+    /* ── LOADING OVERLAY ── */
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .loading-overlay.show { display: flex; }
+    .spinner {
+      width: 44px; height: 44px;
+      border: 4px solid rgba(255,255,255,0.2);
+      border-top-color: #70C4B8;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-overlay p {
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
     }
   </style>
 </head>
 <body>
 
-<div class="calendar-wrap">
+<!-- PAGE CONTROLS -->
+<div class="controls">
+  <h1>May 2026 Schedule <span>Common Tides Coffee</span></h1>
 
-  <!-- HEADER -->
-  <div class="cal-header">
-    <div class="cal-header-left">
-      <img
-        src="https://raw.githubusercontent.com/commontidescoffee/images/main/logo-03.png"
-        alt="Common Tides Coffee"
-        class="cal-logo"
-      >
-      <div class="cal-title-block">
-        <div class="cal-eyebrow">Common Tides Coffee</div>
-        <div class="cal-month">May 2026</div>
+  <div class="format-toggle">
+    <button class="fmt-btn active" id="btn916" onclick="setFormat('916')">9:16 Story</button>
+    <button class="fmt-btn" id="btn45"  onclick="setFormat('45')">4:5 Post</button>
+  </div>
+
+  <div class="dl-buttons">
+    <button class="dl-btn png" onclick="downloadPNG()">Save as PNG</button>
+    <button class="dl-btn pdf" onclick="downloadPDF()">Save as PDF</button>
+  </div>
+</div>
+
+<!-- PREVIEW STAGE -->
+<div class="preview-wrap" id="previewWrap">
+  <div class="cal r916" id="cal">
+
+    <!-- HEADER -->
+    <div class="cal-header">
+      <div class="cal-header-left">
+        <img src="https://raw.githubusercontent.com/commontidescoffee/images/main/logo-03.png"
+             alt="Common Tides Coffee" class="cal-logo" crossorigin="anonymous">
+        <div>
+          <div class="cal-eyebrow">Common Tides Coffee</div>
+          <div class="cal-month">May 2026</div>
+        </div>
       </div>
-    </div>
-    <div class="cal-header-right">
       <div class="cal-count">
         <strong>21</strong>
         pop-ups this month
       </div>
     </div>
-  </div>
 
-  <!-- DAY LABELS -->
-  <div class="day-labels">
-    <div class="day-label weekend">Sun</div>
-    <div class="day-label">Mon</div>
-    <div class="day-label">Tue</div>
-    <div class="day-label">Wed</div>
-    <div class="day-label">Thu</div>
-    <div class="day-label">Fri</div>
-    <div class="day-label weekend">Sat</div>
-  </div>
-
-  <!-- GRID -->
-  <!-- May 1 = Friday (column index 5, 0=Sun) -->
-  <div class="cal-grid">
-
-    <!-- Row 1: Apr 26–May 2 (blank blank blank blank blank 1 2) -->
-    <div class="cal-cell empty weekend-col"></div>
-    <div class="cal-cell empty"></div>
-    <div class="cal-cell empty"></div>
-    <div class="cal-cell empty"></div>
-    <div class="cal-cell empty"></div>
-    <div class="cal-cell">
-      <span class="date-num">1</span>
-    </div>
-    <div class="cal-cell has-events weekend-col">
-      <span class="date-num">2</span>
-      <div class="events-list">
-        <span class="event-chip apt">Element Barclay Apts</span>
-      </div>
+    <!-- DAY LABELS -->
+    <div class="day-labels">
+      <div class="day-label wknd">Sun</div>
+      <div class="day-label">Mon</div>
+      <div class="day-label">Tue</div>
+      <div class="day-label">Wed</div>
+      <div class="day-label">Thu</div>
+      <div class="day-label">Fri</div>
+      <div class="day-label wknd">Sat</div>
     </div>
 
-    <!-- Row 2: May 3–9 -->
-    <div class="cal-cell weekend-col">
-      <span class="date-num">3</span>
-    </div>
-    <div class="cal-cell has-events">
-      <span class="date-num">4</span>
-      <div class="events-list">
-        <span class="event-chip medical">Novant Scotts Hill</span>
+    <!-- GRID — May 1 = Friday (col 6, 0=Sun) -->
+    <div class="cal-grid">
+
+      <!-- Row 1 -->
+      <div class="cal-cell empty wknd-c"></div>
+      <div class="cal-cell empty"></div>
+      <div class="cal-cell empty"></div>
+      <div class="cal-cell empty"></div>
+      <div class="cal-cell empty"></div>
+      <div class="cal-cell">
+        <span class="date-num">1</span>
       </div>
-    </div>
-    <div class="cal-cell">
-      <span class="date-num">5</span>
-    </div>
-    <div class="cal-cell has-events">
-      <span class="date-num">6</span>
-      <div class="events-list">
-        <span class="event-chip salon">Colour Bar Salon</span>
+      <div class="cal-cell has-ev wknd-c">
+        <span class="date-num">2</span>
+        <div class="events-list">
+          <span class="chip apt">Element Barclay</span>
+        </div>
       </div>
-    </div>
-    <div class="cal-cell has-events">
-      <span class="date-num">7</span>
-      <div class="events-list">
-        <span class="event-chip apt">Townes at Blake Farm</span>
+
+      <!-- Row 2 -->
+      <div class="cal-cell wknd-c"><span class="date-num">3</span></div>
+      <div class="cal-cell has-ev">
+        <span class="date-num">4</span>
+        <div class="events-list">
+          <span class="chip medical">Novant Scotts Hill</span>
+        </div>
       </div>
-    </div>
-    <div class="cal-cell has-events">
-      <span class="date-num">8</span>
-      <div class="events-list">
-        <span class="event-chip school">Island Montessori</span>
+      <div class="cal-cell"><span class="date-num">5</span></div>
+      <div class="cal-cell has-ev">
+        <span class="date-num">6</span>
+        <div class="events-list">
+          <span class="chip salon">Colour Bar Salon</span>
+        </div>
       </div>
-    </div>
-    <div class="cal-cell weekend-col">
-      <span class="date-num">9</span>
+      <div class="cal-cell has-ev">
+        <span class="date-num">7</span>
+        <div class="events-list">
+          <span class="chip apt">Townes at Blake Farm</span>
+        </div>
+      </div>
+      <div class="cal-cell has-ev">
+        <span class="date-num">8</span>
+        <div class="events-list">
+          <span class="chip school">Island Montessori</span>
+        </div>
+      </div>
+      <div class="cal-cell wknd-c"><span class="date-num">9</span></div>
+
+      <!-- Row 3 -->
+      <div class="cal-cell wknd-c"><span class="date-num">10</span></div>
+      <div class="cal-cell has-ev">
+        <span class="date-num">11</span>
+        <div class="events-list">
+          <span class="chip medical">Novant Scotts Hill</span>
+        </div>
+      </div>
+      <div class="cal-cell has-ev">
+        <span class="date-num">12</span>
+        <div class="events-list">
+          <span class="chip apt">Mayfaire Flats</span>
+        </div>
+      </div>
+      <div class="cal-cell"><span class="date-num">13</span></div>
+      <div class="cal-cell has-ev">
+        <span class="date-num">14</span>
+        <div class="events-list">
+          <span class="chip apt">17 Social Apts</span>
+        </div>
+      </div>
+      <div class="cal-cell has-ev">
+        <span class="date-num">15</span>
+        <div class="events-list">
+          <span class="chip apt">Hudson at Renaissance</span>
+        </div>
+      </div>
+      <div class="cal-cell has-ev wknd-c">
+        <span class="date-num">16</span>
+        <div class="events-list">
+          <span class="chip farm">NHC Arboretum</span>
+        </div>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="cal-cell wknd-c"><span class="date-num">17</span></div>
+      <div class="cal-cell has-ev">
+        <span class="date-num">18</span>
+        <div class="events-list">
+          <span class="chip medical">Novant Scotts Hill</span>
+        </div>
+      </div>
+      <div class="cal-cell has-ev">
+        <span class="date-num">19</span>
+        <div class="events-list">
+          <span class="chip govt">NHC Courthouse</span>
+        </div>
+      </div>
+      <div class="cal-cell has-ev">
+        <span class="date-num">20</span>
+        <div class="events-list">
+          <span class="chip fitness">ISI Elite Training</span>
+        </div>
+      </div>
+      <div class="cal-cell has-ev">
+        <span class="date-num">21</span>
+        <div class="events-list">
+          <span class="chip apt">17 Social Apts</span>
+        </div>
+      </div>
+      <div class="cal-cell has-ev">
+        <span class="date-num">22</span>
+        <div class="events-list">
+          <span class="chip apt">Hudson at Renaissance</span>
+        </div>
+      </div>
+      <div class="cal-cell has-ev wknd-c">
+        <span class="date-num">23</span>
+        <div class="events-list">
+          <span class="chip farm">Oak &amp; Fennel Farms</span>
+        </div>
+      </div>
+
+      <!-- Row 5 -->
+      <div class="cal-cell wknd-c"><span class="date-num">24</span></div>
+      <div class="cal-cell has-ev">
+        <span class="date-num">25</span>
+        <div class="events-list">
+          <span class="chip fitness">CrossFit Reignited</span>
+        </div>
+      </div>
+      <div class="cal-cell has-ev">
+        <span class="date-num">26</span>
+        <div class="events-list">
+          <span class="chip medical">Novant Primary Care</span>
+        </div>
+      </div>
+      <div class="cal-cell has-ev">
+        <span class="date-num">27</span>
+        <div class="events-list">
+          <span class="chip fitness">ISI Elite Training</span>
+        </div>
+      </div>
+      <div class="cal-cell has-ev">
+        <span class="date-num">28</span>
+        <div class="events-list">
+          <span class="chip apt">17 Social Apts</span>
+        </div>
+      </div>
+      <div class="cal-cell has-ev">
+        <span class="date-num">29</span>
+        <div class="events-list">
+          <span class="chip apt">Mayfaire Flats</span>
+        </div>
+      </div>
+      <div class="cal-cell wknd-c"><span class="date-num">30</span></div>
+
+      <!-- Row 6 -->
+      <div class="cal-cell wknd-c">
+        <span class="date-num">31</span>
+      </div>
+      <div class="cal-cell empty"></div>
+      <div class="cal-cell empty"></div>
+      <div class="cal-cell empty"></div>
+      <div class="cal-cell empty"></div>
+      <div class="cal-cell empty"></div>
+      <div class="cal-cell empty wknd-c"></div>
+
+    </div><!-- end .cal-grid -->
+
+    <!-- LEGEND -->
+    <div class="cal-legend">
+      <span class="legend-lbl">Key:&nbsp;&nbsp;</span>
+      <div class="legend-item"><div class="ldot" style="background:var(--apt)"></div> Apartments</div>
+      <div class="legend-item"><div class="ldot" style="background:var(--medical)"></div> Medical</div>
+      <div class="legend-item"><div class="ldot" style="background:var(--fitness)"></div> Fitness</div>
+      <div class="legend-item"><div class="ldot" style="background:var(--farm)"></div> Farms &amp; Outdoor</div>
+      <div class="legend-item"><div class="ldot" style="background:var(--school)"></div> School</div>
+      <div class="legend-item"><div class="ldot" style="background:var(--govt)"></div> Civic</div>
+      <div class="legend-item"><div class="ldot" style="background:var(--salon)"></div> Salon</div>
     </div>
 
-    <!-- Row 3: May 10–16 -->
-    <div class="cal-cell weekend-col">
-      <span class="date-num">10</span>
-    </div>
-    <div class="cal-cell has-events">
-      <span class="date-num">11</span>
-      <div class="events-list">
-        <span class="event-chip medical">Novant Scotts Hill</span>
-      </div>
-    </div>
-    <div class="cal-cell has-events">
-      <span class="date-num">12</span>
-      <div class="events-list">
-        <span class="event-chip apt">Mayfaire Flats</span>
-      </div>
-    </div>
-    <div class="cal-cell">
-      <span class="date-num">13</span>
-    </div>
-    <div class="cal-cell has-events">
-      <span class="date-num">14</span>
-      <div class="events-list">
-        <span class="event-chip apt">17 Social Apts</span>
-      </div>
-    </div>
-    <div class="cal-cell has-events">
-      <span class="date-num">15</span>
-      <div class="events-list">
-        <span class="event-chip apt">Hudson at Renaissance</span>
-      </div>
-    </div>
-    <div class="cal-cell has-events weekend-col">
-      <span class="date-num">16</span>
-      <div class="events-list">
-        <span class="event-chip farm">NHC Arboretum</span>
-      </div>
+    <!-- FOOTER -->
+    <div class="cal-footer">
+      <p>Serving Wilmington, NC &amp; the Cape Fear Coast</p>
+      <a href="https://find.commontides.com">find.commontides.com</a>
     </div>
 
-    <!-- Row 4: May 17–23 -->
-    <div class="cal-cell weekend-col">
-      <span class="date-num">17</span>
-    </div>
-    <div class="cal-cell has-events">
-      <span class="date-num">18</span>
-      <div class="events-list">
-        <span class="event-chip medical">Novant Scotts Hill</span>
-      </div>
-    </div>
-    <div class="cal-cell has-events">
-      <span class="date-num">19</span>
-      <div class="events-list">
-        <span class="event-chip govt">NHC Courthouse</span>
-      </div>
-    </div>
-    <div class="cal-cell has-events">
-      <span class="date-num">20</span>
-      <div class="events-list">
-        <span class="event-chip fitness">ISI Elite Training</span>
-      </div>
-    </div>
-    <div class="cal-cell has-events">
-      <span class="date-num">21</span>
-      <div class="events-list">
-        <span class="event-chip apt">17 Social Apts</span>
-      </div>
-    </div>
-    <div class="cal-cell has-events">
-      <span class="date-num">22</span>
-      <div class="events-list">
-        <span class="event-chip apt">Hudson at Renaissance</span>
-      </div>
-    </div>
-    <div class="cal-cell has-events weekend-col">
-      <span class="date-num">23</span>
-      <div class="events-list">
-        <span class="event-chip farm">Oak & Fennel Farms</span>
-      </div>
-    </div>
+  </div><!-- end .cal -->
+</div><!-- end .preview-wrap -->
 
-    <!-- Row 5: May 24–30 -->
-    <div class="cal-cell weekend-col">
-      <span class="date-num">24</span>
-    </div>
-    <div class="cal-cell has-events">
-      <span class="date-num">25</span>
-      <div class="events-list">
-        <span class="event-chip fitness">CrossFit Reignited</span>
-      </div>
-    </div>
-    <div class="cal-cell has-events">
-      <span class="date-num">26</span>
-      <div class="events-list">
-        <span class="event-chip medical">Novant Primary Care</span>
-      </div>
-    </div>
-    <div class="cal-cell has-events">
-      <span class="date-num">27</span>
-      <div class="events-list">
-        <span class="event-chip fitness">ISI Elite Training</span>
-      </div>
-    </div>
-    <div class="cal-cell has-events">
-      <span class="date-num">28</span>
-      <div class="events-list">
-        <span class="event-chip apt">17 Social Apts</span>
-      </div>
-    </div>
-    <div class="cal-cell has-events">
-      <span class="date-num">29</span>
-      <div class="events-list">
-        <span class="event-chip apt">Mayfaire Flats</span>
-      </div>
-    </div>
-    <div class="cal-cell weekend-col">
-      <span class="date-num">30</span>
-    </div>
-
-    <!-- Row 6: May 31 -->
-    <div class="cal-cell weekend-col">
-      <span class="date-num">31</span>
-    </div>
-    <div class="cal-cell empty"></div>
-    <div class="cal-cell empty"></div>
-    <div class="cal-cell empty"></div>
-    <div class="cal-cell empty"></div>
-    <div class="cal-cell empty"></div>
-    <div class="cal-cell empty weekend-col"></div>
-
-  </div>
-
-  <!-- LEGEND -->
-  <div class="cal-legend">
-    <span class="legend-label">Key:</span>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--apt)"></div> Apartments</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--medical)"></div> Medical</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--fitness)"></div> Fitness</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--farm)"></div> Farms & Outdoor</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--school)"></div> School & Education</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--govt)"></div> Government & Civic</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--salon)"></div> Salon & Retail</div>
-  </div>
-
-  <!-- FOOTER -->
-  <div class="cal-footer">
-    <p>Serving Wilmington, NC & the Cape Fear Coast</p>
-    <a href="https://find.commontides.com">find.commontides.com</a>
-  </div>
-
+<!-- LOADING OVERLAY -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <p id="loadingMsg">Generating image...</p>
 </div>
+
+<script>
+  let currentFormat = '916';
+
+  // Dimensions for each format
+  const FORMATS = {
+    '916': { w: 540, h: 960, exportW: 1080, exportH: 1920 },
+    '45':  { w: 540, h: 675, exportW: 1080, exportH: 1350 }
+  };
+
+  function setFormat(fmt) {
+    currentFormat = fmt;
+    const cal = document.getElementById('cal');
+    cal.classList.remove('r916', 'r45');
+    cal.classList.add('r' + fmt);
+    document.getElementById('btn916').classList.toggle('active', fmt === '916');
+    document.getElementById('btn45').classList.toggle('active', fmt === '45');
+    scalePreview();
+  }
+
+  function scalePreview() {
+    const fmt = FORMATS[currentFormat];
+    const cal = document.getElementById('cal');
+    const wrap = document.getElementById('previewWrap');
+
+    // Reset so we can measure accurately
+    cal.style.transform = '';
+    wrap.style.width = '';
+    wrap.style.height = '';
+
+    const availW = Math.min(window.innerWidth - 48, 600);
+    const availH = window.innerHeight - 220;
+    const scale = Math.min(availW / fmt.w, availH / fmt.h, 1);
+
+    cal.style.transform = `scale(${scale})`;
+    cal.style.transformOrigin = 'top left';
+    wrap.style.width  = (fmt.w * scale) + 'px';
+    wrap.style.height = (fmt.h * scale) + 'px';
+  }
+
+  async function captureCanvas() {
+    const fmt = FORMATS[currentFormat];
+    const cal = document.getElementById('cal');
+
+    // Temporarily set to natural size for capture
+    cal.style.transform = 'none';
+
+    await document.fonts.ready;
+    // Give browser a frame to re-render
+    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+    const canvas = await html2canvas(cal, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: false,
+      backgroundColor: '#ffffff',
+      width: fmt.w,
+      height: fmt.h,
+      logging: false
+    });
+
+    // Restore scale
+    scalePreview();
+    return canvas;
+  }
+
+  async function downloadPNG() {
+    const overlay = document.getElementById('loadingOverlay');
+    const msg = document.getElementById('loadingMsg');
+    msg.textContent = 'Generating PNG...';
+    overlay.classList.add('show');
+
+    try {
+      const canvas = await captureCanvas();
+      const link = document.createElement('a');
+      link.download = `ct-may2026-${currentFormat === '916' ? 'story' : 'post'}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch(e) {
+      alert('Error generating PNG: ' + e.message);
+    } finally {
+      overlay.classList.remove('show');
+    }
+  }
+
+  async function downloadPDF() {
+    const overlay = document.getElementById('loadingOverlay');
+    const msg = document.getElementById('loadingMsg');
+    msg.textContent = 'Generating PDF...';
+    overlay.classList.add('show');
+
+    try {
+      const fmt = FORMATS[currentFormat];
+      const canvas = await captureCanvas();
+      const imgData = canvas.toDataURL('image/png');
+
+      const { jsPDF } = window.jspdf;
+      // Use px units, 72 dpi — pass export dimensions
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'px',
+        format: [fmt.exportW, fmt.exportH]
+      });
+      pdf.addImage(imgData, 'PNG', 0, 0, fmt.exportW, fmt.exportH);
+      pdf.save(`ct-may2026-${currentFormat === '916' ? 'story' : 'post'}.pdf`);
+    } catch(e) {
+      alert('Error generating PDF: ' + e.message);
+    } finally {
+      overlay.classList.remove('show');
+    }
+  }
+
+  // Init
+  window.addEventListener('load', () => {
+    setFormat('916');
+  });
+  window.addEventListener('resize', scalePreview);
+</script>
 
 </body>
 </html>
