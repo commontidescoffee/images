@@ -395,29 +395,23 @@
         <div class="sec-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
         <div>
           <div class="sec-title">Specialty Lattes</div>
-          <div class="sec-sub">Simple but Delicious · Hot or Iced · 16 oz · $6.75 each</div>
+          <div class="sec-sub">Simple but Delicious · Hot or Iced · 16 oz</div>
         </div>
       </div>
       <div id="pm-specialty"></div>
     </div>
 
-    <!-- QR ARCADE CARD -->
-    <div class="qr-card">
-      <svg class="qr-card-bg" viewBox="0 0 400 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="200" fill="#2C1810"/></svg>
-      <div class="qr-card-head">
-        <svg class="qr-head-bg" viewBox="0 0 400 38" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="38" fill="#A8713A"/></svg>
-        <div class="sec-icon"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+    <!-- MATCHA -->
+    <div class="section">
+      <div class="sec-head">
+        <svg class="sec-head-bg" viewBox="0 0 400 38" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="38" fill="#5A8F60"/></svg>
+        <div class="sec-icon"><svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></div>
         <div>
-          <div class="qr-card-head-title">Coffee Arcade</div>
-          <div class="qr-card-head-sub">Free browser games · no download needed</div>
+          <div class="sec-title">Matcha</div>
+          <div class="sec-sub">Ceremonial Grade · Hot or Iced</div>
         </div>
       </div>
-      <div class="qr-card-body">
-        <div class="qr-cta">Play a game while you wait! ☕</div>
-        <div id="qrcode"></div>
-        <div class="qr-games">Bean Bounce &nbsp;·&nbsp; Perfect Pour &nbsp;·&nbsp; Latte Stack</div>
-        <div class="qr-url">commontides.com/arcade</div>
-      </div>
+      <div id="pm-matcha"></div>
     </div>
 
     <!-- ADD-ONS -->
@@ -493,6 +487,7 @@
   if (typeof MENU_DATA !== 'undefined') {
     pmRender('pm-espresso',  MENU_DATA.espresso);
     pmRender('pm-specialty', MENU_DATA.specialty);
+    pmRender('pm-matcha',    MENU_DATA.matcha);
     pmRender('pm-noncoffee', MENU_DATA.noncoffee);
 
     // Add-ons grid
