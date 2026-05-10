@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Common Tides Coffee — Print Menu (Editable)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal:      #5EB3A7;
+    --teal-dark: #4A9E93;
+    --teal-deep: #3D8F84;
+    --teal-pale: #EBF7F5;
+    --amber:     #C8915A;
+    --amber-dk:  #A8713A;
+    --ink:       #1C1C1C;
+    --muted:     #777;
+    --sand:      #E2D6C4;
+    --sand-pale: #FAF7F2;
+    --sand-mid:  #F2EDE5;
+    --dark-bg:   #1C3A36;
+    --espresso:  #2C1810;
+    --lavender:  #8A6FC4;
+  }
+
+  html, body, * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #aaa;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  .page {
+    width: 8.5in;
+    height: 11in;
+    background: var(--sand-pale);
+    display: grid;
+    grid-template-rows: auto auto 1fr auto auto;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+  }
+
+  /* ── HEADER ── */
+  .header {
+    position: relative;
+    padding: 11px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    overflow: hidden;
+  }
+  .header-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; display: block; }
+  .header > *:not(.header-bg) { position: relative; z-index: 1; }
+  .logo-wrap { width: 54px; height: 54px; flex-shrink: 0; background: white; border-radius: 50%; padding: 3px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+  .logo-wrap img { width: 100%; height: 100%; border-radius: 50%; object-fit: contain; display: block; }
+  .header-mid { flex: 1; }
+  .header-name { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 900; color: white; line-height: 1; }
+  .header-sub  { font-size: 11.5px; color: rgba(255,255,255,0.88); font-weight: 500; margin-top: 4px; }
+  .header-right { text-align: right; }
+  .header-url { font-size: 13px; font-weight: 700; color: white; }
+  .header-ig  { font-size: 11px; color: rgba(255,255,255,0.78); margin-top: 3px; }
+
+  /* ── SIZE BAR ── */
+  .size-bar {
+    position: relative;
+    padding: 6px 24px;
+    font-size: 11px; font-weight: 600; color: var(--teal-deep);
+    display: flex; align-items: center; gap: 8px;
+    border-bottom: 1.5px solid rgba(94,179,167,0.4);
+    overflow: hidden;
+  }
+  .size-bar-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; display: block; }
+  .size-bar > *:not(.size-bar-bg) { position: relative; z-index: 1; }
+  .size-bar-sep { color: var(--teal); }
+
+  /* ── MENU BODY ── */
+  .menu-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 10px 14px;
+    gap: 10px;
+    overflow: hidden;
+    align-content: start;
+  }
+
+  /* ── SECTION CARDS ── */
+  .section { background: white; border: 1px solid var(--sand); border-radius: 9px; overflow: hidden; }
+  .section.full-width { grid-column: 1 / -1; }
+
+  .sec-head {
+    position: relative;
+    padding: 7px 13px;
+    display: flex; align-items: center; gap: 9px;
+    overflow: hidden;
+  }
+  .sec-head-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; display: block; }
+  .sec-head > *:not(.sec-head-bg) { position: relative; z-index: 1; }
+  .sec-icon { width: 24px; height: 24px; flex-shrink: 0; background: rgba(255,255,255,0.2); border-radius: 5px; display: flex; align-items: center; justify-content: center; }
+  .sec-icon svg { width: 13px; height: 13px; stroke: white; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .sec-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: white; line-height: 1.2; }
+  .sec-sub   { font-size: 10px; color: rgba(255,255,255,0.85); margin-top: 1px; }
+
+  /* ── MENU ROWS ── */
+  .item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 7px 13px;
+    border-bottom: 1px solid var(--sand-mid);
+    gap: 8px; min-height: 36px;
+  }
+  .item:last-child { border-bottom: none; }
+  .item-left { flex: 1; min-width: 0; }
+  .item-name   { font-size: 13px; font-weight: 700; color: var(--ink); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; line-height: 1.3; }
+  .item-detail { font-size: 10.5px; color: var(--muted); margin-top: 2px; line-height: 1.3; }
+  .price       { font-size: 13.5px; font-weight: 700; color: var(--teal-deep); flex-shrink: 0; white-space: nowrap; }
+  .price-sizes { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0; }
+  .sz-row      { display: flex; align-items: center; gap: 6px; }
+  .sz-tag      { font-size: 9.5px; font-weight: 700; color: var(--muted); background: var(--sand-mid); border-radius: 3px; padding: 1px 5px; text-transform: uppercase; }
+  .sz-price    { font-size: 13px; font-weight: 700; color: var(--teal-deep); }
+
+  .badge {
+    font-size: 8px; font-weight: 700; letter-spacing: 0.3px;
+    padding: 2px 7px; border-radius: 20px;
+    text-transform: uppercase; flex-shrink: 0;
+    color: white;
+  }
+  .badge-sig      { background: var(--amber); }
+  .badge-seasonal { background: var(--lavender); }
+  .badge-new      { background: var(--teal-dark); }
+  .badge-healthy  { background: #5A9E5B; }
+  .badge-kids     { background: #C8915A; }
+
+  /* ── ADD-ONS ── */
+  .addons-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .addon-item { padding: 8px 13px; border-bottom: 1px solid var(--sand-mid); border-right: 1px solid var(--sand-mid); }
+  .addon-item:nth-child(4n) { border-right: none; }
+  .addon-item:nth-last-child(-n+4) { border-bottom: none; }
+  .addon-name  { font-size: 12.5px; font-weight: 600; color: var(--ink); }
+  .addon-price { font-size: 12px; font-weight: 700; color: var(--teal-deep); margin-top: 2px; }
+
+  .custom-row { display: flex; align-items: center; gap: 10px; padding: 6px 13px; border-bottom: 1px solid var(--sand-mid); }
+  .custom-row:last-child { border-bottom: none; }
+  .custom-label { font-size: 10px; font-weight: 700; color: var(--teal-dark); text-transform: uppercase; letter-spacing: 1px; flex-shrink: 0; min-width: 64px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .chip       { background: var(--sand-pale); border: 1px solid var(--sand); color: #3a3a3a; font-size: 10.5px; font-weight: 500; padding: 3px 9px; border-radius: 20px; }
+  .chip-teal  { background: var(--teal-pale); border-color: rgba(94,179,167,0.5); color: var(--teal-deep); }
+
+  /* ── STORY BAND ── */
+  .story-band { position: relative; padding: 10px 24px; display: flex; align-items: baseline; gap: 16px; overflow: hidden; }
+  .story-band-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; display: block; }
+  .story-band > *:not(.story-band-bg) { position: relative; z-index: 1; }
+  .story-label { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700; font-style: italic; color: #5EB3A7; white-space: nowrap; flex-shrink: 0; }
+  .story-text  { font-size: 11px; color: #B8D8D4; line-height: 1.6; }
+
+  /* ── FOOTER ── */
+  .footer { position: relative; padding: 7px 24px; display: flex; align-items: center; justify-content: space-between; overflow: hidden; }
+  .footer-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; display: block; }
+  .footer > *:not(.footer-bg) { position: relative; z-index: 1; }
+  .footer-left  { font-size: 10px; color: rgba(255,255,255,0.55); font-style: italic; }
+  .footer-right { font-size: 10px; color: rgba(255,255,255,0.45); }
+
+  /* ── EDIT MODE STYLES ── */
+  .editable-field {
+    outline: none;
+    border-radius: 2px;
+    transition: background 0.15s;
+  }
+  body.edit-mode .editable-field {
+    background: rgba(138,111,196,0.08);
+    cursor: text;
+    box-shadow: 0 0 0 1.5px rgba(138,111,196,0.35);
+    border-radius: 3px;
+    padding: 1px 3px;
+    margin: -1px -3px;
+  }
+  body.edit-mode .editable-field:hover {
+    background: rgba(138,111,196,0.15);
+  }
+  body.edit-mode .editable-field:focus {
+    background: rgba(138,111,196,0.2);
+    box-shadow: 0 0 0 2px rgba(138,111,196,0.5);
+  }
+
+  /* ── CONTROL BAR ── */
+  .ctrl-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 9999;
+    background: #1C3A36;
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.35);
+    flex-wrap: wrap;
+  }
+  .ctrl-left { display: flex; align-items: center; gap: 12px; }
+  .ctrl-msg  { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #B8D8D4; }
+  .ctrl-msg strong { color: #5EB3A7; }
+  .ctrl-hint { font-family: 'DM Sans', sans-serif; font-size: 11px; color: rgba(94,179,167,0.55); }
+  .ctrl-right { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .btn {
+    border: none;
+    border-radius: 8px;
+    padding: 9px 22px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+  .btn-edit  { background: #8A6FC4; color: white; }
+  .btn-edit:hover  { background: #7A5FBA; }
+  .btn-edit.active { background: #5A8F84; }
+  .btn-edit.active:hover { background: #4A7F74; }
+  .btn-print { background: #4A9E93; color: white; }
+  .btn-print:hover { background: #3D8F84; }
+  .btn-reset { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); font-size: 13px; }
+  .btn-reset:hover { background: rgba(255,255,255,0.18); }
+
+  @media print {
+    html, body, * {
+      -webkit-print-color-adjust: exact !important;
+      color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    body { background: none !important; padding: 0; margin: 0; }
+    .page { box-shadow: none; }
+    .ctrl-bar { display: none !important; }
+    @page { size: letter; margin: 0; }
+    body.edit-mode .editable-field {
+      background: transparent !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- CONTROL BAR -->
+<div class="ctrl-bar">
+  <div class="ctrl-left">
+    <div>
+      <div class="ctrl-msg" id="ctrlMsg">
+        <strong>Editable Print Menu</strong> — click Edit Mode to make changes
+      </div>
+      <div class="ctrl-hint" id="ctrlHint">Changes are temporary until you save the file · Print captures your edits</div>
+    </div>
+  </div>
+  <div class="ctrl-right">
+    <button class="btn btn-reset" id="btnReset" onclick="resetAll()" style="display:none;">Reset All Changes</button>
+    <button class="btn btn-edit"  id="btnEdit"  onclick="toggleEdit()">&#9998; Enter Edit Mode</button>
+    <button class="btn btn-print" onclick="window.print()">&#128438; Print Menu</button>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- ── HEADER ── -->
+  <div class="header">
+    <svg class="header-bg" viewBox="0 0 816 74" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#3D8F84"/><stop offset="60%" stop-color="#5EB3A7"/><stop offset="100%" stop-color="#7ECCC3"/></linearGradient></defs>
+      <rect width="816" height="74" fill="url(#hg)"/>
+    </svg>
+    <div class="logo-wrap">
+      <img src="https://raw.githubusercontent.com/commontidescoffee/images/main/logo-03.png" alt="Common Tides Coffee">
+    </div>
+    <div class="header-mid">
+      <div class="header-name">Common Tides Coffee</div>
+      <div class="header-sub">Mobile espresso trailer &nbsp;·&nbsp; Locally roasted beans &nbsp;·&nbsp; Hand-pulled espresso &nbsp;·&nbsp; Wilmington, NC</div>
+    </div>
+    <div class="header-right">
+      <div class="header-url">commontides.com</div>
+      <div class="header-ig">@commontidescoffee</div>
+    </div>
+  </div>
+
+  <!-- ── SIZE BAR ── -->
+  <div class="size-bar">
+    <svg class="size-bar-bg" viewBox="0 0 816 28" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect width="816" height="28" fill="#EBF7F5"/></svg>
+    <svg style="width:14px;height:14px;stroke:#3D8F84;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+    <strong>Lattes &amp; specialty drinks: 16 oz</strong>
+    <span class="size-bar-sep">·</span>
+    <strong>Americano: 12 oz Hot · 16 oz Iced</strong>
+    <span class="size-bar-sep">·</span>
+    <strong>Non-coffee cold drinks: 16 oz</strong>
+  </div>
+
+  <!-- ── MENU BODY ── -->
+  <div class="menu-body">
+
+    <!-- ════════════════════════
+         ESPRESSO DRINKS
+         To edit: enter Edit Mode and click any name or price
+    ════════════════════════ -->
+    <div class="section">
+      <div class="sec-head">
+        <svg class="sec-head-bg" viewBox="0 0 400 38" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="38" fill="#4A9E93"/></svg>
+        <div class="sec-icon"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+        <div>
+          <div class="sec-title">Espresso Drinks</div>
+          <div class="sec-sub">Precision-pulled · locally roasted beans</div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-name"><span class="editable-field" contenteditable="false">Espresso</span></div>
+          <div class="item-detail"><span class="editable-field" contenteditable="false">Hot only · Double shot</span></div>
+        </div>
+        <div class="price editable-field" contenteditable="false">$3.75</div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-name"><span class="editable-field" contenteditable="false">Americano</span></div>
+          <div class="item-detail"><span class="editable-field" contenteditable="false">Hot or Iced</span></div>
+        </div>
+        <div class="price-sizes">
+          <div class="sz-row"><span class="sz-tag">12 oz Hot</span><span class="sz-price editable-field" contenteditable="false">$4.25</span></div>
+          <div class="sz-row"><span class="sz-tag">16 oz Iced</span><span class="sz-price editable-field" contenteditable="false">$4.75</span></div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-name"><span class="editable-field" contenteditable="false">Latte</span></div>
+          <div class="item-detail"><span class="editable-field" contenteditable="false">Hot or Iced · 16 oz</span></div>
+        </div>
+        <div class="price editable-field" contenteditable="false">$6.00</div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-name"><span class="editable-field" contenteditable="false">Cappuccino</span></div>
+          <div class="item-detail"><span class="editable-field" contenteditable="false">Hot only · 12 oz</span></div>
+        </div>
+        <div class="price editable-field" contenteditable="false">$5.25</div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-name"><span class="editable-field" contenteditable="false">Mocha</span></div>
+          <div class="item-detail"><span class="editable-field" contenteditable="false">Hot or Iced · 16 oz</span></div>
+        </div>
+        <div class="price editable-field" contenteditable="false">$6.75</div>
+      </div>
+
+    </div><!-- /espresso -->
+
+
+    <!-- ════════════════════════
+         NON-COFFEE
+         To edit: enter Edit Mode and click any name or price
+    ════════════════════════ -->
+    <div class="section">
+      <div class="sec-head">
+        <svg class="sec-head-bg" viewBox="0 0 400 38" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="38" fill="#4A9E93"/></svg>
+        <div class="sec-icon"><svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></div>
+        <div>
+          <div class="sec-title">Non-Coffee</div>
+          <div class="sec-sub">Something for everyone</div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-name"><span class="editable-field" contenteditable="false">The Golden Hour</span> <span class="badge badge-healthy">Healthy</span></div>
+          <div class="item-detail"><span class="editable-field" contenteditable="false">Turmeric · Warming Spices · Hot</span></div>
+        </div>
+        <div class="price-sizes">
+          <div class="sz-row"><span class="sz-tag">12 oz</span><span class="sz-price editable-field" contenteditable="false">$5.50</span></div>
+          <div class="sz-row"><span class="sz-tag">16 oz</span><span class="sz-price editable-field" contenteditable="false">$6.00</span></div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-name"><span class="editable-field" contenteditable="false">Hot Chocolate</span></div>
+          <div class="item-detail"><span class="editable-field" contenteditable="false">Hot · 12 oz · Oat or Almond Milk available +$1.00</span></div>
+        </div>
+        <div class="price editable-field" contenteditable="false">$4.75</div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-name"><span class="editable-field" contenteditable="false">London Fog</span></div>
+          <div class="item-detail"><span class="editable-field" contenteditable="false">Earl Grey · Vanilla · Steamed Milk · 12 oz · Alt Milk +$1.00</span></div>
+        </div>
+        <div class="price editable-field" contenteditable="false">$4.00</div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-name"><span class="editable-field" contenteditable="false">Hot Tea</span></div>
+          <div class="item-detail"><span class="editable-field" contenteditable="false">Earl Grey · Irish Breakfast · English Breakfast · 12 oz</span></div>
+        </div>
+        <div class="price editable-field" contenteditable="false">$2.50</div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-name"><span class="editable-field" contenteditable="false">Kids Latte</span> <span class="badge badge-kids">Kids</span></div>
+          <div class="item-detail"><span class="editable-field" contenteditable="false">Caramel, Vanilla, or Maple · Whole Milk · Iced only · 16 oz</span></div>
+        </div>
+        <div class="price editable-field" contenteditable="false">$4.50</div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-name"><span class="editable-field" contenteditable="false">Bottled Water</span></div>
+        </div>
+        <div class="price editable-field" contenteditable="false">$1.00</div>
+      </div>
+
+    </div><!-- /noncoffee -->
+
+
+    <!-- ════════════════════════
+         SPECIALTY LATTES
+         To edit: enter Edit Mode and click any name or price
+    ════════════════════════ -->
+    <div class="section">
+      <div class="sec-head">
+        <svg class="sec-head-bg" viewBox="0 0 400 38" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="38" fill="#4A9E93"/></svg>
+        <div class="sec-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <div>
+          <div class="sec-title">Specialty Lattes</div>
+          <div class="sec-sub">Simple but Delicious · Hot or Iced · 16 oz</div>
+        </div>
+      </div>
+
+      <!-- SEASONAL SPECIAL — Honey Lavender Latte -->
+      <div class="item">
+        <div class="item-left">
+          <div class="item-name"><span class="editable-field" contenteditable="false">Honey Lavender Latte</span> <span class="badge badge-seasonal">Seasonal</span></div>
+          <div class="item-detail"><span class="editable-field" contenteditable="false">Locally sourced honey · Lavender · Also available as Matcha · While supplies last</span></div>
+        </div>
+        <div class="price-sizes">
+          <div class="sz-row"><span class="sz-tag">Latte 16oz</span><span class="sz-price editable-field" contenteditable="false">$7.00</span></div>
+          <div class="sz-row"><span class="sz-tag">Matcha 16oz</span><span class="sz-price editable-field" contenteditable="false">$6.00</span></div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-name"><span class="editable-field" contenteditable="false">Salted Caramel Latte</span> <span class="badge badge-sig">Signature</span></div>
+          <div class="item-detail"><span class="editable-field" contenteditable="false">Pink Himalayan Sea Salt · Rich &amp; Balanced · Hot or Iced</span></div>
+        </div>
+        <div class="price editable-field" contenteditable="false">$6.75</div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-name"><span class="editable-field" contenteditable="false">Maple Syrup Latte</span></div>
+          <div class="item-detail"><span class="editable-field" contenteditable="false">Grade A Maple Syrup · Hot or Iced</span></div>
+        </div>
+        <div class="price editable-field" contenteditable="false">$6.75</div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-name"><span class="editable-field" contenteditable="false">Vanilla Latte</span></div>
+          <div class="item-detail"><span class="editable-field" contenteditable="false">Classic &amp; Smooth · Hot or Iced</span></div>
+        </div>
+        <div class="price editable-field" contenteditable="false">$6.75</div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-name"><span class="editable-field" contenteditable="false">Vanilla Matcha</span> <span class="badge badge-new">New</span></div>
+          <div class="item-detail"><span class="editable-field" contenteditable="false">Ceremonial Grade Matcha · Vanilla · Milk of Your Choice</span></div>
+        </div>
+        <div class="price-sizes">
+          <div class="sz-row"><span class="sz-tag">Hot 12oz</span><span class="sz-price editable-field" contenteditable="false">$5.00</span></div>
+          <div class="sz-row"><span class="sz-tag">Iced 16oz</span><span class="sz-price editable-field" contenteditable="false">$5.50</span></div>
+        </div>
+      </div>
+
+    </div><!-- /specialty -->
+
+
+    <!-- ════════════════════════
+         RIGHT SIDE — Customization info card
+    ════════════════════════ -->
+    <div class="section" style="background:#1C3A36; border-color:#2C4A46;">
+      <div class="sec-head">
+        <svg class="sec-head-bg" viewBox="0 0 400 38" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="38" fill="#A8713A"/></svg>
+        <div class="sec-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <div>
+          <div class="sec-title">Good to Know</div>
+          <div class="sec-sub">Tips &amp; helpful info</div>
+        </div>
+      </div>
+      <div style="padding: 10px 13px; display: flex; flex-direction: column; gap: 8px;">
+        <div style="font-size:11.5px; color:#B8D8D4; line-height:1.6;">
+          <strong style="color:#5EB3A7; font-size:12px;">Milk options:</strong><br>
+          Whole milk included · Oat milk +$1 · Almond milk +$1 · Half &amp; Half available
+        </div>
+        <div style="font-size:11.5px; color:#B8D8D4; line-height:1.6;">
+          <strong style="color:#5EB3A7; font-size:12px;">Syrups:</strong><br>
+          Caramel · Vanilla · Sugar-Free Vanilla · Maple Syrup (+$0.75 each)
+        </div>
+        <div style="font-size:11.5px; color:#B8D8D4; line-height:1.6;">
+          <strong style="color:#5EB3A7; font-size:12px;">Extras:</strong><br>
+          Extra shot +$1.50 · Whipped cream +$0.50 · Cinnamon on request
+        </div>
+        <div style="font-size:11.5px; color:#B8D8D4; line-height:1.6;">
+          <strong style="color:#5EB3A7; font-size:12px;">Events &amp; Booking:</strong><br>
+          We do corporate pop-ups, weddings, and private events — book at commontides.com
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ════════════════════════
+         ADD-ONS (full width)
+    ════════════════════════ -->
+    <div class="section full-width">
+      <div class="sec-head">
+        <svg class="sec-head-bg" viewBox="0 0 816 38" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect width="816" height="38" fill="#A8713A"/></svg>
+        <div class="sec-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        <div>
+          <div class="sec-title">Add-Ons &amp; Customizations</div>
+          <div class="sec-sub">Make it yours</div>
+        </div>
+      </div>
+      <div class="addons-grid">
+        <div class="addon-item"><div class="addon-name editable-field" contenteditable="false">Extra Shot</div><div class="addon-price editable-field" contenteditable="false">+$1.50</div></div>
+        <div class="addon-item"><div class="addon-name editable-field" contenteditable="false">Oat Milk</div><div class="addon-price editable-field" contenteditable="false">+$1.00</div></div>
+        <div class="addon-item"><div class="addon-name editable-field" contenteditable="false">Almond Milk</div><div class="addon-price editable-field" contenteditable="false">+$1.00</div></div>
+        <div class="addon-item"><div class="addon-name editable-field" contenteditable="false">Flavor Syrup</div><div class="addon-price editable-field" contenteditable="false">+$0.75</div></div>
+        <div class="addon-item"><div class="addon-name editable-field" contenteditable="false">Whipped Cream</div><div class="addon-price editable-field" contenteditable="false">+$0.50</div></div>
+      </div>
+      <div class="custom-row">
+        <span class="custom-label">Milk</span>
+        <div class="chips">
+          <span class="chip">Whole Milk</span>
+          <span class="chip">Half &amp; Half</span>
+          <span class="chip chip-teal">Oat Milk +$1.00</span>
+          <span class="chip chip-teal">Almond Milk +$1.00</span>
+        </div>
+      </div>
+      <div class="custom-row">
+        <span class="custom-label">Syrups</span>
+        <div class="chips">
+          <span class="chip">Caramel</span>
+          <span class="chip">Vanilla</span>
+          <span class="chip">Sugar-Free Vanilla</span>
+          <span class="chip">Maple Syrup</span>
+        </div>
+      </div>
+      <div class="custom-row">
+        <span class="custom-label">Toppings</span>
+        <div class="chips">
+          <span class="chip">Cinnamon</span>
+          <span class="chip chip-teal">Whipped Cream +$0.50</span>
+        </div>
+      </div>
+    </div><!-- /addons -->
+
+  </div><!-- /menu-body -->
+
+  <!-- ── OUR STORY ── -->
+  <div class="story-band">
+    <svg class="story-band-bg" viewBox="0 0 816 58" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect width="816" height="58" fill="#1C3A36"/></svg>
+    <div class="story-label">Our Story</div>
+    <div class="story-text">Quality matters to me, and I don't think it should be sacrificed just because a business is on wheels. I launched Common Tides to bring a legitimate craft espresso experience to farmers markets, corporate events, and pop-ups across North Carolina. By using a clean, silent battery system and locally roasted beans, I can pull every shot with the same intention you'd find in the best brick-and-mortar shops. I sought out the best so that wherever I show up, you're getting a world-class cup of coffee. - Zack Bennett</div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <div class="footer">
+    <svg class="footer-bg" viewBox="0 0 816 32" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect width="816" height="32" fill="#2C1810"/></svg>
+    <div class="footer-left">Menu &amp; pricing subject to change &nbsp;·&nbsp; Ask about event booking!</div>
+    <div class="footer-right">© 2026 Common Tides LLC &nbsp;·&nbsp; All Rights Reserved</div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+  var editMode = false;
+
+  function toggleEdit() {
+    editMode = !editMode;
+    var fields = document.querySelectorAll('.editable-field');
+    var btn    = document.getElementById('btnEdit');
+    var msg    = document.getElementById('ctrlMsg');
+    var hint   = document.getElementById('ctrlHint');
+    var reset  = document.getElementById('btnReset');
+
+    fields.forEach(function(f) {
+      f.contentEditable = editMode ? 'true' : 'false';
+    });
+
+    if (editMode) {
+      document.body.classList.add('edit-mode');
+      btn.textContent = '✓ Done Editing';
+      btn.classList.add('active');
+      msg.innerHTML = '<strong>Edit Mode ON</strong> — click any name, price, or detail to change it';
+      hint.textContent = 'Tab to jump between fields · Press Print when done';
+      reset.style.display = 'inline-block';
+    } else {
+      document.body.classList.remove('edit-mode');
+      btn.textContent = '✎ Enter Edit Mode';
+      btn.classList.remove('active');
+      msg.innerHTML = '<strong>Editable Print Menu</strong> — click Edit Mode to make changes';
+      hint.textContent = 'Changes are temporary until you save the file · Print captures your edits';
+    }
+  }
+
+  function resetAll() {
+    if (!confirm('Reset all changes back to the original menu?')) return;
+    location.reload();
+  }
+</script>
+</body>
+</html>

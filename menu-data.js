@@ -55,6 +55,15 @@ const MENU_DATA = {
   // ── SPECIALTY LATTES ─────────────────────────────────────────────
   specialty: [
     {
+      name:   "Honey Lavender Latte",
+      badge:  "Seasonal",
+      detail: "Locally sourced honey · Lavender · Also available as Matcha · While supplies last",
+      sizes:  [
+        { label: "Latte 16oz",  price: "$7.00" },
+        { label: "Matcha 16oz", price: "$6.00" }
+      ]
+    },
+    {
       name:   "Salted Caramel Latte",
       badge:  "Signature",
       detail: "Pink Himalayan Sea Salt · Rich & Balanced · Hot or Iced",
