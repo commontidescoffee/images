@@ -20,7 +20,7 @@
       gap: 14px;
     }
 
-    /* ── UI Bar ──────────────────────────────── */
+    /* ── UI Bar ───────────────────────────────────────── */
     .ui-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; }
     .ui-btn {
       display: inline-flex; align-items: center; gap: 7px;
@@ -55,7 +55,6 @@
       border-right: 1px solid rgba(255,255,255,0.10);
       line-height: 38px; min-width: 110px; text-align: center;
     }
-
     #calStatus {
       display: none; font-size: 12px; font-weight: 600;
       padding: 8px 16px; border-radius: 8px; text-align: center; max-width: 540px;
@@ -66,225 +65,189 @@
 
     #scaleWrap { transform-origin: top center; flex-shrink: 0; }
 
-    /* ══════════════════════════════════════════════
+    /* ══════════════════════════════════════════════════
        VINTAGE CARD  1080 × 1350
-    ══════════════════════════════════════════════ */
+    ══════════════════════════════════════════════════ */
     .ig-card {
       width: 1080px;
       height: 1350px;
       position: relative;
       overflow: hidden;
-      background: #EFE4C6;
-      font-family: 'DM Sans', sans-serif;
+      background: #EDE0C0;
     }
 
-    /* Parchment tonal blotches */
+    /* Parchment warm blotches */
     .parchment-layer {
       position: absolute; inset: 0; z-index: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse 700px 460px at 12% 18%,  rgba(185,152,86,0.14) 0%, transparent 70%),
-        radial-gradient(ellipse 550px 600px at 88% 82%,  rgba(165,132,68,0.11) 0%, transparent 70%),
-        radial-gradient(ellipse 420px 320px at 50% 48%,  rgba(255,248,228,0.10) 0%, transparent 70%),
-        radial-gradient(ellipse 300px 250px at 78% 16%,  rgba(200,165,95,0.08) 0%, transparent 70%),
-        radial-gradient(ellipse 260px 300px at 22% 78%,  rgba(170,140,75,0.09) 0%, transparent 70%);
+        radial-gradient(ellipse 680px 500px at 10% 15%,  rgba(190,155,82,0.16) 0%, transparent 70%),
+        radial-gradient(ellipse 520px 580px at 90% 85%,  rgba(168,132,62,0.13) 0%, transparent 70%),
+        radial-gradient(ellipse 400px 350px at 55% 42%,  rgba(255,248,225,0.10) 0%, transparent 70%),
+        radial-gradient(ellipse 300px 260px at 80% 14%,  rgba(205,168,90,0.09) 0%, transparent 70%);
     }
 
-    /* Vignette */
+    /* Vignette — edge darkening */
     .vignette {
       position: absolute; inset: 0; z-index: 1; pointer-events: none;
-      background: radial-gradient(ellipse 90% 90% at 50% 50%, transparent 38%, rgba(28,14,4,0.30) 100%);
+      background: radial-gradient(ellipse 88% 88% at 50% 50%, transparent 36%, rgba(28,14,4,0.32) 100%);
     }
 
-    /* Horizontal stripe texture — very subtle */
-    .stripe-layer {
-      position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0.03;
-      background: repeating-linear-gradient(
-        0deg,
-        #7A5020 0px, #7A5020 1px,
-        transparent 1px, transparent 6px
-      );
+    /* ── Citroën HY Van background illustration ── */
+    .van-bg {
+      position: absolute;
+      z-index: 2;
+      left: 0; right: 0;
+      top: 310px;
+      opacity: 0.11;
+      pointer-events: none;
     }
+    .van-bg svg { width: 100%; height: auto; display: block; }
 
     /* ── Double border frame ── */
     .frame-outer {
       position: absolute; z-index: 8; pointer-events: none;
-      top: 28px; left: 28px; right: 28px; bottom: 28px;
-      border: 3px solid #2A1810;
-      box-shadow: inset 0 0 0 8px #EFE4C6, inset 0 0 0 10px rgba(42,24,16,0.22);
+      top: 26px; left: 26px; right: 26px; bottom: 26px;
+      border: 3.5px solid #2A1810;
+      box-shadow: inset 0 0 0 9px #EDE0C0, inset 0 0 0 11px rgba(42,24,16,0.20);
     }
 
     /* ── Corner ornaments ── */
-    .corner-svg {
-      position: absolute; z-index: 9; pointer-events: none;
-      width: 48px; height: 48px;
-    }
-    .corner-svg.tl { top: 18px; left: 18px; }
-    .corner-svg.tr { top: 18px; right: 18px; transform: scaleX(-1); }
-    .corner-svg.bl { bottom: 18px; left: 18px; transform: scaleY(-1); }
-    .corner-svg.br { bottom: 18px; right: 18px; transform: scale(-1); }
+    .corner-svg { position: absolute; z-index: 9; pointer-events: none; width: 52px; height: 52px; }
+    .corner-svg.tl { top: 16px; left: 16px; }
+    .corner-svg.tr { top: 16px; right: 16px; transform: scaleX(-1); }
+    .corner-svg.bl { bottom: 16px; left: 16px; transform: scaleY(-1); }
+    .corner-svg.br { bottom: 16px; right: 16px; transform: scale(-1); }
 
     /* ── Card body ── */
     .card-body {
       position: relative; z-index: 5;
       width: 100%; height: 100%;
       display: flex; flex-direction: column;
-      padding: 56px 76px 44px;
+      padding: 54px 74px 42px;
     }
 
     /* ── Header ── */
     .hdr {
       display: flex; flex-direction: column;
       align-items: center; text-align: center;
-      flex-shrink: 0; margin-bottom: 20px;
+      flex-shrink: 0; margin-bottom: 18px;
     }
-
     .logo-wrap img {
-      height: 62px; width: auto;
-      filter: brightness(0) sepia(1) saturate(0.15) brightness(0.22);
-      opacity: 0.88;
+      height: 58px; width: auto;
+      filter: brightness(0) sepia(1) saturate(0.12) brightness(0.20);
+      opacity: 0.90;
     }
-
     .hdr-top-rule {
-      width: 100%; margin: 13px 0 12px;
-      display: flex; align-items: center; gap: 14px;
+      width: 100%; margin: 13px 0 11px;
+      display: flex; align-items: center; gap: 12px;
     }
     .rule-line {
       flex: 1; height: 1px;
-      background: linear-gradient(to right, transparent, rgba(42,24,16,0.28) 40%, rgba(42,24,16,0.28));
+      background: linear-gradient(to right, transparent, rgba(42,24,16,0.30) 40%, rgba(42,24,16,0.30));
     }
     .rule-line.right {
-      background: linear-gradient(to left, transparent, rgba(42,24,16,0.28) 40%, rgba(42,24,16,0.28));
+      background: linear-gradient(to left, transparent, rgba(42,24,16,0.30) 40%, rgba(42,24,16,0.30));
     }
     .rule-diamond {
       width: 7px; height: 7px; flex-shrink: 0;
-      background: #2A1810; opacity: 0.4;
-      transform: rotate(45deg);
+      background: #2A1810; opacity: 0.38; transform: rotate(45deg);
     }
-
     .hdr-eyebrow {
       font-family: 'Oswald', sans-serif;
-      font-size: 19px; font-weight: 600;
-      letter-spacing: 0.34em; color: #7A5828;
-      text-transform: uppercase; margin-bottom: 2px;
+      font-size: 18px; font-weight: 600;
+      letter-spacing: 0.36em; color: #7A5828;
+      text-transform: uppercase; margin-bottom: 0;
     }
-
     .hdr-title {
       font-family: 'Playfair Display', serif;
-      font-size: 84px; font-weight: 900;
+      font-size: 82px; font-weight: 900;
       color: #2A1810; line-height: 0.92;
       letter-spacing: -0.5px;
     }
-
-    .hdr-subtitle {
-      font-family: 'Playfair Display', serif;
-      font-size: 26px; font-weight: 400; font-style: italic;
-      color: #4A8A84; margin-top: 8px; letter-spacing: 0.01em;
+    .hdr-tag {
+      font-family: 'Oswald', sans-serif;
+      font-size: 16px; font-weight: 500;
+      letter-spacing: 0.28em; color: #4A8A84;
+      text-transform: uppercase; margin-top: 7px;
     }
-
-    /* Anchor divider */
-    .anchor-divider { margin: 14px 0 0; width: 100%; }
-
+    .anchor-divider { margin: 13px 0 0; width: 100%; }
     .week-range {
       font-family: 'Oswald', sans-serif;
-      font-size: 21px; font-weight: 500;
+      font-size: 20px; font-weight: 500;
       color: #7A5828; letter-spacing: 0.14em;
-      text-transform: uppercase; margin-top: 9px;
-      min-height: 26px;
+      text-transform: uppercase; margin-top: 8px;
+      min-height: 25px;
     }
 
     /* ── Days grid ── */
     .days {
       flex: 1; display: flex; flex-direction: column;
-      border-top: 1.5px solid rgba(42,24,16,0.22);
-      border-bottom: 1.5px solid rgba(42,24,16,0.22);
-      overflow: hidden;
-      min-height: 0;
+      border-top: 1.5px solid rgba(42,24,16,0.20);
+      border-bottom: 1.5px solid rgba(42,24,16,0.20);
+      overflow: hidden; min-height: 0;
     }
-
     .day-row {
       display: flex; align-items: stretch;
       flex: 1 1 0; min-height: 0;
-      border-bottom: 1px solid rgba(42,24,16,0.10);
+      border-bottom: 1px solid rgba(42,24,16,0.09);
     }
     .day-row:last-child { border-bottom: none; }
-
-    /* Alternating row tint */
-    .day-row:nth-child(even) .day-fields { background: rgba(42,24,16,0.025); }
-
-    .day-row.weekend .day-pill {
-      background: #3E2415;
-    }
+    .day-row:nth-child(even) .day-fields { background: rgba(42,24,16,0.022); }
+    .day-row.weekend .day-pill { background: #3B2212; }
 
     /* Day pill */
     .day-pill {
-      width: 128px; flex-shrink: 0;
+      width: 126px; flex-shrink: 0;
       background: #2A1810;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      gap: 0;
-      border-right: 2px solid rgba(42,24,16,0.15);
       position: relative;
     }
-
-    /* Small teal accent line on pill */
     .day-pill::after {
       content: '';
       position: absolute;
-      left: 0; top: 20%; bottom: 20%;
-      width: 3px;
-      background: #4A8A84;
-      opacity: 0.55;
+      left: 0; top: 22%; bottom: 22%;
+      width: 3px; background: #4A8A84; opacity: 0.5;
       border-radius: 0 2px 2px 0;
     }
-
     .day-name {
       font-family: 'Oswald', sans-serif;
-      font-size: 30px; font-weight: 700;
-      letter-spacing: 0.08em; color: #EFE4C6;
+      font-size: 29px; font-weight: 700;
+      letter-spacing: 0.09em; color: #EDE0C0;
       text-transform: uppercase; line-height: 1;
     }
 
-    /* Day fields area */
+    /* Day fields */
     .day-fields {
       flex: 1; display: flex; flex-direction: column;
       justify-content: center; min-width: 0;
-      padding: 8px 28px 8px 22px; gap: 4px;
-      transition: background 0.1s;
+      padding: 7px 26px 7px 20px; gap: 3px;
     }
-
-    .event-line {
-      display: flex; align-items: center; gap: 0;
-    }
-    .event-sep {
-      height: 1px; background: rgba(42,24,16,0.08); margin: 3px 0;
-    }
+    .event-line { display: flex; align-items: center; gap: 0; }
+    .event-sep { height: 1px; background: rgba(42,24,16,0.08); margin: 3px 0; }
 
     .field-group {
       flex: 1; min-width: 0;
       display: flex; flex-direction: column; gap: 1px;
     }
     .field-group.time-group {
-      flex: 0 0 228px; padding-left: 20px;
-      border-left: 1px solid rgba(42,24,16,0.10);
+      flex: 0 0 224px; padding-left: 18px;
+      border-left: 1px solid rgba(42,24,16,0.09);
     }
-
     .field-lbl {
       font-family: 'Oswald', sans-serif;
       font-size: 10px; font-weight: 600;
-      letter-spacing: 0.26em; text-transform: uppercase;
-      color: #7A5828; opacity: 0.65;
-      user-select: none;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: #7A5828; opacity: 0.60; user-select: none;
     }
-
     .field-val {
       font-family: 'Playfair Display', serif;
       font-size: 27px; font-weight: 700;
       color: #2A1810; outline: none; border: none;
-      border-bottom: 1px dashed rgba(42,24,16,0.16);
-      padding-bottom: 1px; min-height: 31px;
+      border-bottom: 1px dashed rgba(42,24,16,0.14);
+      padding-bottom: 1px; min-height: 30px;
       letter-spacing: 0.005em; line-height: 1.18;
-      white-space: nowrap; overflow: hidden;
-      background: transparent;
+      white-space: nowrap; overflow: hidden; background: transparent;
       transition: border-color 0.15s;
     }
     .field-val.time {
@@ -292,42 +255,32 @@
       font-size: 22px; font-weight: 600;
       color: #4A8A84; letter-spacing: 0.04em;
     }
-    .field-val:focus { border-bottom-color: rgba(74,138,132,0.50); }
+    .field-val:focus { border-bottom-color: rgba(74,138,132,0.48); }
 
     /* ── Footer ── */
     .footer {
-      flex-shrink: 0;
-      margin-top: 16px;
-      display: flex; flex-direction: column; align-items: center; gap: 9px;
+      flex-shrink: 0; margin-top: 14px;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
     }
-    .footer-rule {
-      width: 100%; display: flex; align-items: center; gap: 12px;
-    }
+    .footer-rule { width: 100%; display: flex; align-items: center; gap: 12px; }
     .footer-rule-line {
       flex: 1; height: 1px;
-      background: linear-gradient(to right, transparent, rgba(42,24,16,0.25) 30%, rgba(42,24,16,0.25));
+      background: linear-gradient(to right, transparent, rgba(42,24,16,0.24) 30%, rgba(42,24,16,0.24));
     }
     .footer-rule-line.right {
-      background: linear-gradient(to left, transparent, rgba(42,24,16,0.25) 30%, rgba(42,24,16,0.25));
+      background: linear-gradient(to left, transparent, rgba(42,24,16,0.24) 30%, rgba(42,24,16,0.24));
     }
-    .footer-rule-icon {
-      font-size: 14px; color: rgba(42,24,16,0.35); line-height: 1;
-    }
-
-    .footer-inner {
-      display: flex; align-items: center; gap: 14px;
-    }
+    .footer-inner { display: flex; align-items: center; gap: 14px; }
     .footer-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(42,24,16,0.28); }
     .footer-handle {
       font-family: 'Oswald', sans-serif;
-      font-size: 24px; font-weight: 700;
+      font-size: 23px; font-weight: 700;
       color: #4A8A84; letter-spacing: 0.04em;
     }
     .footer-text {
       font-family: 'Oswald', sans-serif;
-      font-size: 20px; font-weight: 500;
-      color: rgba(42,24,16,0.40); letter-spacing: 0.06em;
-      text-transform: uppercase;
+      font-size: 19px; font-weight: 500;
+      color: rgba(42,24,16,0.38); letter-spacing: 0.06em; text-transform: uppercase;
     }
   </style>
 </head>
@@ -358,55 +311,203 @@
 
       <!-- Parchment layers -->
       <div class="parchment-layer"></div>
-      <div class="stripe-layer"></div>
       <div class="vignette"></div>
 
-      <!-- Double border + inner ring via box-shadow -->
+      <!-- ══════════════════════════════════════════
+           CITROËN HY VAN — FRONT VIEW ILLUSTRATION
+           Drawn as a vintage etching/block-print style
+      ══════════════════════════════════════════ -->
+      <div class="van-bg">
+        <svg viewBox="0 0 1080 760" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <g fill="#2A1810" stroke="#2A1810" stroke-linecap="round" stroke-linejoin="round">
+
+            <!-- ── Roof rack / gutter ── -->
+            <rect x="52" y="52" width="976" height="28" rx="7" stroke="none"/>
+            <!-- Roof rack rails -->
+            <line x1="80" y1="52" x2="80" y2="80" stroke-width="5" stroke="none"/>
+            <line x1="300" y1="52" x2="300" y2="80" stroke-width="5" stroke="none"/>
+            <line x1="540" y1="52" x2="540" y2="80" stroke-width="5" stroke="none"/>
+            <line x1="780" y1="52" x2="780" y2="80" stroke-width="5" stroke="none"/>
+            <line x1="1000" y1="52" x2="1000" y2="80" stroke-width="5" stroke="none"/>
+
+            <!-- ── Main body silhouette outline ── -->
+            <rect x="66" y="78" width="948" height="592" rx="10" fill="none" stroke-width="9"/>
+
+            <!-- ── Windshield zone structural elements (filled dark) ── -->
+            <!-- Top body rail -->
+            <rect x="66" y="78" width="948" height="26" rx="0" stroke="none"/>
+            <!-- Dashboard / cowl rail at bottom of windshield -->
+            <rect x="66" y="310" width="948" height="26" rx="0" stroke="none"/>
+            <!-- Left A-pillar (solid, tapers slightly) -->
+            <path d="M66,78 L66,336 L180,336 L172,78 Z" stroke="none"/>
+            <!-- Right A-pillar -->
+            <path d="M1014,78 L1014,336 L900,336 L908,78 Z" stroke="none"/>
+            <!-- CENTER PILLAR — the most iconic HY feature, wide & bold -->
+            <rect x="488" y="78" width="104" height="258" rx="0" stroke="none"/>
+
+            <!-- ── Windshield glass (stroke outlines only — shows parchment through) ── -->
+            <!-- Left pane -->
+            <rect x="180" y="104" width="308" height="206" rx="4" fill="rgba(237,224,192,0.18)" stroke-width="6"/>
+            <!-- Right pane -->
+            <rect x="592" y="104" width="308" height="206" rx="4" fill="rgba(237,224,192,0.18)" stroke-width="6"/>
+
+            <!-- ── Windshield wipers (subtle) ── -->
+            <line x1="188" y1="308" x2="450" y2="194" stroke-width="5" opacity="0.28"/>
+            <line x1="892" y1="308" x2="630" y2="194" stroke-width="5" opacity="0.28"/>
+
+            <!-- ── Front face: lower panel (between A-pillars and headlights) ── -->
+            <!-- Corrugated-style horizontal ribs on the lower front face sides -->
+            <!-- Left panel ribs (between left edge and grille) -->
+            <line x1="74" y1="375" x2="276" y2="375" stroke-width="5" opacity="0.32"/>
+            <line x1="74" y1="403" x2="276" y2="403" stroke-width="5" opacity="0.32"/>
+            <line x1="74" y1="431" x2="276" y2="431" stroke-width="5" opacity="0.32"/>
+            <line x1="74" y1="459" x2="276" y2="459" stroke-width="5" opacity="0.32"/>
+            <line x1="74" y1="487" x2="276" y2="487" stroke-width="5" opacity="0.32"/>
+            <line x1="74" y1="515" x2="276" y2="515" stroke-width="5" opacity="0.32"/>
+            <!-- Right panel ribs -->
+            <line x1="804" y1="375" x2="1006" y2="375" stroke-width="5" opacity="0.32"/>
+            <line x1="804" y1="403" x2="1006" y2="403" stroke-width="5" opacity="0.32"/>
+            <line x1="804" y1="431" x2="1006" y2="431" stroke-width="5" opacity="0.32"/>
+            <line x1="804" y1="459" x2="1006" y2="459" stroke-width="5" opacity="0.32"/>
+            <line x1="804" y1="487" x2="1006" y2="487" stroke-width="5" opacity="0.32"/>
+            <line x1="804" y1="515" x2="1006" y2="515" stroke-width="5" opacity="0.32"/>
+
+            <!-- ── HEADLIGHTS ── -->
+            <!-- Left headlight — outer chrome ring -->
+            <circle cx="176" cy="450" r="82" fill="none" stroke-width="9"/>
+            <!-- Left headlight — reflector dish -->
+            <circle cx="176" cy="450" r="64" fill="#2A1810" stroke="none"/>
+            <!-- Left headlight — lens ring -->
+            <circle cx="176" cy="450" r="44" fill="none" stroke-width="5" opacity="0.55"/>
+            <!-- Left headlight — center bulb -->
+            <circle cx="176" cy="450" r="22" fill="none" stroke-width="4" opacity="0.40"/>
+            <!-- Left headlight — specular glint -->
+            <circle cx="194" cy="428" r="14" fill="rgba(237,224,192,0.22)" stroke="none"/>
+
+            <!-- Right headlight — outer chrome ring -->
+            <circle cx="904" cy="450" r="82" fill="none" stroke-width="9"/>
+            <!-- Right headlight — reflector dish -->
+            <circle cx="904" cy="450" r="64" fill="#2A1810" stroke="none"/>
+            <!-- Right headlight — lens ring -->
+            <circle cx="904" cy="450" r="44" fill="none" stroke-width="5" opacity="0.55"/>
+            <!-- Right headlight — center bulb -->
+            <circle cx="904" cy="450" r="22" fill="none" stroke-width="4" opacity="0.40"/>
+            <!-- Right headlight — specular glint -->
+            <circle cx="886" cy="428" r="14" fill="rgba(237,224,192,0.22)" stroke="none"/>
+
+            <!-- ── FRONT GRILLE ── -->
+            <!-- Grille housing/panel outline -->
+            <rect x="286" y="350" width="508" height="190" rx="8" fill="rgba(237,224,192,0.06)" stroke-width="7"/>
+            <!-- Grille horizontal slats — the most recognizable detail after the windshield -->
+            <line x1="296" y1="380" x2="786" y2="380" stroke-width="7" stroke-linecap="square"/>
+            <line x1="296" y1="410" x2="786" y2="410" stroke-width="7" stroke-linecap="square"/>
+            <line x1="296" y1="440" x2="786" y2="440" stroke-width="7" stroke-linecap="square"/>
+            <line x1="296" y1="470" x2="786" y2="470" stroke-width="7" stroke-linecap="square"/>
+            <line x1="296" y1="500" x2="786" y2="500" stroke-width="7" stroke-linecap="square"/>
+            <line x1="296" y1="528" x2="786" y2="528" stroke-width="7" stroke-linecap="square"/>
+            <!-- Grille vertical cross members (subtle) -->
+            <line x1="400" y1="356" x2="400" y2="534" stroke-width="3" opacity="0.35"/>
+            <line x1="540" y1="356" x2="540" y2="534" stroke-width="3" opacity="0.35"/>
+            <line x1="680" y1="356" x2="680" y2="534" stroke-width="3" opacity="0.35"/>
+
+            <!-- ── Hood / bonnet crease line ── -->
+            <line x1="70" y1="348" x2="1010" y2="348" stroke-width="4" opacity="0.22"/>
+
+            <!-- ── Lower body step / skirt ── -->
+            <line x1="66" y1="558" x2="1014" y2="558" stroke-width="5" opacity="0.40"/>
+
+            <!-- ── BUMPER ── -->
+            <!-- Bumper upper bar -->
+            <rect x="46" y="568" width="988" height="34" rx="10" stroke="none"/>
+            <!-- Bumper lower strip (thinner, slightly wider) -->
+            <rect x="32" y="600" width="1016" height="18" rx="7" stroke="none"/>
+            <!-- Tow hook / license plate recess -->
+            <rect x="448" y="576" width="184" height="20" rx="3" fill="rgba(237,224,192,0.18)" stroke="none"/>
+            <!-- License plate text hint (decorative dashes) -->
+            <line x1="462" y1="586" x2="624" y2="586" stroke-width="2.5" stroke="rgba(237,224,192,0.30)"/>
+
+            <!-- ── Undercarriage ── -->
+            <rect x="90" y="618" width="900" height="14" rx="5" stroke="none" opacity="0.50"/>
+
+            <!-- ── Wheel arch hints (bottom corners) ── -->
+            <path d="M66,670 C66,640 96,618 132,618" fill="none" stroke-width="9" opacity="0.45"/>
+            <path d="M1014,670 C1014,640 984,618 948,618" fill="none" stroke-width="9" opacity="0.45"/>
+
+            <!-- ── SIDE MIRRORS ── -->
+            <!-- Left mirror — arm -->
+            <path d="M66,218 L28,212 L20,252 L66,258" stroke="none"/>
+            <!-- Left mirror — glass -->
+            <rect x="12" y="218" width="22" height="30" rx="4" stroke="none" opacity="0.88"/>
+            <!-- Right mirror — arm -->
+            <path d="M1014,218 L1052,212 L1060,252 L1014,258" stroke="none"/>
+            <!-- Right mirror — glass -->
+            <rect x="1046" y="218" width="22" height="30" rx="4" stroke="none" opacity="0.88"/>
+
+            <!-- ── Turn signals / indicators (lower corners of front face) ── -->
+            <rect x="68" y="540" width="192" height="22" rx="4" stroke="none" opacity="0.45"/>
+            <rect x="820" y="540" width="192" height="22" rx="4" stroke="none" opacity="0.45"/>
+
+            <!-- ── Serving window awning hint (right side, slightly visible) ── -->
+            <!-- This gives it the "coffee truck" identity beyond just the van shape -->
+            <path d="M1014,200 L1060,200 L1070,280 L1014,280" stroke="none" opacity="0.30"/>
+            <!-- Awning stripes -->
+            <line x1="1014" y1="220" x2="1065" y2="223" stroke-width="5" opacity="0.20"/>
+            <line x1="1014" y1="240" x2="1064" y2="244" stroke-width="5" opacity="0.20"/>
+            <line x1="1014" y1="260" x2="1063" y2="265" stroke-width="5" opacity="0.20"/>
+
+            <!-- ── "COMMON TIDES" lettering ghost on lower front body ── -->
+            <!-- Decorative band across the lower face suggesting branding -->
+            <rect x="290" y="564" width="500" height="6" rx="2" stroke="none" opacity="0.20"/>
+
+          </g>
+        </svg>
+      </div>
+
+      <!-- Double border + inner ring -->
       <div class="frame-outer"></div>
 
       <!-- Corner ornaments -->
-      <svg class="corner-svg tl" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-        <path d="M6,42 L6,6 L42,6" stroke="#2A1810" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
-        <line x1="6" y1="22" x2="12" y2="16" stroke="#2A1810" stroke-width="1.2" opacity="0.28"/>
-        <line x1="6" y1="32" x2="18" y2="20" stroke="#2A1810" stroke-width="0.8" opacity="0.16"/>
-        <line x1="22" y1="6" x2="16" y2="12" stroke="#2A1810" stroke-width="1.2" opacity="0.28"/>
-        <line x1="32" y1="6" x2="20" y2="18" stroke="#2A1810" stroke-width="0.8" opacity="0.16"/>
-        <circle cx="6" cy="6" r="3.5" fill="#2A1810" opacity="0.50"/>
-        <circle cx="6" cy="6" r="1.5" fill="#4A8A84" opacity="0.60"/>
+      <svg class="corner-svg tl" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7,46 L7,7 L46,7" stroke="#2A1810" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.52"/>
+        <line x1="7" y1="24" x2="14" y2="17" stroke="#2A1810" stroke-width="1.4" opacity="0.28"/>
+        <line x1="7" y1="36" x2="20" y2="23" stroke="#2A1810" stroke-width="0.9" opacity="0.16"/>
+        <line x1="24" y1="7" x2="17" y2="14" stroke="#2A1810" stroke-width="1.4" opacity="0.28"/>
+        <line x1="36" y1="7" x2="23" y2="20" stroke="#2A1810" stroke-width="0.9" opacity="0.16"/>
+        <circle cx="7" cy="7" r="3.8" fill="#2A1810" opacity="0.48"/>
+        <circle cx="7" cy="7" r="1.6" fill="#4A8A84" opacity="0.62"/>
       </svg>
-      <svg class="corner-svg tr" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-        <path d="M6,42 L6,6 L42,6" stroke="#2A1810" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
-        <line x1="6" y1="22" x2="12" y2="16" stroke="#2A1810" stroke-width="1.2" opacity="0.28"/>
-        <line x1="6" y1="32" x2="18" y2="20" stroke="#2A1810" stroke-width="0.8" opacity="0.16"/>
-        <line x1="22" y1="6" x2="16" y2="12" stroke="#2A1810" stroke-width="1.2" opacity="0.28"/>
-        <line x1="32" y1="6" x2="20" y2="18" stroke="#2A1810" stroke-width="0.8" opacity="0.16"/>
-        <circle cx="6" cy="6" r="3.5" fill="#2A1810" opacity="0.50"/>
-        <circle cx="6" cy="6" r="1.5" fill="#4A8A84" opacity="0.60"/>
+      <svg class="corner-svg tr" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7,46 L7,7 L46,7" stroke="#2A1810" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.52"/>
+        <line x1="7" y1="24" x2="14" y2="17" stroke="#2A1810" stroke-width="1.4" opacity="0.28"/>
+        <line x1="7" y1="36" x2="20" y2="23" stroke="#2A1810" stroke-width="0.9" opacity="0.16"/>
+        <line x1="24" y1="7" x2="17" y2="14" stroke="#2A1810" stroke-width="1.4" opacity="0.28"/>
+        <line x1="36" y1="7" x2="23" y2="20" stroke="#2A1810" stroke-width="0.9" opacity="0.16"/>
+        <circle cx="7" cy="7" r="3.8" fill="#2A1810" opacity="0.48"/>
+        <circle cx="7" cy="7" r="1.6" fill="#4A8A84" opacity="0.62"/>
       </svg>
-      <svg class="corner-svg bl" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-        <path d="M6,42 L6,6 L42,6" stroke="#2A1810" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
-        <line x1="6" y1="22" x2="12" y2="16" stroke="#2A1810" stroke-width="1.2" opacity="0.28"/>
-        <line x1="6" y1="32" x2="18" y2="20" stroke="#2A1810" stroke-width="0.8" opacity="0.16"/>
-        <line x1="22" y1="6" x2="16" y2="12" stroke="#2A1810" stroke-width="1.2" opacity="0.28"/>
-        <line x1="32" y1="6" x2="20" y2="18" stroke="#2A1810" stroke-width="0.8" opacity="0.16"/>
-        <circle cx="6" cy="6" r="3.5" fill="#2A1810" opacity="0.50"/>
-        <circle cx="6" cy="6" r="1.5" fill="#4A8A84" opacity="0.60"/>
+      <svg class="corner-svg bl" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7,46 L7,7 L46,7" stroke="#2A1810" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.52"/>
+        <line x1="7" y1="24" x2="14" y2="17" stroke="#2A1810" stroke-width="1.4" opacity="0.28"/>
+        <line x1="7" y1="36" x2="20" y2="23" stroke="#2A1810" stroke-width="0.9" opacity="0.16"/>
+        <line x1="24" y1="7" x2="17" y2="14" stroke="#2A1810" stroke-width="1.4" opacity="0.28"/>
+        <line x1="36" y1="7" x2="23" y2="20" stroke="#2A1810" stroke-width="0.9" opacity="0.16"/>
+        <circle cx="7" cy="7" r="3.8" fill="#2A1810" opacity="0.48"/>
+        <circle cx="7" cy="7" r="1.6" fill="#4A8A84" opacity="0.62"/>
       </svg>
-      <svg class="corner-svg br" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-        <path d="M6,42 L6,6 L42,6" stroke="#2A1810" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
-        <line x1="6" y1="22" x2="12" y2="16" stroke="#2A1810" stroke-width="1.2" opacity="0.28"/>
-        <line x1="6" y1="32" x2="18" y2="20" stroke="#2A1810" stroke-width="0.8" opacity="0.16"/>
-        <line x1="22" y1="6" x2="16" y2="12" stroke="#2A1810" stroke-width="1.2" opacity="0.28"/>
-        <line x1="32" y1="6" x2="20" y2="18" stroke="#2A1810" stroke-width="0.8" opacity="0.16"/>
-        <circle cx="6" cy="6" r="3.5" fill="#2A1810" opacity="0.50"/>
-        <circle cx="6" cy="6" r="1.5" fill="#4A8A84" opacity="0.60"/>
+      <svg class="corner-svg br" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7,46 L7,7 L46,7" stroke="#2A1810" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.52"/>
+        <line x1="7" y1="24" x2="14" y2="17" stroke="#2A1810" stroke-width="1.4" opacity="0.28"/>
+        <line x1="7" y1="36" x2="20" y2="23" stroke="#2A1810" stroke-width="0.9" opacity="0.16"/>
+        <line x1="24" y1="7" x2="17" y2="14" stroke="#2A1810" stroke-width="1.4" opacity="0.28"/>
+        <line x1="36" y1="7" x2="23" y2="20" stroke="#2A1810" stroke-width="0.9" opacity="0.16"/>
+        <circle cx="7" cy="7" r="3.8" fill="#2A1810" opacity="0.48"/>
+        <circle cx="7" cy="7" r="1.6" fill="#4A8A84" opacity="0.62"/>
       </svg>
 
-      <!-- Card content -->
+      <!-- ══ CARD CONTENT ══ -->
       <div class="card-body">
 
         <div class="hdr">
-
           <div class="logo-wrap">
             <img id="logoImg" src="https://raw.githubusercontent.com/commontidescoffee/images/main/logo-03.png" alt="Common Tides Coffee" crossorigin="anonymous">
           </div>
@@ -414,40 +515,32 @@
           <div class="hdr-top-rule">
             <div class="rule-line"></div>
             <div class="rule-diamond"></div>
-            <div class="rule-diamond" style="opacity:0.22;width:5px;height:5px;"></div>
+            <div class="rule-diamond" style="opacity:0.20;width:5px;height:5px;"></div>
             <div class="rule-diamond"></div>
             <div class="rule-line right"></div>
           </div>
 
           <p class="hdr-eyebrow">Find Us This Week</p>
           <h1 class="hdr-title">Weekly Schedule</h1>
-          <p class="hdr-subtitle">Wilmington, North Carolina</p>
+          <p class="hdr-tag">Mobile Coffee Trailer &nbsp;·&nbsp; Wilmington, NC</p>
 
-          <!-- Anchor ornament divider -->
+          <!-- Anchor + wave divider -->
           <svg class="anchor-divider" viewBox="0 0 928 32" height="32" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-            <!-- Left side wave + rule -->
-            <line x1="0" y1="16" x2="330" y2="16" stroke="#2A1810" stroke-width="0.7" opacity="0.22"/>
-            <path d="M330,16 C342,10 352,22 364,16 C376,10 386,22 398,16 C410,10 420,22 432,16" stroke="#4A8A84" stroke-width="1.6" fill="none" opacity="0.55" stroke-linecap="round"/>
-
-            <!-- Anchor at center (cx=464) -->
-            <g transform="translate(464,16)" opacity="0.72">
-              <!-- Ring -->
-              <circle cx="0" cy="-9" r="4.5" stroke="#2A1810" stroke-width="1.8" fill="none"/>
-              <line x1="-10" y1="0" x2="10" y2="0" stroke="#2A1810" stroke-width="1.8" stroke-linecap="round"/>
-              <line x1="0" y1="-4.5" x2="0" y2="10" stroke="#2A1810" stroke-width="1.8" stroke-linecap="round"/>
-              <!-- Flukes -->
-              <path d="M-10,0 C-12,5 -10,11 0,12" stroke="#2A1810" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-              <path d="M10,0 C12,5 10,11 0,12" stroke="#2A1810" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-              <!-- Fluke tips -->
-              <line x1="-13" y1="9" x2="-7" y2="9" stroke="#2A1810" stroke-width="1.6" stroke-linecap="round"/>
-              <line x1="7" y1="9" x2="13" y2="9" stroke="#2A1810" stroke-width="1.6" stroke-linecap="round"/>
-              <!-- Small teal dot on ring -->
-              <circle cx="0" cy="-9" r="1.8" fill="#4A8A84" opacity="0.8"/>
+            <line x1="0" y1="16" x2="326" y2="16" stroke="#2A1810" stroke-width="0.8" opacity="0.22"/>
+            <path d="M326,16 C338,10 348,22 360,16 C372,10 382,22 394,16 C406,10 416,22 428,16" stroke="#4A8A84" stroke-width="1.7" fill="none" opacity="0.55" stroke-linecap="round"/>
+            <!-- Anchor -->
+            <g transform="translate(464,16)" opacity="0.70">
+              <circle cx="0" cy="-9" r="4.5" stroke="#2A1810" stroke-width="1.9" fill="none"/>
+              <line x1="-11" y1="0" x2="11" y2="0" stroke="#2A1810" stroke-width="1.9" stroke-linecap="round"/>
+              <line x1="0" y1="-4.5" x2="0" y2="11" stroke="#2A1810" stroke-width="1.9" stroke-linecap="round"/>
+              <path d="M-11,0 C-13,6 -11,12 0,13" stroke="#2A1810" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+              <path d="M11,0 C13,6 11,12 0,13" stroke="#2A1810" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+              <line x1="-14" y1="10" x2="-8" y2="10" stroke="#2A1810" stroke-width="1.7" stroke-linecap="round"/>
+              <line x1="8" y1="10" x2="14" y2="10" stroke="#2A1810" stroke-width="1.7" stroke-linecap="round"/>
+              <circle cx="0" cy="-9" r="2" fill="#4A8A84" opacity="0.85"/>
             </g>
-
-            <!-- Right side wave + rule -->
-            <path d="M496,16 C508,10 518,22 530,16 C542,10 552,22 564,16 C576,10 586,22 598,16" stroke="#4A8A84" stroke-width="1.6" fill="none" opacity="0.55" stroke-linecap="round"/>
-            <line x1="598" y1="16" x2="928" y2="16" stroke="#2A1810" stroke-width="0.7" opacity="0.22"/>
+            <path d="M500,16 C512,10 522,22 534,16 C546,10 556,22 568,16 C580,10 590,22 602,16" stroke="#4A8A84" stroke-width="1.7" fill="none" opacity="0.55" stroke-linecap="round"/>
+            <line x1="602" y1="16" x2="928" y2="16" stroke="#2A1810" stroke-width="0.8" opacity="0.22"/>
           </svg>
 
           <p class="week-range" id="weekRange"></p>
@@ -460,14 +553,8 @@
             <div class="day-pill"><span class="day-name">Mon</span></div>
             <div class="day-fields">
               <div class="event-line">
-                <div class="field-group">
-                  <div class="field-lbl">Location</div>
-                  <div class="field-val loc" contenteditable="true"></div>
-                </div>
-                <div class="field-group time-group">
-                  <div class="field-lbl">Time</div>
-                  <div class="field-val time" contenteditable="true"></div>
-                </div>
+                <div class="field-group"><div class="field-lbl">Location</div><div class="field-val loc" contenteditable="true"></div></div>
+                <div class="field-group time-group"><div class="field-lbl">Time</div><div class="field-val time" contenteditable="true"></div></div>
               </div>
             </div>
           </div>
@@ -476,14 +563,8 @@
             <div class="day-pill"><span class="day-name">Tue</span></div>
             <div class="day-fields">
               <div class="event-line">
-                <div class="field-group">
-                  <div class="field-lbl">Location</div>
-                  <div class="field-val loc" contenteditable="true"></div>
-                </div>
-                <div class="field-group time-group">
-                  <div class="field-lbl">Time</div>
-                  <div class="field-val time" contenteditable="true"></div>
-                </div>
+                <div class="field-group"><div class="field-lbl">Location</div><div class="field-val loc" contenteditable="true"></div></div>
+                <div class="field-group time-group"><div class="field-lbl">Time</div><div class="field-val time" contenteditable="true"></div></div>
               </div>
             </div>
           </div>
@@ -492,14 +573,8 @@
             <div class="day-pill"><span class="day-name">Wed</span></div>
             <div class="day-fields">
               <div class="event-line">
-                <div class="field-group">
-                  <div class="field-lbl">Location</div>
-                  <div class="field-val loc" contenteditable="true"></div>
-                </div>
-                <div class="field-group time-group">
-                  <div class="field-lbl">Time</div>
-                  <div class="field-val time" contenteditable="true"></div>
-                </div>
+                <div class="field-group"><div class="field-lbl">Location</div><div class="field-val loc" contenteditable="true"></div></div>
+                <div class="field-group time-group"><div class="field-lbl">Time</div><div class="field-val time" contenteditable="true"></div></div>
               </div>
             </div>
           </div>
@@ -508,14 +583,8 @@
             <div class="day-pill"><span class="day-name">Thu</span></div>
             <div class="day-fields">
               <div class="event-line">
-                <div class="field-group">
-                  <div class="field-lbl">Location</div>
-                  <div class="field-val loc" contenteditable="true"></div>
-                </div>
-                <div class="field-group time-group">
-                  <div class="field-lbl">Time</div>
-                  <div class="field-val time" contenteditable="true"></div>
-                </div>
+                <div class="field-group"><div class="field-lbl">Location</div><div class="field-val loc" contenteditable="true"></div></div>
+                <div class="field-group time-group"><div class="field-lbl">Time</div><div class="field-val time" contenteditable="true"></div></div>
               </div>
             </div>
           </div>
@@ -524,14 +593,8 @@
             <div class="day-pill"><span class="day-name">Fri</span></div>
             <div class="day-fields">
               <div class="event-line">
-                <div class="field-group">
-                  <div class="field-lbl">Location</div>
-                  <div class="field-val loc" contenteditable="true"></div>
-                </div>
-                <div class="field-group time-group">
-                  <div class="field-lbl">Time</div>
-                  <div class="field-val time" contenteditable="true"></div>
-                </div>
+                <div class="field-group"><div class="field-lbl">Location</div><div class="field-val loc" contenteditable="true"></div></div>
+                <div class="field-group time-group"><div class="field-lbl">Time</div><div class="field-val time" contenteditable="true"></div></div>
               </div>
             </div>
           </div>
@@ -540,14 +603,8 @@
             <div class="day-pill"><span class="day-name">Sat</span></div>
             <div class="day-fields">
               <div class="event-line">
-                <div class="field-group">
-                  <div class="field-lbl">Location</div>
-                  <div class="field-val loc" contenteditable="true"></div>
-                </div>
-                <div class="field-group time-group">
-                  <div class="field-lbl">Time</div>
-                  <div class="field-val time" contenteditable="true"></div>
-                </div>
+                <div class="field-group"><div class="field-lbl">Location</div><div class="field-val loc" contenteditable="true"></div></div>
+                <div class="field-group time-group"><div class="field-lbl">Time</div><div class="field-val time" contenteditable="true"></div></div>
               </div>
             </div>
           </div>
@@ -556,14 +613,8 @@
             <div class="day-pill"><span class="day-name">Sun</span></div>
             <div class="day-fields">
               <div class="event-line">
-                <div class="field-group">
-                  <div class="field-lbl">Location</div>
-                  <div class="field-val loc" contenteditable="true"></div>
-                </div>
-                <div class="field-group time-group">
-                  <div class="field-lbl">Time</div>
-                  <div class="field-val time" contenteditable="true"></div>
-                </div>
+                <div class="field-group"><div class="field-lbl">Location</div><div class="field-val loc" contenteditable="true"></div></div>
+                <div class="field-group time-group"><div class="field-lbl">Time</div><div class="field-val time" contenteditable="true"></div></div>
               </div>
             </div>
           </div>
@@ -573,8 +624,8 @@
         <div class="footer">
           <div class="footer-rule">
             <div class="footer-rule-line"></div>
-            <svg width="20" height="14" viewBox="0 0 20 14" class="footer-rule-icon" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0,7 C3,3 7,11 10,7 C13,3 17,11 20,7" stroke="rgba(42,24,16,0.30)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+            <svg width="22" height="14" viewBox="0 0 22 14" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0,7 C3.5,2.5 7.5,11.5 11,7 C14.5,2.5 18.5,11.5 22,7" stroke="rgba(42,24,16,0.28)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
             </svg>
             <div class="footer-rule-line right"></div>
           </div>
@@ -594,14 +645,9 @@
   <script>
     const CALENDAR_ID = 'e5d97565d2e53eae215c9b87e2a193617d2f7e019de3c8e6ccb3be0f2ac6ee27@group.calendar.google.com'
     const API_KEY     = 'AIzaSyCSiXr9WwISuQJlIQtdSZ3xEPQsTkv_etY'
-
     let weekOffset = 0
 
-    function shiftWeek(dir) {
-      weekOffset += dir
-      updateWeekPickerLabel()
-      loadCalendar()
-    }
+    function shiftWeek(dir) { weekOffset += dir; updateWeekPickerLabel(); loadCalendar() }
 
     function updateWeekPickerLabel() {
       const el = document.getElementById('weekPickerLabel')
@@ -612,14 +658,13 @@
     }
 
     function getWeekBounds() {
-      const today = new Date()
-      const dow = today.getDay()
+      const today = new Date(), dow = today.getDay()
       const monday = new Date(today)
       monday.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1) + weekOffset * 7)
-      monday.setHours(0, 0, 0, 0)
+      monday.setHours(0,0,0,0)
       const sunday = new Date(monday)
       sunday.setDate(monday.getDate() + 6)
-      sunday.setHours(23, 59, 59, 999)
+      sunday.setHours(23,59,59,999)
       return { monday, sunday }
     }
 
@@ -633,27 +678,21 @@
 
     function fmtWeekLabel(monday, sunday) {
       const opts = { month: 'short', day: 'numeric' }
-      const s = monday.toLocaleDateString('en-US', opts)
-      const e = sunday.toLocaleDateString('en-US', { ...opts, year: 'numeric' })
-      return `${s} – ${e}`
+      return `${monday.toLocaleDateString('en-US', opts)} – ${sunday.toLocaleDateString('en-US', { ...opts, year: 'numeric' })}`
     }
 
     function setStatus(msg, type) {
       const el = document.getElementById('calStatus')
-      el.textContent = msg
-      el.className = type
+      el.textContent = msg; el.className = type
     }
 
     function escHtml(str) {
-      return String(str)
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
     }
 
     async function loadCalendar() {
       const { monday, sunday } = getWeekBounds()
       setStatus('Loading from Google Calendar…', 'loading')
-
       const url = new URL(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CALENDAR_ID)}/events`)
       url.searchParams.set('key', API_KEY)
       url.searchParams.set('timeMin', monday.toISOString())
@@ -663,123 +702,92 @@
       url.searchParams.set('maxResults', '50')
 
       try {
-        const res = await fetch(url)
-        const data = await res.json()
-
+        const res = await fetch(url), data = await res.json()
         if (!res.ok) {
-          if (res.status === 403) {
-            setStatus('API key not authorized for this domain. In Google Cloud Console → Credentials, add "commontidescoffee.github.io/*" to the API key\'s allowed referrers.', 'error')
-          } else {
-            setStatus(`Calendar error: ${data.error?.message || res.status}`, 'error')
-          }
+          setStatus(res.status === 403
+            ? 'API key not authorized. Add "commontidescoffee.github.io/*" to allowed referrers in Google Cloud Console.'
+            : `Calendar error: ${data.error?.message || res.status}`, 'error')
           return
         }
 
         document.querySelectorAll('.day-row').forEach(row => {
           row.querySelector('.day-fields').innerHTML = `
             <div class="event-line">
-              <div class="field-group">
-                <div class="field-lbl">Location</div>
-                <div class="field-val loc" contenteditable="true"></div>
-              </div>
-              <div class="field-group time-group">
-                <div class="field-lbl">Time</div>
-                <div class="field-val time" contenteditable="true"></div>
-              </div>
+              <div class="field-group"><div class="field-lbl">Location</div><div class="field-val loc" contenteditable="true"></div></div>
+              <div class="field-group time-group"><div class="field-lbl">Time</div><div class="field-val time" contenteditable="true"></div></div>
             </div>`
         })
 
         const events = data.items || []
 
-        function parseDayNum(startStr) {
-          if (!startStr) return null
-          if (startStr.length === 10) {
-            const [y, m, d] = startStr.split('-').map(Number)
-            return new Date(y, m - 1, d).getDay()
-          }
-          return new Date(startStr).getDay()
+        function parseDayNum(s) {
+          if (!s) return null
+          if (s.length === 10) { const [y,m,d] = s.split('-').map(Number); return new Date(y,m-1,d).getDay() }
+          return new Date(s).getDay()
         }
 
         const byDay = {}
         events.forEach(ev => {
-          const startStr = ev.start?.dateTime || ev.start?.date
-          const dayNum = parseDayNum(startStr)
-          if (dayNum === null) return
-          if (!byDay[dayNum]) byDay[dayNum] = []
-          byDay[dayNum].push(ev)
+          const s = ev.start?.dateTime || ev.start?.date
+          const n = parseDayNum(s)
+          if (n === null) return
+          if (!byDay[n]) byDay[n] = []
+          byDay[n].push(ev)
         })
 
         Object.entries(byDay).forEach(([dayNum, evs]) => {
           const row = document.querySelector(`.day-row[data-day="${dayNum}"]`)
           if (!row) return
           const fields = row.querySelector('.day-fields')
-
           const lines = evs.map((ev, i) => {
             const loc  = escHtml(ev.summary || ev.location || '')
-            const time = escHtml(ev.start?.dateTime
-              ? `${fmtTime(ev.start.dateTime)} – ${fmtTime(ev.end?.dateTime)}`
-              : '')
+            const time = escHtml(ev.start?.dateTime ? `${fmtTime(ev.start.dateTime)} – ${fmtTime(ev.end?.dateTime)}` : '')
             const sep  = i > 0 ? '<div class="event-sep"></div>' : ''
             const lbl  = i === 0 ? '<div class="field-lbl">Location</div>' : '<div class="field-lbl">&nbsp;</div>'
             const tlbl = i === 0 ? '<div class="field-lbl">Time</div>'     : '<div class="field-lbl">&nbsp;</div>'
-            return `${sep}
-              <div class="event-line">
-                <div class="field-group">${lbl}
-                  <div class="field-val loc" contenteditable="true">${loc}</div>
-                </div>
-                <div class="field-group time-group">${tlbl}
-                  <div class="field-val time" contenteditable="true">${time}</div>
-                </div>
-              </div>`
+            return `${sep}<div class="event-line">
+              <div class="field-group">${lbl}<div class="field-val loc" contenteditable="true">${loc}</div></div>
+              <div class="field-group time-group">${tlbl}<div class="field-val time" contenteditable="true">${time}</div></div>
+            </div>`
           })
           fields.innerHTML = lines.join('')
         })
 
         document.getElementById('weekRange').textContent = fmtWeekLabel(monday, sunday)
         document.fonts.ready.then(() => setTimeout(fitAllFields, 50))
-
         setStatus(`✓ Loaded ${events.length} event${events.length !== 1 ? 's' : ''} · Edit any field before saving`, 'success')
         setTimeout(() => setStatus('', ''), 5000)
 
       } catch(err) {
-        setStatus('Network error — check your internet connection and try again.', 'error')
+        setStatus('Network error — check your internet connection.', 'error')
         console.error(err)
       }
     }
 
-    /* Auto-shrink text to fit container */
     function fitText(el) {
       const text = el.textContent.trim()
       if (!text) { el.style.fontSize = ''; return }
       const MAX = el.classList.contains('time') ? 22 : 27, MIN = 10
-      el.style.fontSize = MAX + 'px'
-      el.style.width    = 'max-content'
-      el.style.overflow = 'visible'
+      el.style.fontSize = MAX + 'px'; el.style.width = 'max-content'; el.style.overflow = 'visible'
       const textW = el.getBoundingClientRect().width
-      el.style.width    = ''
-      el.style.overflow = ''
-      const containerW  = el.getBoundingClientRect().width
+      el.style.width = ''; el.style.overflow = ''
+      const containerW = el.getBoundingClientRect().width
       if (containerW === 0 || textW <= containerW) return
       el.style.fontSize = Math.max(MIN, Math.floor(MAX * containerW / textW)) + 'px'
     }
 
-    function fitAllFields() {
-      document.querySelectorAll('#igCard .field-val').forEach(fitText)
-    }
+    function fitAllFields() { document.querySelectorAll('#igCard .field-val').forEach(fitText) }
 
     document.getElementById('daysGrid').addEventListener('input', e => {
       if (e.target.classList.contains('field-val')) fitText(e.target)
     })
 
     function clearAll() {
-      document.querySelectorAll('.field-val').forEach(el => {
-        el.textContent = ''; el.style.fontSize = ''
-      })
+      document.querySelectorAll('.field-val').forEach(el => { el.textContent = ''; el.style.fontSize = '' })
       document.getElementById('weekRange').textContent = ''
       setStatus('', '')
     }
 
-    /* Scale to viewport */
     function scaleCard() {
       const wrap  = document.getElementById('scaleWrap')
       const scale = Math.min((window.innerWidth - 28) / 1080, (window.innerHeight - 120) / 1350, 1)
@@ -790,50 +798,28 @@
     scaleCard()
     window.addEventListener('resize', scaleCard)
 
-    /* Save as PNG */
     async function saveImage() {
       if (document.activeElement?.blur) document.activeElement.blur()
-      const uiBar  = document.getElementById('uiBar')
-      const uiHint = document.getElementById('uiHint')
-      const status = document.getElementById('calStatus')
-      const wrap   = document.getElementById('scaleWrap')
-
-      uiBar.style.visibility  = 'hidden'
-      uiHint.style.visibility = 'hidden'
-      status.style.visibility = 'hidden'
-
+      const uiBar = document.getElementById('uiBar'), uiHint = document.getElementById('uiHint')
+      const status = document.getElementById('calStatus'), wrap = document.getElementById('scaleWrap')
+      uiBar.style.visibility = uiHint.style.visibility = status.style.visibility = 'hidden'
       const prev = { t: wrap.style.transform, h: wrap.style.height, w: wrap.style.width }
-      wrap.style.transform = 'scale(1)'
-      wrap.style.height    = '1350px'
-      wrap.style.width     = '1080px'
-
+      wrap.style.transform = 'scale(1)'; wrap.style.height = '1350px'; wrap.style.width = '1080px'
       await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))
       await new Promise(r => setTimeout(r, 150))
-
       try {
         const canvas = await html2canvas(document.getElementById('igCard'), {
           scale: 2, useCORS: true, allowTaint: false,
-          backgroundColor: '#EFE4C6',
-          width: 1080, height: 1350,
+          backgroundColor: '#EDE0C0', width: 1080, height: 1350,
           logging: false, imageTimeout: 14000,
         })
         const today = new Date()
-        const mm = String(today.getMonth()+1).padStart(2,'0')
-        const dd = String(today.getDate()).padStart(2,'0')
         const a = document.createElement('a')
-        a.download = `ct-schedule-vintage-${mm}${dd}.png`
-        a.href = canvas.toDataURL('image/png')
-        a.click()
-      } catch(e) {
-        alert('Could not save image. Try a full-page screenshot instead.\n\n' + e.message)
-      }
-
-      wrap.style.transform = prev.t
-      wrap.style.height    = prev.h
-      wrap.style.width     = prev.w
-      uiBar.style.visibility  = 'visible'
-      uiHint.style.visibility = 'visible'
-      status.style.visibility = 'visible'
+        a.download = `ct-schedule-${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}.png`
+        a.href = canvas.toDataURL('image/png'); a.click()
+      } catch(e) { alert('Could not save image. Try a full-page screenshot instead.\n\n' + e.message) }
+      wrap.style.transform = prev.t; wrap.style.height = prev.h; wrap.style.width = prev.w
+      uiBar.style.visibility = uiHint.style.visibility = status.style.visibility = 'visible'
     }
 
     loadCalendar()
