@@ -101,7 +101,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      opacity: 0.16;
+      opacity: 0.26;
       pointer-events: none;
     }
     .van-bg img {
@@ -201,7 +201,7 @@
       border-bottom: 1px solid rgba(42,24,16,0.09);
     }
     .day-row:last-child { border-bottom: none; }
-    .day-row:nth-child(even) .day-fields { background: rgba(224, 210, 178, 0.92); }
+    .day-row:nth-child(even) .day-fields { background: rgba(210, 196, 162, 0.60); }
     .day-row.weekend .day-pill { background: #3B2212; }
 
     /* Day pill */
@@ -226,12 +226,12 @@
       text-transform: uppercase; line-height: 1;
     }
 
-    /* Day fields — solid parchment backing so truck doesn't bleed through text */
+    /* Day fields — light parchment wash so truck shows through but text stays readable */
     .day-fields {
       flex: 1; display: flex; flex-direction: column;
       justify-content: center; min-width: 0;
       padding: 7px 26px 7px 20px; gap: 3px;
-      background: rgba(237, 224, 192, 0.88);
+      background: rgba(237, 224, 192, 0.55);
     }
     .event-line { display: flex; align-items: center; gap: 0; }
     .event-sep { height: 1px; background: rgba(42,24,16,0.08); margin: 3px 0; }
