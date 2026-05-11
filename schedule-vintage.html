@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Common Tides — Vintage Schedule (Proof)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Oswald:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #1a100a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 18px 14px 40px;
+      font-family: 'DM Sans', sans-serif;
+      gap: 14px;
+    }
+
+    /* ── UI Bar ──────────────────────────────── */
+    .ui-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .ui-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: #557A74; color: #fff; border: none; padding: 11px 22px;
+      border-radius: 9px; font-family: 'DM Sans', sans-serif;
+      font-size: 13px; font-weight: 700; letter-spacing: 0.03em; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(85,122,116,0.35);
+      transition: background 0.15s, transform 0.1s;
+    }
+    .ui-btn:hover { background: #426a64; }
+    .ui-btn:active { transform: scale(0.97); }
+    .ui-btn.ghost { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.13); box-shadow: none; }
+    .ui-btn.ghost:hover { background: rgba(255,255,255,0.10); }
+    .ui-hint { color: rgba(255,255,255,0.24); font-size: 11.5px; text-align: center; }
+
+    .week-picker {
+      display: flex; align-items: center;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 9px; overflow: hidden;
+    }
+    .week-arrow {
+      background: none; border: none; color: rgba(255,255,255,0.6);
+      font-size: 16px; width: 36px; height: 38px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s, color 0.15s;
+    }
+    .week-arrow:hover { background: rgba(85,122,116,0.22); color: #fff; }
+    .week-picker-label {
+      font-size: 12px; font-weight: 700; color: #fff; letter-spacing: 0.04em;
+      padding: 0 14px; white-space: nowrap;
+      border-left: 1px solid rgba(255,255,255,0.10);
+      border-right: 1px solid rgba(255,255,255,0.10);
+      line-height: 38px; min-width: 110px; text-align: center;
+    }
+
+    #calStatus {
+      display: none; font-size: 12px; font-weight: 600;
+      padding: 8px 16px; border-radius: 8px; text-align: center; max-width: 540px;
+    }
+    #calStatus.loading { background: rgba(85,122,116,0.15); color: #6A9A94; display: block; }
+    #calStatus.success { background: rgba(85,122,116,0.12); color: #7ABDB6; display: block; }
+    #calStatus.error   { background: rgba(220,80,80,0.12);  color: #e07070; display: block; }
+
+    #scaleWrap { transform-origin: top center; flex-shrink: 0; }
+
+    /* ══════════════════════════════════════════════
+       VINTAGE CARD  1080 × 1350
+    ══════════════════════════════════════════════ */
+    .ig-card {
+      width: 1080px;
+      height: 1350px;
+      position: relative;
+      overflow: hidden;
+      background: #EFE4C6;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* Parchment tonal blotches */
+    .parchment-layer {
+      position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 700px 460px at 12% 18%,  rgba(185,152,86,0.14) 0%, transparent 70%),
+        radial-gradient(ellipse 550px 600px at 88% 82%,  rgba(165,132,68,0.11) 0%, transparent 70%),
+        radial-gradient(ellipse 420px 320px at 50% 48%,  rgba(255,248,228,0.10) 0%, transparent 70%),
+        radial-gradient(ellipse 300px 250px at 78% 16%,  rgba(200,165,95,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 260px 300px at 22% 78%,  rgba(170,140,75,0.09) 0%, transparent 70%);
+    }
+
+    /* Vignette */
+    .vignette {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: radial-gradient(ellipse 90% 90% at 50% 50%, transparent 38%, rgba(28,14,4,0.30) 100%);
+    }
+
+    /* Horizontal stripe texture — very subtle */
+    .stripe-layer {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0.03;
+      background: repeating-linear-gradient(
+        0deg,
+        #7A5020 0px, #7A5020 1px,
+        transparent 1px, transparent 6px
+      );
+    }
+
+    /* ── Double border frame ── */
+    .frame-outer {
+      position: absolute; z-index: 8; pointer-events: none;
+      top: 28px; left: 28px; right: 28px; bottom: 28px;
+      border: 3px solid #2A1810;
+      box-shadow: inset 0 0 0 8px #EFE4C6, inset 0 0 0 10px rgba(42,24,16,0.22);
+    }
+
+    /* ── Corner ornaments ── */
+    .corner-svg {
+      position: absolute; z-index: 9; pointer-events: none;
+      width: 48px; height: 48px;
+    }
+    .corner-svg.tl { top: 18px; left: 18px; }
+    .corner-svg.tr { top: 18px; right: 18px; transform: scaleX(-1); }
+    .corner-svg.bl { bottom: 18px; left: 18px; transform: scaleY(-1); }
+    .corner-svg.br { bottom: 18px; right: 18px; transform: scale(-1); }
+
+    /* ── Card body ── */
+    .card-body {
+      position: relative; z-index: 5;
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      padding: 56px 76px 44px;
+    }
+
+    /* ── Header ── */
+    .hdr {
+      display: flex; flex-direction: column;
+      align-items: center; text-align: center;
+      flex-shrink: 0; margin-bottom: 20px;
+    }
+
+    .logo-wrap img {
+      height: 62px; width: auto;
+      filter: brightness(0) sepia(1) saturate(0.15) brightness(0.22);
+      opacity: 0.88;
+    }
+
+    .hdr-top-rule {
+      width: 100%; margin: 13px 0 12px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .rule-line {
+      flex: 1; height: 1px;
+      background: linear-gradient(to right, transparent, rgba(42,24,16,0.28) 40%, rgba(42,24,16,0.28));
+    }
+    .rule-line.right {
+      background: linear-gradient(to left, transparent, rgba(42,24,16,0.28) 40%, rgba(42,24,16,0.28));
+    }
+    .rule-diamond {
+      width: 7px; height: 7px; flex-shrink: 0;
+      background: #2A1810; opacity: 0.4;
+      transform: rotate(45deg);
+    }
+
+    .hdr-eyebrow {
+      font-family: 'Oswald', sans-serif;
+      font-size: 19px; font-weight: 600;
+      letter-spacing: 0.34em; color: #7A5828;
+      text-transform: uppercase; margin-bottom: 2px;
+    }
+
+    .hdr-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 84px; font-weight: 900;
+      color: #2A1810; line-height: 0.92;
+      letter-spacing: -0.5px;
+    }
+
+    .hdr-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px; font-weight: 400; font-style: italic;
+      color: #4A8A84; margin-top: 8px; letter-spacing: 0.01em;
+    }
+
+    /* Anchor divider */
+    .anchor-divider { margin: 14px 0 0; width: 100%; }
+
+    .week-range {
+      font-family: 'Oswald', sans-serif;
+      font-size: 21px; font-weight: 500;
+      color: #7A5828; letter-spacing: 0.14em;
+      text-transform: uppercase; margin-top: 9px;
+      min-height: 26px;
+    }
+
+    /* ── Days grid ── */
+    .days {
+      flex: 1; display: flex; flex-direction: column;
+      border-top: 1.5px solid rgba(42,24,16,0.22);
+      border-bottom: 1.5px solid rgba(42,24,16,0.22);
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .day-row {
+      display: flex; align-items: stretch;
+      flex: 1 1 0; min-height: 0;
+      border-bottom: 1px solid rgba(42,24,16,0.10);
+    }
+    .day-row:last-child { border-bottom: none; }
+
+    /* Alternating row tint */
+    .day-row:nth-child(even) .day-fields { background: rgba(42,24,16,0.025); }
+
+    .day-row.weekend .day-pill {
+      background: #3E2415;
+    }
+
+    /* Day pill */
+    .day-pill {
+      width: 128px; flex-shrink: 0;
+      background: #2A1810;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0;
+      border-right: 2px solid rgba(42,24,16,0.15);
+      position: relative;
+    }
+
+    /* Small teal accent line on pill */
+    .day-pill::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 20%; bottom: 20%;
+      width: 3px;
+      background: #4A8A84;
+      opacity: 0.55;
+      border-radius: 0 2px 2px 0;
+    }
+
+    .day-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 30px; font-weight: 700;
+      letter-spacing: 0.08em; color: #EFE4C6;
+      text-transform: uppercase; line-height: 1;
+    }
+
+    /* Day fields area */
+    .day-fields {
+      flex: 1; display: flex; flex-direction: column;
+      justify-content: center; min-width: 0;
+      padding: 8px 28px 8px 22px; gap: 4px;
+      transition: background 0.1s;
+    }
+
+    .event-line {
+      display: flex; align-items: center; gap: 0;
+    }
+    .event-sep {
+      height: 1px; background: rgba(42,24,16,0.08); margin: 3px 0;
+    }
+
+    .field-group {
+      flex: 1; min-width: 0;
+      display: flex; flex-direction: column; gap: 1px;
+    }
+    .field-group.time-group {
+      flex: 0 0 228px; padding-left: 20px;
+      border-left: 1px solid rgba(42,24,16,0.10);
+    }
+
+    .field-lbl {
+      font-family: 'Oswald', sans-serif;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.26em; text-transform: uppercase;
+      color: #7A5828; opacity: 0.65;
+      user-select: none;
+    }
+
+    .field-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 27px; font-weight: 700;
+      color: #2A1810; outline: none; border: none;
+      border-bottom: 1px dashed rgba(42,24,16,0.16);
+      padding-bottom: 1px; min-height: 31px;
+      letter-spacing: 0.005em; line-height: 1.18;
+      white-space: nowrap; overflow: hidden;
+      background: transparent;
+      transition: border-color 0.15s;
+    }
+    .field-val.time {
+      font-family: 'Oswald', sans-serif;
+      font-size: 22px; font-weight: 600;
+      color: #4A8A84; letter-spacing: 0.04em;
+    }
+    .field-val:focus { border-bottom-color: rgba(74,138,132,0.50); }
+
+    /* ── Footer ── */
+    .footer {
+      flex-shrink: 0;
+      margin-top: 16px;
+      display: flex; flex-direction: column; align-items: center; gap: 9px;
+    }
+    .footer-rule {
+      width: 100%; display: flex; align-items: center; gap: 12px;
+    }
+    .footer-rule-line {
+      flex: 1; height: 1px;
+      background: linear-gradient(to right, transparent, rgba(42,24,16,0.25) 30%, rgba(42,24,16,0.25));
+    }
+    .footer-rule-line.right {
+      background: linear-gradient(to left, transparent, rgba(42,24,16,0.25) 30%, rgba(42,24,16,0.25));
+    }
+    .footer-rule-icon {
+      font-size: 14px; color: rgba(42,24,16,0.35); line-height: 1;
+    }
+
+    .footer-inner {
+      display: flex; align-items: center; gap: 14px;
+    }
+    .footer-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(42,24,16,0.28); }
+    .footer-handle {
+      font-family: 'Oswald', sans-serif;
+      font-size: 24px; font-weight: 700;
+      color: #4A8A84; letter-spacing: 0.04em;
+    }
+    .footer-text {
+      font-family: 'Oswald', sans-serif;
+      font-size: 20px; font-weight: 500;
+      color: rgba(42,24,16,0.40); letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ui-bar" id="uiBar">
+    <div class="week-picker">
+      <button class="week-arrow" onclick="shiftWeek(-1)" title="Previous week">&#8592;</button>
+      <span class="week-picker-label" id="weekPickerLabel">This Week</span>
+      <button class="week-arrow" onclick="shiftWeek(1)" title="Next week">&#8594;</button>
+    </div>
+    <button class="ui-btn" onclick="loadCalendar()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Pull from Calendar
+    </button>
+    <button class="ui-btn" onclick="saveImage()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Save as PNG
+    </button>
+    <button class="ui-btn ghost" onclick="clearAll()">Clear</button>
+  </div>
+
+  <div id="calStatus"></div>
+  <p class="ui-hint" id="uiHint">Choose a week · Pull from Calendar · edit any field · Save as PNG</p>
+
+  <div id="scaleWrap">
+    <div class="ig-card" id="igCard">
+
+      <!-- Parchment layers -->
+      <div class="parchment-layer"></div>
+      <div class="stripe-layer"></div>
+      <div class="vignette"></div>
+
+      <!-- Double border + inner ring via box-shadow -->
+      <div class="frame-outer"></div>
+
+      <!-- Corner ornaments -->
+      <svg class="corner-svg tl" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6,42 L6,6 L42,6" stroke="#2A1810" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+        <line x1="6" y1="22" x2="12" y2="16" stroke="#2A1810" stroke-width="1.2" opacity="0.28"/>
+        <line x1="6" y1="32" x2="18" y2="20" stroke="#2A1810" stroke-width="0.8" opacity="0.16"/>
+        <line x1="22" y1="6" x2="16" y2="12" stroke="#2A1810" stroke-width="1.2" opacity="0.28"/>
+        <line x1="32" y1="6" x2="20" y2="18" stroke="#2A1810" stroke-width="0.8" opacity="0.16"/>
+        <circle cx="6" cy="6" r="3.5" fill="#2A1810" opacity="0.50"/>
+        <circle cx="6" cy="6" r="1.5" fill="#4A8A84" opacity="0.60"/>
+      </svg>
+      <svg class="corner-svg tr" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6,42 L6,6 L42,6" stroke="#2A1810" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+        <line x1="6" y1="22" x2="12" y2="16" stroke="#2A1810" stroke-width="1.2" opacity="0.28"/>
+        <line x1="6" y1="32" x2="18" y2="20" stroke="#2A1810" stroke-width="0.8" opacity="0.16"/>
+        <line x1="22" y1="6" x2="16" y2="12" stroke="#2A1810" stroke-width="1.2" opacity="0.28"/>
+        <line x1="32" y1="6" x2="20" y2="18" stroke="#2A1810" stroke-width="0.8" opacity="0.16"/>
+        <circle cx="6" cy="6" r="3.5" fill="#2A1810" opacity="0.50"/>
+        <circle cx="6" cy="6" r="1.5" fill="#4A8A84" opacity="0.60"/>
+      </svg>
+      <svg class="corner-svg bl" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6,42 L6,6 L42,6" stroke="#2A1810" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+        <line x1="6" y1="22" x2="12" y2="16" stroke="#2A1810" stroke-width="1.2" opacity="0.28"/>
+        <line x1="6" y1="32" x2="18" y2="20" stroke="#2A1810" stroke-width="0.8" opacity="0.16"/>
+        <line x1="22" y1="6" x2="16" y2="12" stroke="#2A1810" stroke-width="1.2" opacity="0.28"/>
+        <line x1="32" y1="6" x2="20" y2="18" stroke="#2A1810" stroke-width="0.8" opacity="0.16"/>
+        <circle cx="6" cy="6" r="3.5" fill="#2A1810" opacity="0.50"/>
+        <circle cx="6" cy="6" r="1.5" fill="#4A8A84" opacity="0.60"/>
+      </svg>
+      <svg class="corner-svg br" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6,42 L6,6 L42,6" stroke="#2A1810" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+        <line x1="6" y1="22" x2="12" y2="16" stroke="#2A1810" stroke-width="1.2" opacity="0.28"/>
+        <line x1="6" y1="32" x2="18" y2="20" stroke="#2A1810" stroke-width="0.8" opacity="0.16"/>
+        <line x1="22" y1="6" x2="16" y2="12" stroke="#2A1810" stroke-width="1.2" opacity="0.28"/>
+        <line x1="32" y1="6" x2="20" y2="18" stroke="#2A1810" stroke-width="0.8" opacity="0.16"/>
+        <circle cx="6" cy="6" r="3.5" fill="#2A1810" opacity="0.50"/>
+        <circle cx="6" cy="6" r="1.5" fill="#4A8A84" opacity="0.60"/>
+      </svg>
+
+      <!-- Card content -->
+      <div class="card-body">
+
+        <div class="hdr">
+
+          <div class="logo-wrap">
+            <img id="logoImg" src="https://raw.githubusercontent.com/commontidescoffee/images/main/logo-03.png" alt="Common Tides Coffee" crossorigin="anonymous">
+          </div>
+
+          <div class="hdr-top-rule">
+            <div class="rule-line"></div>
+            <div class="rule-diamond"></div>
+            <div class="rule-diamond" style="opacity:0.22;width:5px;height:5px;"></div>
+            <div class="rule-diamond"></div>
+            <div class="rule-line right"></div>
+          </div>
+
+          <p class="hdr-eyebrow">Find Us This Week</p>
+          <h1 class="hdr-title">Weekly Schedule</h1>
+          <p class="hdr-subtitle">Wilmington, North Carolina</p>
+
+          <!-- Anchor ornament divider -->
+          <svg class="anchor-divider" viewBox="0 0 928 32" height="32" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+            <!-- Left side wave + rule -->
+            <line x1="0" y1="16" x2="330" y2="16" stroke="#2A1810" stroke-width="0.7" opacity="0.22"/>
+            <path d="M330,16 C342,10 352,22 364,16 C376,10 386,22 398,16 C410,10 420,22 432,16" stroke="#4A8A84" stroke-width="1.6" fill="none" opacity="0.55" stroke-linecap="round"/>
+
+            <!-- Anchor at center (cx=464) -->
+            <g transform="translate(464,16)" opacity="0.72">
+              <!-- Ring -->
+              <circle cx="0" cy="-9" r="4.5" stroke="#2A1810" stroke-width="1.8" fill="none"/>
+              <line x1="-10" y1="0" x2="10" y2="0" stroke="#2A1810" stroke-width="1.8" stroke-linecap="round"/>
+              <line x1="0" y1="-4.5" x2="0" y2="10" stroke="#2A1810" stroke-width="1.8" stroke-linecap="round"/>
+              <!-- Flukes -->
+              <path d="M-10,0 C-12,5 -10,11 0,12" stroke="#2A1810" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+              <path d="M10,0 C12,5 10,11 0,12" stroke="#2A1810" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+              <!-- Fluke tips -->
+              <line x1="-13" y1="9" x2="-7" y2="9" stroke="#2A1810" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="7" y1="9" x2="13" y2="9" stroke="#2A1810" stroke-width="1.6" stroke-linecap="round"/>
+              <!-- Small teal dot on ring -->
+              <circle cx="0" cy="-9" r="1.8" fill="#4A8A84" opacity="0.8"/>
+            </g>
+
+            <!-- Right side wave + rule -->
+            <path d="M496,16 C508,10 518,22 530,16 C542,10 552,22 564,16 C576,10 586,22 598,16" stroke="#4A8A84" stroke-width="1.6" fill="none" opacity="0.55" stroke-linecap="round"/>
+            <line x1="598" y1="16" x2="928" y2="16" stroke="#2A1810" stroke-width="0.7" opacity="0.22"/>
+          </svg>
+
+          <p class="week-range" id="weekRange"></p>
+        </div>
+
+        <!-- Days -->
+        <div class="days" id="daysGrid">
+
+          <div class="day-row" data-day="1">
+            <div class="day-pill"><span class="day-name">Mon</span></div>
+            <div class="day-fields">
+              <div class="event-line">
+                <div class="field-group">
+                  <div class="field-lbl">Location</div>
+                  <div class="field-val loc" contenteditable="true"></div>
+                </div>
+                <div class="field-group time-group">
+                  <div class="field-lbl">Time</div>
+                  <div class="field-val time" contenteditable="true"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="day-row" data-day="2">
+            <div class="day-pill"><span class="day-name">Tue</span></div>
+            <div class="day-fields">
+              <div class="event-line">
+                <div class="field-group">
+                  <div class="field-lbl">Location</div>
+                  <div class="field-val loc" contenteditable="true"></div>
+                </div>
+                <div class="field-group time-group">
+                  <div class="field-lbl">Time</div>
+                  <div class="field-val time" contenteditable="true"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="day-row" data-day="3">
+            <div class="day-pill"><span class="day-name">Wed</span></div>
+            <div class="day-fields">
+              <div class="event-line">
+                <div class="field-group">
+                  <div class="field-lbl">Location</div>
+                  <div class="field-val loc" contenteditable="true"></div>
+                </div>
+                <div class="field-group time-group">
+                  <div class="field-lbl">Time</div>
+                  <div class="field-val time" contenteditable="true"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="day-row" data-day="4">
+            <div class="day-pill"><span class="day-name">Thu</span></div>
+            <div class="day-fields">
+              <div class="event-line">
+                <div class="field-group">
+                  <div class="field-lbl">Location</div>
+                  <div class="field-val loc" contenteditable="true"></div>
+                </div>
+                <div class="field-group time-group">
+                  <div class="field-lbl">Time</div>
+                  <div class="field-val time" contenteditable="true"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="day-row" data-day="5">
+            <div class="day-pill"><span class="day-name">Fri</span></div>
+            <div class="day-fields">
+              <div class="event-line">
+                <div class="field-group">
+                  <div class="field-lbl">Location</div>
+                  <div class="field-val loc" contenteditable="true"></div>
+                </div>
+                <div class="field-group time-group">
+                  <div class="field-lbl">Time</div>
+                  <div class="field-val time" contenteditable="true"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="day-row weekend" data-day="6">
+            <div class="day-pill"><span class="day-name">Sat</span></div>
+            <div class="day-fields">
+              <div class="event-line">
+                <div class="field-group">
+                  <div class="field-lbl">Location</div>
+                  <div class="field-val loc" contenteditable="true"></div>
+                </div>
+                <div class="field-group time-group">
+                  <div class="field-lbl">Time</div>
+                  <div class="field-val time" contenteditable="true"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="day-row weekend" data-day="0">
+            <div class="day-pill"><span class="day-name">Sun</span></div>
+            <div class="day-fields">
+              <div class="event-line">
+                <div class="field-group">
+                  <div class="field-lbl">Location</div>
+                  <div class="field-val loc" contenteditable="true"></div>
+                </div>
+                <div class="field-group time-group">
+                  <div class="field-lbl">Time</div>
+                  <div class="field-val time" contenteditable="true"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- .days -->
+
+        <div class="footer">
+          <div class="footer-rule">
+            <div class="footer-rule-line"></div>
+            <svg width="20" height="14" viewBox="0 0 20 14" class="footer-rule-icon" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0,7 C3,3 7,11 10,7 C13,3 17,11 20,7" stroke="rgba(42,24,16,0.30)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+            </svg>
+            <div class="footer-rule-line right"></div>
+          </div>
+          <div class="footer-inner">
+            <span class="footer-handle">@commontidescoffee</span>
+            <div class="footer-dot"></div>
+            <span class="footer-text">Wilmington, NC</span>
+            <div class="footer-dot"></div>
+            <span class="footer-text">commontides.com</span>
+          </div>
+        </div>
+
+      </div><!-- .card-body -->
+    </div><!-- .ig-card -->
+  </div><!-- #scaleWrap -->
+
+  <script>
+    const CALENDAR_ID = 'e5d97565d2e53eae215c9b87e2a193617d2f7e019de3c8e6ccb3be0f2ac6ee27@group.calendar.google.com'
+    const API_KEY     = 'AIzaSyCSiXr9WwISuQJlIQtdSZ3xEPQsTkv_etY'
+
+    let weekOffset = 0
+
+    function shiftWeek(dir) {
+      weekOffset += dir
+      updateWeekPickerLabel()
+      loadCalendar()
+    }
+
+    function updateWeekPickerLabel() {
+      const el = document.getElementById('weekPickerLabel')
+      if (weekOffset === 0) el.textContent = 'This Week'
+      else if (weekOffset === 1) el.textContent = 'Next Week'
+      else if (weekOffset === -1) el.textContent = 'Last Week'
+      else el.textContent = weekOffset > 0 ? `+${weekOffset} Weeks` : `${weekOffset} Weeks`
+    }
+
+    function getWeekBounds() {
+      const today = new Date()
+      const dow = today.getDay()
+      const monday = new Date(today)
+      monday.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1) + weekOffset * 7)
+      monday.setHours(0, 0, 0, 0)
+      const sunday = new Date(monday)
+      sunday.setDate(monday.getDate() + 6)
+      sunday.setHours(23, 59, 59, 999)
+      return { monday, sunday }
+    }
+
+    function fmtTime(dtStr) {
+      if (!dtStr) return ''
+      const d = new Date(dtStr)
+      let h = d.getHours(), m = d.getMinutes(), ampm = h >= 12 ? 'PM' : 'AM'
+      h = h % 12 || 12
+      return m === 0 ? `${h} ${ampm}` : `${h}:${String(m).padStart(2,'0')} ${ampm}`
+    }
+
+    function fmtWeekLabel(monday, sunday) {
+      const opts = { month: 'short', day: 'numeric' }
+      const s = monday.toLocaleDateString('en-US', opts)
+      const e = sunday.toLocaleDateString('en-US', { ...opts, year: 'numeric' })
+      return `${s} – ${e}`
+    }
+
+    function setStatus(msg, type) {
+      const el = document.getElementById('calStatus')
+      el.textContent = msg
+      el.className = type
+    }
+
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+    }
+
+    async function loadCalendar() {
+      const { monday, sunday } = getWeekBounds()
+      setStatus('Loading from Google Calendar…', 'loading')
+
+      const url = new URL(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CALENDAR_ID)}/events`)
+      url.searchParams.set('key', API_KEY)
+      url.searchParams.set('timeMin', monday.toISOString())
+      url.searchParams.set('timeMax', sunday.toISOString())
+      url.searchParams.set('singleEvents', 'true')
+      url.searchParams.set('orderBy', 'startTime')
+      url.searchParams.set('maxResults', '50')
+
+      try {
+        const res = await fetch(url)
+        const data = await res.json()
+
+        if (!res.ok) {
+          if (res.status === 403) {
+            setStatus('API key not authorized for this domain. In Google Cloud Console → Credentials, add "commontidescoffee.github.io/*" to the API key\'s allowed referrers.', 'error')
+          } else {
+            setStatus(`Calendar error: ${data.error?.message || res.status}`, 'error')
+          }
+          return
+        }
+
+        document.querySelectorAll('.day-row').forEach(row => {
+          row.querySelector('.day-fields').innerHTML = `
+            <div class="event-line">
+              <div class="field-group">
+                <div class="field-lbl">Location</div>
+                <div class="field-val loc" contenteditable="true"></div>
+              </div>
+              <div class="field-group time-group">
+                <div class="field-lbl">Time</div>
+                <div class="field-val time" contenteditable="true"></div>
+              </div>
+            </div>`
+        })
+
+        const events = data.items || []
+
+        function parseDayNum(startStr) {
+          if (!startStr) return null
+          if (startStr.length === 10) {
+            const [y, m, d] = startStr.split('-').map(Number)
+            return new Date(y, m - 1, d).getDay()
+          }
+          return new Date(startStr).getDay()
+        }
+
+        const byDay = {}
+        events.forEach(ev => {
+          const startStr = ev.start?.dateTime || ev.start?.date
+          const dayNum = parseDayNum(startStr)
+          if (dayNum === null) return
+          if (!byDay[dayNum]) byDay[dayNum] = []
+          byDay[dayNum].push(ev)
+        })
+
+        Object.entries(byDay).forEach(([dayNum, evs]) => {
+          const row = document.querySelector(`.day-row[data-day="${dayNum}"]`)
+          if (!row) return
+          const fields = row.querySelector('.day-fields')
+
+          const lines = evs.map((ev, i) => {
+            const loc  = escHtml(ev.summary || ev.location || '')
+            const time = escHtml(ev.start?.dateTime
+              ? `${fmtTime(ev.start.dateTime)} – ${fmtTime(ev.end?.dateTime)}`
+              : '')
+            const sep  = i > 0 ? '<div class="event-sep"></div>' : ''
+            const lbl  = i === 0 ? '<div class="field-lbl">Location</div>' : '<div class="field-lbl">&nbsp;</div>'
+            const tlbl = i === 0 ? '<div class="field-lbl">Time</div>'     : '<div class="field-lbl">&nbsp;</div>'
+            return `${sep}
+              <div class="event-line">
+                <div class="field-group">${lbl}
+                  <div class="field-val loc" contenteditable="true">${loc}</div>
+                </div>
+                <div class="field-group time-group">${tlbl}
+                  <div class="field-val time" contenteditable="true">${time}</div>
+                </div>
+              </div>`
+          })
+          fields.innerHTML = lines.join('')
+        })
+
+        document.getElementById('weekRange').textContent = fmtWeekLabel(monday, sunday)
+        document.fonts.ready.then(() => setTimeout(fitAllFields, 50))
+
+        setStatus(`✓ Loaded ${events.length} event${events.length !== 1 ? 's' : ''} · Edit any field before saving`, 'success')
+        setTimeout(() => setStatus('', ''), 5000)
+
+      } catch(err) {
+        setStatus('Network error — check your internet connection and try again.', 'error')
+        console.error(err)
+      }
+    }
+
+    /* Auto-shrink text to fit container */
+    function fitText(el) {
+      const text = el.textContent.trim()
+      if (!text) { el.style.fontSize = ''; return }
+      const MAX = el.classList.contains('time') ? 22 : 27, MIN = 10
+      el.style.fontSize = MAX + 'px'
+      el.style.width    = 'max-content'
+      el.style.overflow = 'visible'
+      const textW = el.getBoundingClientRect().width
+      el.style.width    = ''
+      el.style.overflow = ''
+      const containerW  = el.getBoundingClientRect().width
+      if (containerW === 0 || textW <= containerW) return
+      el.style.fontSize = Math.max(MIN, Math.floor(MAX * containerW / textW)) + 'px'
+    }
+
+    function fitAllFields() {
+      document.querySelectorAll('#igCard .field-val').forEach(fitText)
+    }
+
+    document.getElementById('daysGrid').addEventListener('input', e => {
+      if (e.target.classList.contains('field-val')) fitText(e.target)
+    })
+
+    function clearAll() {
+      document.querySelectorAll('.field-val').forEach(el => {
+        el.textContent = ''; el.style.fontSize = ''
+      })
+      document.getElementById('weekRange').textContent = ''
+      setStatus('', '')
+    }
+
+    /* Scale to viewport */
+    function scaleCard() {
+      const wrap  = document.getElementById('scaleWrap')
+      const scale = Math.min((window.innerWidth - 28) / 1080, (window.innerHeight - 120) / 1350, 1)
+      wrap.style.transform = `scale(${scale})`
+      wrap.style.height    = Math.round(1350 * scale) + 'px'
+      wrap.style.width     = Math.round(1080 * scale) + 'px'
+    }
+    scaleCard()
+    window.addEventListener('resize', scaleCard)
+
+    /* Save as PNG */
+    async function saveImage() {
+      if (document.activeElement?.blur) document.activeElement.blur()
+      const uiBar  = document.getElementById('uiBar')
+      const uiHint = document.getElementById('uiHint')
+      const status = document.getElementById('calStatus')
+      const wrap   = document.getElementById('scaleWrap')
+
+      uiBar.style.visibility  = 'hidden'
+      uiHint.style.visibility = 'hidden'
+      status.style.visibility = 'hidden'
+
+      const prev = { t: wrap.style.transform, h: wrap.style.height, w: wrap.style.width }
+      wrap.style.transform = 'scale(1)'
+      wrap.style.height    = '1350px'
+      wrap.style.width     = '1080px'
+
+      await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))
+      await new Promise(r => setTimeout(r, 150))
+
+      try {
+        const canvas = await html2canvas(document.getElementById('igCard'), {
+          scale: 2, useCORS: true, allowTaint: false,
+          backgroundColor: '#EFE4C6',
+          width: 1080, height: 1350,
+          logging: false, imageTimeout: 14000,
+        })
+        const today = new Date()
+        const mm = String(today.getMonth()+1).padStart(2,'0')
+        const dd = String(today.getDate()).padStart(2,'0')
+        const a = document.createElement('a')
+        a.download = `ct-schedule-vintage-${mm}${dd}.png`
+        a.href = canvas.toDataURL('image/png')
+        a.click()
+      } catch(e) {
+        alert('Could not save image. Try a full-page screenshot instead.\n\n' + e.message)
+      }
+
+      wrap.style.transform = prev.t
+      wrap.style.height    = prev.h
+      wrap.style.width     = prev.w
+      uiBar.style.visibility  = 'visible'
+      uiHint.style.visibility = 'visible'
+      status.style.visibility = 'visible'
+    }
+
+    loadCalendar()
+  </script>
+</body>
+</html>
