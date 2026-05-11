@@ -101,7 +101,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      opacity: 0.13;
+      opacity: 0.16;
       pointer-events: none;
     }
     .van-bg img {
@@ -201,7 +201,7 @@
       border-bottom: 1px solid rgba(42,24,16,0.09);
     }
     .day-row:last-child { border-bottom: none; }
-    .day-row:nth-child(even) .day-fields { background: rgba(42,24,16,0.022); }
+    .day-row:nth-child(even) .day-fields { background: rgba(224, 210, 178, 0.92); }
     .day-row.weekend .day-pill { background: #3B2212; }
 
     /* Day pill */
@@ -226,11 +226,12 @@
       text-transform: uppercase; line-height: 1;
     }
 
-    /* Day fields */
+    /* Day fields — solid parchment backing so truck doesn't bleed through text */
     .day-fields {
       flex: 1; display: flex; flex-direction: column;
       justify-content: center; min-width: 0;
       padding: 7px 26px 7px 20px; gap: 3px;
+      background: rgba(237, 224, 192, 0.88);
     }
     .event-line { display: flex; align-items: center; gap: 0; }
     .event-sep { height: 1px; background: rgba(42,24,16,0.08); margin: 3px 0; }
@@ -245,15 +246,15 @@
     }
     .field-lbl {
       font-family: 'Oswald', sans-serif;
-      font-size: 10px; font-weight: 600;
+      font-size: 10px; font-weight: 700;
       letter-spacing: 0.25em; text-transform: uppercase;
-      color: #7A5828; opacity: 0.60; user-select: none;
+      color: #7A5828; opacity: 0.85; user-select: none;
     }
     .field-val {
       font-family: 'Playfair Display', serif;
       font-size: 27px; font-weight: 700;
-      color: #2A1810; outline: none; border: none;
-      border-bottom: 1px dashed rgba(42,24,16,0.14);
+      color: #1E1008; outline: none; border: none;
+      border-bottom: 1px dashed rgba(42,24,16,0.18);
       padding-bottom: 1px; min-height: 30px;
       letter-spacing: 0.005em; line-height: 1.18;
       white-space: nowrap; overflow: hidden; background: transparent;
@@ -262,7 +263,7 @@
     .field-val.time {
       font-family: 'Oswald', sans-serif;
       font-size: 22px; font-weight: 600;
-      color: #4A8A84; letter-spacing: 0.04em;
+      color: #3A7A74; letter-spacing: 0.04em;
     }
     .field-val:focus { border-bottom-color: rgba(74,138,132,0.48); }
 
