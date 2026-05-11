@@ -92,16 +92,25 @@
       background: radial-gradient(ellipse 88% 88% at 50% 50%, transparent 36%, rgba(28,14,4,0.32) 100%);
     }
 
-    /* ── Citroën HY Van background illustration ── */
+    /* ── Truck photo background ── */
     .van-bg {
       position: absolute;
       z-index: 2;
       left: 0; right: 0;
-      top: 310px;
-      opacity: 0.11;
+      top: 0; bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.13;
       pointer-events: none;
     }
-    .van-bg svg { width: 100%; height: auto; display: block; }
+    .van-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+      display: block;
+    }
 
     /* ── Double border frame ── */
     .frame-outer {
@@ -313,154 +322,9 @@
       <div class="parchment-layer"></div>
       <div class="vignette"></div>
 
-      <!-- ══════════════════════════════════════════
-           CITROËN HY VAN — FRONT VIEW ILLUSTRATION
-           Drawn as a vintage etching/block-print style
-      ══════════════════════════════════════════ -->
+      <!-- Truck vector background image -->
       <div class="van-bg">
-        <svg viewBox="0 0 1080 760" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-          <g fill="#2A1810" stroke="#2A1810" stroke-linecap="round" stroke-linejoin="round">
-
-            <!-- ── Roof rack / gutter ── -->
-            <rect x="52" y="52" width="976" height="28" rx="7" stroke="none"/>
-            <!-- Roof rack rails -->
-            <line x1="80" y1="52" x2="80" y2="80" stroke-width="5" stroke="none"/>
-            <line x1="300" y1="52" x2="300" y2="80" stroke-width="5" stroke="none"/>
-            <line x1="540" y1="52" x2="540" y2="80" stroke-width="5" stroke="none"/>
-            <line x1="780" y1="52" x2="780" y2="80" stroke-width="5" stroke="none"/>
-            <line x1="1000" y1="52" x2="1000" y2="80" stroke-width="5" stroke="none"/>
-
-            <!-- ── Main body silhouette outline ── -->
-            <rect x="66" y="78" width="948" height="592" rx="10" fill="none" stroke-width="9"/>
-
-            <!-- ── Windshield zone structural elements (filled dark) ── -->
-            <!-- Top body rail -->
-            <rect x="66" y="78" width="948" height="26" rx="0" stroke="none"/>
-            <!-- Dashboard / cowl rail at bottom of windshield -->
-            <rect x="66" y="310" width="948" height="26" rx="0" stroke="none"/>
-            <!-- Left A-pillar (solid, tapers slightly) -->
-            <path d="M66,78 L66,336 L180,336 L172,78 Z" stroke="none"/>
-            <!-- Right A-pillar -->
-            <path d="M1014,78 L1014,336 L900,336 L908,78 Z" stroke="none"/>
-            <!-- CENTER PILLAR — the most iconic HY feature, wide & bold -->
-            <rect x="488" y="78" width="104" height="258" rx="0" stroke="none"/>
-
-            <!-- ── Windshield glass (stroke outlines only — shows parchment through) ── -->
-            <!-- Left pane -->
-            <rect x="180" y="104" width="308" height="206" rx="4" fill="rgba(237,224,192,0.18)" stroke-width="6"/>
-            <!-- Right pane -->
-            <rect x="592" y="104" width="308" height="206" rx="4" fill="rgba(237,224,192,0.18)" stroke-width="6"/>
-
-            <!-- ── Windshield wipers (subtle) ── -->
-            <line x1="188" y1="308" x2="450" y2="194" stroke-width="5" opacity="0.28"/>
-            <line x1="892" y1="308" x2="630" y2="194" stroke-width="5" opacity="0.28"/>
-
-            <!-- ── Front face: lower panel (between A-pillars and headlights) ── -->
-            <!-- Corrugated-style horizontal ribs on the lower front face sides -->
-            <!-- Left panel ribs (between left edge and grille) -->
-            <line x1="74" y1="375" x2="276" y2="375" stroke-width="5" opacity="0.32"/>
-            <line x1="74" y1="403" x2="276" y2="403" stroke-width="5" opacity="0.32"/>
-            <line x1="74" y1="431" x2="276" y2="431" stroke-width="5" opacity="0.32"/>
-            <line x1="74" y1="459" x2="276" y2="459" stroke-width="5" opacity="0.32"/>
-            <line x1="74" y1="487" x2="276" y2="487" stroke-width="5" opacity="0.32"/>
-            <line x1="74" y1="515" x2="276" y2="515" stroke-width="5" opacity="0.32"/>
-            <!-- Right panel ribs -->
-            <line x1="804" y1="375" x2="1006" y2="375" stroke-width="5" opacity="0.32"/>
-            <line x1="804" y1="403" x2="1006" y2="403" stroke-width="5" opacity="0.32"/>
-            <line x1="804" y1="431" x2="1006" y2="431" stroke-width="5" opacity="0.32"/>
-            <line x1="804" y1="459" x2="1006" y2="459" stroke-width="5" opacity="0.32"/>
-            <line x1="804" y1="487" x2="1006" y2="487" stroke-width="5" opacity="0.32"/>
-            <line x1="804" y1="515" x2="1006" y2="515" stroke-width="5" opacity="0.32"/>
-
-            <!-- ── HEADLIGHTS ── -->
-            <!-- Left headlight — outer chrome ring -->
-            <circle cx="176" cy="450" r="82" fill="none" stroke-width="9"/>
-            <!-- Left headlight — reflector dish -->
-            <circle cx="176" cy="450" r="64" fill="#2A1810" stroke="none"/>
-            <!-- Left headlight — lens ring -->
-            <circle cx="176" cy="450" r="44" fill="none" stroke-width="5" opacity="0.55"/>
-            <!-- Left headlight — center bulb -->
-            <circle cx="176" cy="450" r="22" fill="none" stroke-width="4" opacity="0.40"/>
-            <!-- Left headlight — specular glint -->
-            <circle cx="194" cy="428" r="14" fill="rgba(237,224,192,0.22)" stroke="none"/>
-
-            <!-- Right headlight — outer chrome ring -->
-            <circle cx="904" cy="450" r="82" fill="none" stroke-width="9"/>
-            <!-- Right headlight — reflector dish -->
-            <circle cx="904" cy="450" r="64" fill="#2A1810" stroke="none"/>
-            <!-- Right headlight — lens ring -->
-            <circle cx="904" cy="450" r="44" fill="none" stroke-width="5" opacity="0.55"/>
-            <!-- Right headlight — center bulb -->
-            <circle cx="904" cy="450" r="22" fill="none" stroke-width="4" opacity="0.40"/>
-            <!-- Right headlight — specular glint -->
-            <circle cx="886" cy="428" r="14" fill="rgba(237,224,192,0.22)" stroke="none"/>
-
-            <!-- ── FRONT GRILLE ── -->
-            <!-- Grille housing/panel outline -->
-            <rect x="286" y="350" width="508" height="190" rx="8" fill="rgba(237,224,192,0.06)" stroke-width="7"/>
-            <!-- Grille horizontal slats — the most recognizable detail after the windshield -->
-            <line x1="296" y1="380" x2="786" y2="380" stroke-width="7" stroke-linecap="square"/>
-            <line x1="296" y1="410" x2="786" y2="410" stroke-width="7" stroke-linecap="square"/>
-            <line x1="296" y1="440" x2="786" y2="440" stroke-width="7" stroke-linecap="square"/>
-            <line x1="296" y1="470" x2="786" y2="470" stroke-width="7" stroke-linecap="square"/>
-            <line x1="296" y1="500" x2="786" y2="500" stroke-width="7" stroke-linecap="square"/>
-            <line x1="296" y1="528" x2="786" y2="528" stroke-width="7" stroke-linecap="square"/>
-            <!-- Grille vertical cross members (subtle) -->
-            <line x1="400" y1="356" x2="400" y2="534" stroke-width="3" opacity="0.35"/>
-            <line x1="540" y1="356" x2="540" y2="534" stroke-width="3" opacity="0.35"/>
-            <line x1="680" y1="356" x2="680" y2="534" stroke-width="3" opacity="0.35"/>
-
-            <!-- ── Hood / bonnet crease line ── -->
-            <line x1="70" y1="348" x2="1010" y2="348" stroke-width="4" opacity="0.22"/>
-
-            <!-- ── Lower body step / skirt ── -->
-            <line x1="66" y1="558" x2="1014" y2="558" stroke-width="5" opacity="0.40"/>
-
-            <!-- ── BUMPER ── -->
-            <!-- Bumper upper bar -->
-            <rect x="46" y="568" width="988" height="34" rx="10" stroke="none"/>
-            <!-- Bumper lower strip (thinner, slightly wider) -->
-            <rect x="32" y="600" width="1016" height="18" rx="7" stroke="none"/>
-            <!-- Tow hook / license plate recess -->
-            <rect x="448" y="576" width="184" height="20" rx="3" fill="rgba(237,224,192,0.18)" stroke="none"/>
-            <!-- License plate text hint (decorative dashes) -->
-            <line x1="462" y1="586" x2="624" y2="586" stroke-width="2.5" stroke="rgba(237,224,192,0.30)"/>
-
-            <!-- ── Undercarriage ── -->
-            <rect x="90" y="618" width="900" height="14" rx="5" stroke="none" opacity="0.50"/>
-
-            <!-- ── Wheel arch hints (bottom corners) ── -->
-            <path d="M66,670 C66,640 96,618 132,618" fill="none" stroke-width="9" opacity="0.45"/>
-            <path d="M1014,670 C1014,640 984,618 948,618" fill="none" stroke-width="9" opacity="0.45"/>
-
-            <!-- ── SIDE MIRRORS ── -->
-            <!-- Left mirror — arm -->
-            <path d="M66,218 L28,212 L20,252 L66,258" stroke="none"/>
-            <!-- Left mirror — glass -->
-            <rect x="12" y="218" width="22" height="30" rx="4" stroke="none" opacity="0.88"/>
-            <!-- Right mirror — arm -->
-            <path d="M1014,218 L1052,212 L1060,252 L1014,258" stroke="none"/>
-            <!-- Right mirror — glass -->
-            <rect x="1046" y="218" width="22" height="30" rx="4" stroke="none" opacity="0.88"/>
-
-            <!-- ── Turn signals / indicators (lower corners of front face) ── -->
-            <rect x="68" y="540" width="192" height="22" rx="4" stroke="none" opacity="0.45"/>
-            <rect x="820" y="540" width="192" height="22" rx="4" stroke="none" opacity="0.45"/>
-
-            <!-- ── Serving window awning hint (right side, slightly visible) ── -->
-            <!-- This gives it the "coffee truck" identity beyond just the van shape -->
-            <path d="M1014,200 L1060,200 L1070,280 L1014,280" stroke="none" opacity="0.30"/>
-            <!-- Awning stripes -->
-            <line x1="1014" y1="220" x2="1065" y2="223" stroke-width="5" opacity="0.20"/>
-            <line x1="1014" y1="240" x2="1064" y2="244" stroke-width="5" opacity="0.20"/>
-            <line x1="1014" y1="260" x2="1063" y2="265" stroke-width="5" opacity="0.20"/>
-
-            <!-- ── "COMMON TIDES" lettering ghost on lower front body ── -->
-            <!-- Decorative band across the lower face suggesting branding -->
-            <rect x="290" y="564" width="500" height="6" rx="2" stroke="none" opacity="0.20"/>
-
-          </g>
-        </svg>
+        <img src="https://raw.githubusercontent.com/commontidescoffee/images/main/truck-vector.png" alt="" crossorigin="anonymous">
       </div>
 
       <!-- Double border + inner ring -->
