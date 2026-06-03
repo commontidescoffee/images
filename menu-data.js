@@ -55,10 +55,9 @@ const MENU_DATA = {
   // ── SPECIALTY LATTES ─────────────────────────────────────────────
   specialty: [
     {
-      name:   "Honey Lavender Latte",
-      badge:  "Seasonal",
-      detail: "Locally sourced honey · Lavender · Hot or Iced · While supplies last",
-      price:  "$7.00"
+      name:   "New Special Coming Soon",
+      badge:  "Coming Soon",
+      detail: "Stay tuned for something new"
     },
     {
       name:   "Salted Caramel Latte",
@@ -81,13 +80,9 @@ const MENU_DATA = {
   // ── MATCHA ───────────────────────────────────────────────────────
   matcha: [
     {
-      name:   "Honey Lavender Matcha",
-      badge:  "Seasonal",
-      detail: "Locally sourced honey · Lavender · Ceremonial Grade · While supplies last",
-      sizes:  [
-        { label: "Hot 12oz",  price: "$5.50" },
-        { label: "Iced 16oz", price: "$6.00" }
-      ]
+      name:   "New Special Coming Soon",
+      badge:  "Coming Soon",
+      detail: "Stay tuned for something new"
     },
     {
       name:   "Vanilla Matcha",
