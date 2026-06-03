@@ -468,7 +468,7 @@
           return '<div class="sz-row"><span class="sz-tag">' + s.label + '</span><span class="sz-price">' + s.price + '</span></div>';
         }).join('') + '</div>';
     } else {
-      price = '<div class="price">' + item.price + '</div>';
+      price = item.price ? '<div class="price">' + item.price + '</div>' : '';
     }
     return '<div class="item"><div class="item-left"><div class="item-name">' + item.name + badge + '</div>' + detail + '</div>' + price + '</div>';
   }
