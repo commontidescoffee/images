@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Common Tides · Training Questions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #4A9E93;
+    --teal-dark: #357870;
+    --teal-pale: #E8F7F5;
+    --sand: #E8DCC8;
+    --bg: #FAFAF8;
+    --ink: #1a1a1a;
+    --muted: #666;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+  }
+
+  /* ── Progress bar ── */
+  .progress-wrap {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(250,250,248,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    padding: 10px 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .progress-track {
+    flex: 1; height: 6px; background: var(--sand); border-radius: 99px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; width: 0%; background: var(--teal); border-radius: 99px;
+    transition: width 0.3s ease;
+  }
+  .progress-label {
+    font-size: 12px; font-weight: 700; color: var(--teal-dark);
+    white-space: nowrap; font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: linear-gradient(160deg, #4A9E93 0%, #5EB3A7 40%, #70C4B8 70%, #9FD9D0 100%);
+    text-align: center;
+    padding: 56px 20px 72px;
+    position: relative;
+  }
+  .hero img.logo {
+    width: 72px; height: 72px; border-radius: 50%;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    margin-bottom: 16px;
+  }
+  .hero .eyebrow {
+    text-transform: uppercase; letter-spacing: 0.14em;
+    font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.85);
+    margin-bottom: 10px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900; font-size: clamp(30px, 7vw, 44px);
+    color: #fff; line-height: 1.12;
+  }
+  .hero p.sub {
+    color: rgba(255,255,255,0.92); font-size: 16px;
+    max-width: 520px; margin: 14px auto 0;
+  }
+  .hero .wave {
+    position: absolute; bottom: -1px; left: 0; right: 0; display: block; width: 100%;
+  }
+
+  /* ── Layout ── */
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px 80px; }
+
+  .howto {
+    background: #fff; border: 1.5px solid var(--sand); border-top: 3px solid var(--teal);
+    border-radius: 16px; padding: 24px; margin-top: -36px; position: relative;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  .howto h2 { font-size: 17px; font-weight: 700; margin-bottom: 12px; }
+  .howto ol { margin-left: 20px; display: grid; gap: 8px; font-size: 15px; }
+  .howto li strong { color: var(--teal-dark); }
+  .howto .tip {
+    margin-top: 14px; background: var(--teal-pale); border-left: 4px solid var(--teal);
+    border-radius: 8px; padding: 10px 14px; font-size: 14px; color: var(--ink);
+  }
+
+  /* ── Sections ── */
+  section.block {
+    background: #fff; border: 1.5px solid var(--sand);
+    border-radius: 16px; padding: 26px 22px; margin-top: 28px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .sec-head { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
+  .sec-num {
+    flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%;
+    background: var(--teal); color: #fff; font-weight: 700; font-size: 15px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .sec-head h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 23px; font-weight: 700; color: var(--ink);
+  }
+  .sec-why { font-size: 14px; color: var(--muted); margin: 6px 0 18px 46px; }
+
+  .q { margin-top: 18px; }
+  .q-label { font-size: 15px; font-weight: 600; display: block; }
+  .star {
+    display: inline-block; background: var(--teal-pale); color: var(--teal-dark);
+    font-size: 11px; font-weight: 700; border-radius: 99px; padding: 1px 8px;
+    margin-left: 6px; vertical-align: 2px; letter-spacing: 0.02em;
+  }
+  .q-help { font-size: 13px; color: var(--muted); margin: 3px 0 8px; }
+  textarea {
+    width: 100%; min-height: 86px; resize: vertical;
+    font-family: 'DM Sans', system-ui, sans-serif; font-size: 16px; line-height: 1.5;
+    color: var(--ink); background: #FDFCFA;
+    border: 1.5px solid var(--sand); border-radius: 12px; padding: 12px 14px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  textarea:focus {
+    outline: none; border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(74,158,147,0.18);
+    background: #fff;
+  }
+  textarea.short { min-height: 56px; }
+  textarea.prefilled { background: #F4FAF9; }
+
+  .drink {
+    border: 1.5px solid var(--sand); border-radius: 14px;
+    padding: 16px; margin-top: 14px; background: #FFFEFC;
+  }
+  .drink-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .drink-name { font-size: 16px; font-weight: 700; }
+  .drink-meta { font-size: 13px; color: var(--muted); }
+  .drink textarea { margin-top: 10px; min-height: 64px; }
+
+  /* ── Finish ── */
+  .finish {
+    background: linear-gradient(160deg, #4A9E93 0%, #5EB3A7 55%, #70C4B8 100%);
+    border-radius: 20px; padding: 34px 24px; margin-top: 36px; text-align: center;
+  }
+  .finish h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    color: #fff; font-size: 26px; font-weight: 700;
+  }
+  .finish p { color: rgba(255,255,255,0.92); font-size: 15px; max-width: 460px; margin: 10px auto 20px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 16px; font-weight: 700; border-radius: 99px; cursor: pointer;
+    padding: 14px 28px; min-height: 52px; border: none;
+    transition: transform 0.12s ease, background 0.15s;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-white { background: #fff; color: var(--teal-dark); }
+  .btn-ghost {
+    background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.7);
+    margin-left: 8px;
+  }
+  .btn-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+  .btn-row .btn-ghost { margin-left: 0; }
+  .copied-note {
+    display: none; margin-top: 14px; color: #fff; font-weight: 700; font-size: 15px;
+  }
+
+  .save-pill {
+    position: fixed; bottom: 16px; right: 16px; z-index: 60;
+    background: var(--ink); color: #fff; font-size: 13px; font-weight: 600;
+    border-radius: 99px; padding: 8px 14px; opacity: 0;
+    transition: opacity 0.25s; pointer-events: none;
+  }
+  .save-pill.show { opacity: 0.88; }
+
+  footer {
+    text-align: center; font-size: 13px; color: var(--muted); padding: 28px 16px 40px;
+  }
+  @media (max-width: 600px) {
+    section.block { padding: 22px 16px; }
+    .sec-why { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-wrap">
+  <div class="progress-track"><div class="progress-fill" id="bar"></div></div>
+  <span class="progress-label" id="count">0 of 0 answered</span>
+</div>
+
+<div class="hero">
+  <img class="logo" src="https://raw.githubusercontent.com/commontidescoffee/images/main/logo-03.png" alt="Common Tides Coffee logo">
+  <p class="eyebrow">Common Tides Coffee</p>
+  <h1>Let&rsquo;s Build Your Training Guide</h1>
+  <p class="sub">Answer these in your own words, like you&rsquo;re voice-texting a new hire. Claude turns it all into a beautiful training site for your team.</p>
+  <svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path fill="#FAFAF8" d="M0,30 C240,60 480,0 720,20 C960,40 1200,55 1440,25 L1440,60 L0,60 Z"></path></svg>
+</div>
+
+<div class="wrap">
+
+  <div class="howto">
+    <h2>How this works</h2>
+    <ol>
+      <li><strong>Type into the boxes.</strong> Bullet points and shorthand are totally fine. Spelling does not matter.</li>
+      <li><strong>Your answers save automatically</strong> on this device, so you can leave and come back anytime.</li>
+      <li><strong>When you are done,</strong> hit the big button at the bottom and paste it into a chat with Claude.</li>
+    </ol>
+    <div class="tip">Boxes marked <span style="background:#E8F7F5;color:#357870;font-size:11px;font-weight:700;border-radius:99px;padding:1px 8px;">key</span> matter most. Skip anything else and Claude will write a first draft for you to correct. About 30 to 45 minutes total.</div>
+  </div>
+
+  <!-- 1 ─────────────────────────────────────────── -->
+  <section class="block">
+    <div class="sec-head"><div class="sec-num">1</div><h2>The Welcome</h2></div>
+    <p class="sec-why">The first thing a new hire reads. Why Common Tides exists and the vibe you want at the window.</p>
+
+    <div class="q">
+      <label class="q-label" for="q1a">Tell the Common Tides story in your own words</label>
+      <p class="q-help">2 or 3 sentences. What you serve, where, and what makes it yours. I started with a draft, fix anything that sounds off.</p>
+      <textarea id="q1a" class="prefilled" data-q="Brand story in Zack's words">Common Tides is a battery powered espresso trailer serving hand-pulled craft coffee along the NC coast. You will find us at farmers markets, weddings, and corporate events from Wilmington to Carolina Beach. Locally roasted beans, made fresh, every single cup.</textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q1b">What 3 things do you want every staff member to live by? <span class="star">key</span></label>
+      <p class="q-help">Ex: quality never slips, every customer leaves happier, keep the bar clean as you go</p>
+      <textarea id="q1b" class="short" data-q="3 values for staff"></textarea>
+    </div>
+  </section>
+
+  <!-- 2 ─────────────────────────────────────────── -->
+  <section class="block">
+    <div class="sec-head"><div class="sec-num">2</div><h2>Day 1 Basics</h2></div>
+    <p class="sec-why">The stuff every new food service hire asks in their first hour.</p>
+
+    <div class="q">
+      <label class="q-label" for="q2a">What should staff wear? <span class="star">key</span></label>
+      <p class="q-help">Shirt, pants, shoes, hat, apron? Anything not allowed?</p>
+      <textarea id="q2a" class="short" data-q="Dress code"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q2b">How early before an event should they arrive, and where do they meet you?</label>
+      <p class="q-help">Ex: 45 min before start, meet at the trailer at the event spot. Do they ever drive or tow anything?</p>
+      <textarea id="q2b" class="short" data-q="Arrival time and meeting spot"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q2c">Free drinks and friends policy <span class="star">key</span></label>
+      <p class="q-help">Can staff have a drink on shift? How many? Do friends and family get a discount? Ring it in Square or not?</p>
+      <textarea id="q2c" class="short" data-q="Staff drinks and friends policy"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q2d">Bathroom and break plan</label>
+      <p class="q-help">When someone is alone at the window: where is the nearest restroom at your usual venues, how do they close the window for 5 minutes?</p>
+      <textarea id="q2d" class="short" data-q="Bathroom and break plan"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q2e">Phone policy during a shift</label>
+      <p class="q-help">Ex: phones in pocket while customers are around, fine during dead time after restocking is done</p>
+      <textarea id="q2e" class="short" data-q="Phone policy"></textarea>
+    </div>
+  </section>
+
+  <!-- 3 ─────────────────────────────────────────── -->
+  <section class="block">
+    <div class="sec-head"><div class="sec-num">3</div><h2>The Trailer</h2></div>
+    <p class="sec-why">A quick tour so nothing in the trailer is a mystery.</p>
+
+    <div class="q">
+      <label class="q-label" for="q3a">What equipment do you run?</label>
+      <p class="q-help">Espresso machine model, grinder model, anything else worth naming (blender, kettle, fridge)</p>
+      <textarea id="q3a" class="short" data-q="Equipment list"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q3b">Where does everything live?</label>
+      <p class="q-help">Water tanks, battery and power switches, backup milk, ice, first aid kit, fire extinguisher, extra cups</p>
+      <textarea id="q3b" data-q="Where things live in the trailer"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q3c">Battery and power rules <span class="star">key</span></label>
+      <p class="q-help">How do staff check battery level? At what point should they worry or call you? Anything that should never be plugged in?</p>
+      <textarea id="q3c" data-q="Battery and power rules"></textarea>
+    </div>
+  </section>
+
+  <!-- 4 ─────────────────────────────────────────── -->
+  <section class="block">
+    <div class="sec-head"><div class="sec-num">4</div><h2>Opening Setup</h2></div>
+    <p class="sec-why">I will turn this into a check-off list in the order you walk the trailer.</p>
+
+    <div class="q">
+      <label class="q-label" for="q4a">Walk me through setup, start to finish <span class="star">key</span></label>
+      <p class="q-help">From arriving to first drink served. Power on, water, machine warm up, grinder, fridge and milk, ice, menu sign, tip jar, napkins, whatever you actually do</p>
+      <textarea id="q4a" style="min-height:140px" data-q="Opening setup walkthrough"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q4b">How long does the machine take to be ready, and how do you know?</label>
+      <p class="q-help">Ex: 20 min warm up, pressure gauge sits at X, pull a test shot</p>
+      <textarea id="q4b" class="short" data-q="Machine warm up time and ready check"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q4c">Daily checks before service</label>
+      <p class="q-help">Fridge temp (health inspectors want 41&deg;F or below written down), water tank level, sanitizer bucket mixed, anything else</p>
+      <textarea id="q4c" class="short" data-q="Daily checks before service"></textarea>
+    </div>
+  </section>
+
+  <!-- 5 ─────────────────────────────────────────── -->
+  <section class="block">
+    <div class="sec-head"><div class="sec-num">5</div><h2>Espresso, Your Way</h2></div>
+    <p class="sec-why">The heart of the whole guide. Your numbers, so every cup tastes like yours.</p>
+
+    <div class="q">
+      <label class="q-label" for="q5a">Your espresso recipe <span class="star">key</span></label>
+      <p class="q-help">Ex: 18g of grounds in, 36g of liquid out, 25 to 30 seconds. If you go by eye and taste, describe what right looks like</p>
+      <textarea id="q5a" class="short" data-q="Espresso recipe numbers"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q5b">How do you dial in the grinder when shots run too fast or too slow?</label>
+      <p class="q-help">Ex: shot under 20 seconds means grind finer, over 35 means coarser, change one thing at a time</p>
+      <textarea id="q5b" class="short" data-q="Grinder dial in rules"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q5c">When should a barista throw a shot away and start over?</label>
+      <p class="q-help">Ex: blonde and watery, ran way too fast, sat dead for more than 30 seconds</p>
+      <textarea id="q5c" class="short" data-q="When to sink a shot"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q5d">Milk steaming standards <span class="star">key</span></label>
+      <p class="q-help">Target temps for whole milk vs oat and almond, how much foam for a latte vs cappuccino, thermometer or by feel?</p>
+      <textarea id="q5d" data-q="Milk steaming standards"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q5e">Pitcher and milk handling rules</label>
+      <p class="q-help">Fresh pitcher per drink? Rinse between uses? How long can milk sit out before it goes back in the fridge or gets tossed?</p>
+      <textarea id="q5e" class="short" data-q="Pitcher and milk handling rules"></textarea>
+    </div>
+  </section>
+
+  <!-- 6 ─────────────────────────────────────────── -->
+  <section class="block">
+    <div class="sec-head"><div class="sec-num">6</div><h2>Drink Builds</h2></div>
+    <p class="sec-why">Your current menu is already loaded below. For each drink, give me the build the way you would teach it. These become recipe cards a barista can follow top to bottom.</p>
+
+    <div class="q">
+      <label class="q-label" for="q6cups">First: what cups, lids, and sizes do you stock?</label>
+      <p class="q-help">Ex: 12oz hot cups with sip lids, 16oz clear cold cups with flat lids, kid cups?</p>
+      <textarea id="q6cups" class="short" data-q="Cups and lids stocked"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q6pump">How do you measure syrup?</label>
+      <p class="q-help">Pumps from a bottle? Ounces? Ex: 1 pump is about a quarter ounce, lattes get 3</p>
+      <textarea id="q6pump" class="short" data-q="Syrup measuring"></textarea>
+    </div>
+
+    <div class="drink">
+      <div class="drink-head"><span class="drink-name">Espresso <span class="star">key</span></span><span class="drink-meta">Hot only · Double shot · $3.75</span></div>
+      <textarea id="d1" data-q="BUILD: Espresso" placeholder="Cup, shots, anything on the side"></textarea>
+    </div>
+    <div class="drink">
+      <div class="drink-head"><span class="drink-name">Americano <span class="star">key</span></span><span class="drink-meta">12oz Hot $4.25 · 16oz Iced $4.75</span></div>
+      <textarea id="d2" data-q="BUILD: Americano" placeholder="Hot build and iced build. Ex: 12oz cup, double shot, fill with hot water"></textarea>
+    </div>
+    <div class="drink">
+      <div class="drink-head"><span class="drink-name">Latte <span class="star">key</span></span><span class="drink-meta">Hot or Iced · 16oz · $6.00</span></div>
+      <textarea id="d3" data-q="BUILD: Latte" placeholder="Ex hot: double shot in cup, steamed whole milk to the top, thin foam. Ex iced: ice to top, shots, cold milk"></textarea>
+    </div>
+    <div class="drink">
+      <div class="drink-head"><span class="drink-name">Cappuccino</span><span class="drink-meta">Hot only · 12oz · $5.25</span></div>
+      <textarea id="d4" data-q="BUILD: Cappuccino" placeholder="Shots, milk, how much foam"></textarea>
+    </div>
+    <div class="drink">
+      <div class="drink-head"><span class="drink-name">Mocha</span><span class="drink-meta">Hot or Iced · 16oz · $6.75</span></div>
+      <textarea id="d5" data-q="BUILD: Mocha" placeholder="What chocolate do you use, how much, build order, whip on top?"></textarea>
+    </div>
+    <div class="drink">
+      <div class="drink-head"><span class="drink-name">Salted Caramel Latte <span class="star">key</span></span><span class="drink-meta">Signature · Hot or Iced · $6.75</span></div>
+      <textarea id="d6" data-q="BUILD: Salted Caramel Latte (signature)" placeholder="The signature. Pumps of caramel, where the pink salt goes, exact build"></textarea>
+    </div>
+    <div class="drink">
+      <div class="drink-head"><span class="drink-name">Maple Syrup Latte</span><span class="drink-meta">Grade A Maple · Hot or Iced · $6.75</span></div>
+      <textarea id="d7" data-q="BUILD: Maple Syrup Latte" placeholder="How much maple, build order"></textarea>
+    </div>
+    <div class="drink">
+      <div class="drink-head"><span class="drink-name">Vanilla Latte</span><span class="drink-meta">Hot or Iced · $6.75</span></div>
+      <textarea id="d8" data-q="BUILD: Vanilla Latte" placeholder="Pumps of vanilla, build order"></textarea>
+    </div>
+    <div class="drink">
+      <div class="drink-head"><span class="drink-name">Vanilla Matcha <span class="star">key</span></span><span class="drink-meta">Hot 12oz $5.00 · Iced 16oz $5.50</span></div>
+      <textarea id="d9" data-q="BUILD: Vanilla Matcha" placeholder="How much matcha powder, how do you mix it, vanilla amount, hot and iced builds"></textarea>
+    </div>
+    <div class="drink">
+      <div class="drink-head"><span class="drink-name">The Golden Hour</span><span class="drink-meta">Turmeric · Hot · 12oz $5.50 / 16oz $6.00</span></div>
+      <textarea id="d10" data-q="BUILD: The Golden Hour" placeholder="What goes in it, amounts, build order"></textarea>
+    </div>
+    <div class="drink">
+      <div class="drink-head"><span class="drink-name">Hot Chocolate</span><span class="drink-meta">Hot · 12oz · $4.75</span></div>
+      <textarea id="d11" data-q="BUILD: Hot Chocolate" placeholder="Chocolate amount, milk, whip?"></textarea>
+    </div>
+    <div class="drink">
+      <div class="drink-head"><span class="drink-name">London Fog</span><span class="drink-meta">Earl Grey · Vanilla · Steamed Milk · 12oz · $4.00</span></div>
+      <textarea id="d12" data-q="BUILD: London Fog" placeholder="Steep time, vanilla amount, milk split"></textarea>
+    </div>
+    <div class="drink">
+      <div class="drink-head"><span class="drink-name">Hot Tea</span><span class="drink-meta">Earl Grey · Irish Breakfast · English Breakfast · $2.50</span></div>
+      <textarea id="d13" data-q="BUILD: Hot Tea" placeholder="Water temp, steep, bag in or out?"></textarea>
+    </div>
+    <div class="drink">
+      <div class="drink-head"><span class="drink-name">Kids Latte</span><span class="drink-meta">Caramel, Vanilla, or Maple · Whole Milk · Iced only · $4.00</span></div>
+      <textarea id="d14" data-q="BUILD: Kids Latte" placeholder="No coffee right? Milk, syrup amount, cup"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q6mod">Common tweaks and how to handle them</label>
+      <p class="q-help">Extra shot, oat or almond swap, sugar free vanilla, light ice, extra hot. Anything you refuse to do?</p>
+      <textarea id="q6mod" class="short" data-q="Common drink modifications"></textarea>
+    </div>
+  </section>
+
+  <!-- 7 ─────────────────────────────────────────── -->
+  <section class="block">
+    <div class="sec-head"><div class="sec-num">7</div><h2>Square + Money</h2></div>
+    <p class="sec-why">Ringing orders, tips, and what staff can decide without calling you.</p>
+
+    <div class="q">
+      <label class="q-label" for="q7a">Walk me through ringing up an order in Square</label>
+      <p class="q-help">Where modifiers live, how to add an extra shot or oat milk, anything weird about your item layout</p>
+      <textarea id="q7a" data-q="Square order walkthrough"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q7b">How do tips work? <span class="star">key</span></label>
+      <p class="q-help">Square tip screen plus cash jar? How are they split and when do they pay out? (Your HQ payroll splits Square tips by hours worked, want me to explain that to staff?)</p>
+      <textarea id="q7b" class="short" data-q="How tips work"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q7c">Remakes, comps, and refunds <span class="star">key</span></label>
+      <p class="q-help">My suggestion: staff never need permission to remake a wrong drink. Where is the line? When do they refund vs remake, and how in Square?</p>
+      <textarea id="q7c" class="short" data-q="Remake comp refund policy"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q7d">Do you take cash? What is the routine?</label>
+      <p class="q-help">Change fund, where cash lives, end of day count</p>
+      <textarea id="q7d" class="short" data-q="Cash handling"></textarea>
+    </div>
+  </section>
+
+  <!-- 8 ─────────────────────────────────────────── -->
+  <section class="block">
+    <div class="sec-head"><div class="sec-num">8</div><h2>Customers, the Common Tides Way</h2></div>
+    <p class="sec-why">Scripts and rules of thumb so service feels like you even when you are not there.</p>
+
+    <div class="q">
+      <label class="q-label" for="q8a">How do you greet people at the window? <span class="star">key</span></label>
+      <p class="q-help">Your actual words. Any go-to recommendation line for first timers?</p>
+      <textarea id="q8a" class="short" data-q="Greeting style"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q8b">When a line forms, what is the plan?</label>
+      <p class="q-help">Ex: acknowledge everyone within 10 seconds, start milk while shots pull, with 2 people one takes orders down the line</p>
+      <textarea id="q8b" class="short" data-q="Busy line plan"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q8c">Top questions customers ask, with your answers</label>
+      <p class="q-help">Ex: where are you usually? do you do weddings? (book at commontides.com) is the trailer really battery powered?</p>
+      <textarea id="q8c" data-q="Common customer questions and answers"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q8d">An unhappy customer: what do you want staff to do?</label>
+      <p class="q-help">I will pair your answer with the classic listen, apologize, fix it, thank them flow</p>
+      <textarea id="q8d" class="short" data-q="Unhappy customer handling"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q8e">Regulars or venue quirks worth knowing?</label>
+      <p class="q-help">Ex: the market manager gets a free americano, the Helmsman crowd hits hard at 9am</p>
+      <textarea id="q8e" class="short" data-q="Regulars and venue quirks"></textarea>
+    </div>
+  </section>
+
+  <!-- 9 ─────────────────────────────────────────── -->
+  <section class="block">
+    <div class="sec-head"><div class="sec-num">9</div><h2>Cleaning + Closing</h2></div>
+    <p class="sec-why">Keep the health inspector happy and the trailer ready for tomorrow.</p>
+
+    <div class="q">
+      <label class="q-label" for="q9a">Cleaning rhythm during a shift</label>
+      <p class="q-help">Ex: purge and wipe the steam wand after every drink, sanitizer bucket for cloths, wipe the counter between rushes</p>
+      <textarea id="q9a" class="short" data-q="During shift cleaning rhythm"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q9b">Walk me through closing down, start to finish <span class="star">key</span></label>
+      <p class="q-help">Backflush? Drip tray, grounds, trash, milk away, water tanks, battery on charge, restock notes. Same as opening, I will make it a check-off list</p>
+      <textarea id="q9b" style="min-height:140px" data-q="Closing teardown walkthrough"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q9c">Where does the trailer get serviced and restocked?</label>
+      <p class="q-help">NC requires mobile units to return to a commissary for water, gray water, and cleaning. Where is yours and who handles that trip?</p>
+      <textarea id="q9c" class="short" data-q="Commissary servicing"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q9d">Handwashing and glove rules</label>
+      <p class="q-help">Ex: wash on arrival, after money, after trash. Handwash sink is for hands only</p>
+      <textarea id="q9d" class="short" data-q="Handwashing rules"></textarea>
+    </div>
+  </section>
+
+  <!-- 10 ─────────────────────────────────────────── -->
+  <section class="block">
+    <div class="sec-head"><div class="sec-num">10</div><h2>When Things Go Wrong</h2></div>
+    <p class="sec-why">One page of calm answers for the moments that feel like emergencies.</p>
+
+    <div class="q">
+      <label class="q-label" for="q10a">Machine, power, or water problems: first moves <span class="star">key</span></label>
+      <p class="q-help">Ex: no shots pulling, check X then call me. Battery low, do Y. Out of water, Z</p>
+      <textarea id="q10a" data-q="Machine power water problems"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q10b">Running out of something mid-event</label>
+      <p class="q-help">Out of oat milk, a syrup, ice, or cups. What do staff offer instead, and do they comp the difference?</p>
+      <textarea id="q10b" class="short" data-q="Run out substitutions"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q10c">Weather and closing early</label>
+      <p class="q-help">Wind, rain, lightning rules. Who decides to shut down, and what is the quick pack-up version?</p>
+      <textarea id="q10c" class="short" data-q="Weather and early close rules"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q10d">Burns, injuries, first aid</label>
+      <p class="q-help">Where is the kit, what is the burn protocol, when is it a go-home or urgent care situation?</p>
+      <textarea id="q10d" class="short" data-q="Injury and first aid"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q10e">Who to call, in order</label>
+      <p class="q-help">I prefilled you. Add a backup person if there is one</p>
+      <textarea id="q10e" class="short prefilled" data-q="Emergency contacts">1. Zack: (910) 902-9620, call or text anytime during an event</textarea>
+    </div>
+  </section>
+
+  <!-- 11 ─────────────────────────────────────────── -->
+  <section class="block">
+    <div class="sec-head"><div class="sec-num">11</div><h2>Anything Else</h2></div>
+    <p class="sec-why">The catch-all. If a new hire should know it, drop it here.</p>
+
+    <div class="q">
+      <label class="q-label" for="q11a">What did I forget to ask?</label>
+      <p class="q-help">Dead time jobs, restock lists, parking, music at the window, Instagram duties, anything</p>
+      <textarea id="q11a" data-q="Anything else to know"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q11b">Photos for the training site?</label>
+      <p class="q-help">I already have your truck photos. Want drink photos or a trailer interior shot on the guide? Just tell me what you can snap</p>
+      <textarea id="q11b" class="short" data-q="Photos available"></textarea>
+    </div>
+  </section>
+
+  <!-- Finish ─────────────────────────────────────── -->
+  <div class="finish">
+    <h2>Done? Send it to Claude</h2>
+    <p>This copies all your answers. Open a chat with Claude, paste, and say &ldquo;build my training site.&rdquo; Skipped boxes are fine, Claude will draft those for you to check.</p>
+    <div class="btn-row">
+      <button class="btn btn-white" id="copyBtn" type="button">Copy My Answers</button>
+      <button class="btn btn-ghost" id="dlBtn" type="button">Download as a File</button>
+    </div>
+    <p class="copied-note" id="copiedNote">Copied! Now paste it into a Claude chat.</p>
+  </div>
+
+  <footer>Common Tides Coffee · Wilmington, NC · This page saves answers on your device only</footer>
+</div>
+
+<div class="save-pill" id="savePill">Saved</div>
+
+<script>
+(function () {
+  var areas = Array.prototype.slice.call(document.querySelectorAll('textarea'));
+  var KEY = 'ct-training-';
+  var pill = document.getElementById('savePill');
+  var pillTimer = null;
+
+  function answered(ta) {
+    return ta.value.trim().length > 0 && ta.value !== ta.defaultValue;
+  }
+  // Prefilled boxes count as answered once the user has visited the page,
+  // but for progress we count non-empty values
+  function filledCount() {
+    var n = 0;
+    areas.forEach(function (ta) { if (ta.value.trim().length > 0) n++; });
+    return n;
+  }
+
+  function updateProgress() {
+    var total = areas.length;
+    var n = filledCount();
+    document.getElementById('count').textContent = n + ' of ' + total + ' answered';
+    document.getElementById('bar').style.width = Math.round((n / total) * 100) + '%';
+  }
+
+  function showSaved() {
+    pill.classList.add('show');
+    clearTimeout(pillTimer);
+    pillTimer = setTimeout(function () { pill.classList.remove('show'); }, 1200);
+  }
+
+  areas.forEach(function (ta) {
+    try {
+      var stored = localStorage.getItem(KEY + ta.id);
+      if (stored !== null) ta.value = stored;
+    } catch (e) {}
+    ta.addEventListener('input', function () {
+      try { localStorage.setItem(KEY + ta.id, ta.value); } catch (e) {}
+      updateProgress();
+      showSaved();
+    });
+  });
+  updateProgress();
+
+  function buildExport() {
+    var lines = [];
+    lines.push('COMMON TIDES TRAINING GUIDE: ZACK\'S ANSWERS');
+    lines.push('Generated ' + new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
+    lines.push('Instructions for Claude: build the Common Tides staff training site from these answers. Draft anything marked (skipped) and flag it for Zack to review.');
+    lines.push('');
+    var currentSection = '';
+    areas.forEach(function (ta) {
+      var sec = ta.closest('section');
+      var secName = sec ? sec.querySelector('h2').textContent : 'General';
+      if (secName !== currentSection) {
+        currentSection = secName;
+        lines.push('');
+        lines.push('=== ' + secName.toUpperCase() + ' ===');
+      }
+      var q = ta.getAttribute('data-q') || ta.id;
+      var v = ta.value.trim();
+      lines.push('');
+      lines.push('Q: ' + q);
+      lines.push('A: ' + (v.length ? v : '(skipped)'));
+    });
+    return lines.join('\n');
+  }
+
+  document.getElementById('copyBtn').addEventListener('click', function () {
+    var text = buildExport();
+    function done() {
+      var note = document.getElementById('copiedNote');
+      note.style.display = 'block';
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { fallbackCopy(text); done(); });
+    } else {
+      fallbackCopy(text); done();
+    }
+  });
+
+  function fallbackCopy(text) {
+    var t = document.createElement('textarea');
+    t.value = text;
+    t.style.position = 'fixed';
+    t.style.opacity = '0';
+    document.body.appendChild(t);
+    t.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(t);
+  }
+
+  document.getElementById('dlBtn').addEventListener('click', function () {
+    var blob = new Blob([buildExport()], { type: 'text/plain' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'common-tides-training-answers.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(a.href);
+  });
+})();
+</script>
+</body>
+</html>
