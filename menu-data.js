@@ -124,7 +124,7 @@ const MENU_DATA = {
     {
       name:   "Kids Latte",
       badge:  "Kids",
-      detail: "Caramel, Vanilla, or Maple · Whole Milk · Iced only · 16 oz",
+      detail: "Caramel, Vanilla, Maple, or the Current Special · Whole Milk · Whipped Cream + Sprinkles · Iced only · 16 oz",
       price:  "$4.00"
     },
     {
