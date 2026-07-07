@@ -618,6 +618,81 @@
     if (!confirm('Reset all changes back to the original menu?')) return;
     location.reload();
   }
+
+  // ── Live menu from HQ (edited at hq.commontides.com/menu) ──────────
+  // Rebuilds each section's items from the live data, keeping every field
+  // editable. If the fetch fails, the hardcoded items above stay in place.
+  (function() {
+    var BADGE_CLASS = {
+      'signature': 'badge-sig', 'seasonal': 'badge-seasonal', 'new': 'badge-new',
+      'healthy': 'badge-healthy', 'kids': 'badge-kids'
+    };
+
+    function ef(text, extraClass) {
+      return '<span class="' + (extraClass ? extraClass + ' ' : '') + 'editable-field" contenteditable="false">' + text + '</span>';
+    }
+
+    function liveItem(item) {
+      var badge = item.badge
+        ? ' <span class="badge ' + (BADGE_CLASS[item.badge.toLowerCase()] || 'badge-seasonal') + '">' + item.badge + '</span>'
+        : '';
+      var detail = item.detail
+        ? '<div class="item-detail">' + ef(item.detail) + '</div>'
+        : '';
+      var price;
+      if (item.sizes) {
+        price = '<div class="price-sizes">' + item.sizes.map(function(s) {
+          return '<div class="sz-row"><span class="sz-tag">' + s.label + '</span><span class="sz-price editable-field" contenteditable="false">' + s.price + '</span></div>';
+        }).join('') + '</div>';
+      } else {
+        price = item.price ? '<div class="price editable-field" contenteditable="false">' + item.price + '</div>' : '';
+      }
+      return '<div class="item"><div class="item-left"><div class="item-name">' + ef(item.name) + badge + '</div>' + detail + '</div>' + price + '</div>';
+    }
+
+    function fillSection(sectionEl, items) {
+      if (!sectionEl || !items) return;
+      sectionEl.querySelectorAll('.item').forEach(function(el) { el.remove(); });
+      sectionEl.insertAdjacentHTML('beforeend', items.map(liveItem).join(''));
+    }
+
+    function chipHtml(c) {
+      return '<span class="chip' + (c.accent ? ' chip-teal' : '') + '">' + (typeof c === 'string' ? c : c.name) + '</span>';
+    }
+
+    function renderLive(data) {
+      // Sections appear in this DOM order: espresso, non-coffee, specialty, matcha, add-ons.
+      var secs = document.querySelectorAll('.menu-body .section');
+      fillSection(secs[0], data.espresso);
+      fillSection(secs[1], data.noncoffee);
+      fillSection(secs[2], data.specialty);
+      fillSection(secs[3], data.matcha);
+
+      if (!data.addons) return;
+      var grid = document.querySelector('.addons-grid');
+      if (grid) grid.innerHTML = data.addons.extras.map(function(e) {
+        return '<div class="addon-item"><div class="addon-name editable-field" contenteditable="false">' + e.name + '</div><div class="addon-price editable-field" contenteditable="false">' + e.price + '</div></div>';
+      }).join('');
+
+      var groups = { 'milk': data.addons.milks, 'syrups': data.addons.syrups, 'toppings': data.addons.toppings };
+      document.querySelectorAll('.custom-row').forEach(function(row) {
+        var label = row.querySelector('.custom-label');
+        var chips = row.querySelector('.chips');
+        var items = label && groups[label.textContent.trim().toLowerCase()];
+        if (chips && items) chips.innerHTML = items.map(chipHtml).join('');
+      });
+
+      // Keep new fields consistent with the current edit-mode state.
+      if (editMode) {
+        document.querySelectorAll('.editable-field').forEach(function(f) { f.contentEditable = 'true'; });
+      }
+    }
+
+    fetch('https://hq.commontides.com/api/menu/public')
+      .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(renderLive)
+      .catch(function() { /* keep the built-in menu */ });
+  })();
 </script>
 </body>
 </html>

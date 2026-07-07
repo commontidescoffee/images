@@ -409,26 +409,35 @@
     return '<span class="chip' + (accent ? ' ' + cls : '') + '">' + name + '</span>';
   }
 
-  if (typeof MENU_DATA !== 'undefined') {
-    renderSection('pm-espresso',  MENU_DATA.espresso);
-    renderSection('pm-specialty', MENU_DATA.specialty);
-    renderSection('pm-matcha',    MENU_DATA.matcha);
-    renderSection('pm-noncoffee', MENU_DATA.noncoffee);
+  function renderMenu(data) {
+    renderSection('pm-espresso',  data.espresso);
+    renderSection('pm-specialty', data.specialty);
+    renderSection('pm-matcha',    data.matcha);
+    renderSection('pm-noncoffee', data.noncoffee);
 
     var ag = document.getElementById('pm-addons-grid');
-    if (ag) ag.innerHTML = MENU_DATA.addons.extras.map(function(e) {
+    if (ag && data.addons) ag.innerHTML = data.addons.extras.map(function(e) {
       return '<div class="addon-cell"><div class="addon-name">' + e.name + '</div><div class="addon-price">' + e.price + '</div></div>';
     }).join('');
 
     var milksEl = document.getElementById('pm-milks');
-    if (milksEl) milksEl.innerHTML = MENU_DATA.addons.milks.map(function(c) { return chip(c, 'chip-teal'); }).join('');
+    if (milksEl && data.addons) milksEl.innerHTML = data.addons.milks.map(function(c) { return chip(c, 'chip-teal'); }).join('');
 
     var syrupsEl = document.getElementById('pm-syrups');
-    if (syrupsEl) syrupsEl.innerHTML = MENU_DATA.addons.syrups.map(function(c) { return chip(c, 'chip-teal'); }).join('');
+    if (syrupsEl && data.addons) syrupsEl.innerHTML = data.addons.syrups.map(function(c) { return chip(c, 'chip-teal'); }).join('');
 
     var topsEl = document.getElementById('pm-toppings');
-    if (topsEl) topsEl.innerHTML = MENU_DATA.addons.toppings.map(function(c) { return chip(c, 'chip-teal'); }).join('');
+    if (topsEl && data.addons) topsEl.innerHTML = data.addons.toppings.map(function(c) { return chip(c, 'chip-teal'); }).join('');
   }
+
+  // Live menu from HQ (edited at hq.commontides.com/menu). The menu-data.js
+  // script above stays as an offline fallback only — no more hash bumps needed.
+  fetch('https://hq.commontides.com/api/menu/public')
+    .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(renderMenu)
+    .catch(function() {
+      if (typeof MENU_DATA !== 'undefined') renderMenu(MENU_DATA);
+    });
 </script>
 </body>
 </html>

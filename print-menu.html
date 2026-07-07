@@ -449,13 +449,17 @@
 <script src="https://cdn.jsdelivr.net/gh/commontidescoffee/images@d9518d2/menu-data.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-  // ── QR code ──────────────────────────────────────────────────────
-  new QRCode(document.getElementById("qrcode"), {
-    text: "https://www.commontides.com/arcade",
-    width: 82, height: 82,
-    colorDark: "#2C1810", colorLight: "#ffffff",
-    correctLevel: QRCode.CorrectLevel.M
-  });
+  // ── QR code (guarded: a missing element or blocked CDN must never
+  //    stop the menu below from rendering) ───────────────────────────
+  var qrEl = document.getElementById("qrcode");
+  if (qrEl && typeof QRCode !== 'undefined') {
+    new QRCode(qrEl, {
+      text: "https://www.commontides.com/arcade",
+      width: 82, height: 82,
+      colorDark: "#2C1810", colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  }
 
   // ── Menu render ──────────────────────────────────────────────────
   function pmItem(item) {
@@ -484,25 +488,25 @@
     return '<span class="chip' + (accent ? ' ' + accentClass : '') + '">' + name + '</span>';
   }
 
-  if (typeof MENU_DATA !== 'undefined') {
-    pmRender('pm-espresso',  MENU_DATA.espresso);
-    pmRender('pm-specialty', MENU_DATA.specialty);
-    pmRender('pm-matcha',    MENU_DATA.matcha);
-    pmRender('pm-noncoffee', MENU_DATA.noncoffee);
+  function pmRenderMenu(data) {
+    pmRender('pm-espresso',  data.espresso);
+    pmRender('pm-specialty', data.specialty);
+    pmRender('pm-matcha',    data.matcha);
+    pmRender('pm-noncoffee', data.noncoffee);
 
     // Add-ons grid
     var ag = document.getElementById('pm-addons-grid');
-    if (ag) ag.innerHTML = MENU_DATA.addons.extras.map(function(e) {
+    if (ag && data.addons) ag.innerHTML = data.addons.extras.map(function(e) {
       return '<div class="addon-item"><div class="addon-name">' + e.name + '</div><div class="addon-price">' + e.price + '</div></div>';
     }).join('');
 
     // Custom rows (milk / syrups / toppings)
     var ac = document.getElementById('pm-addons-custom');
-    if (ac) {
+    if (ac && data.addons) {
       var rows = [
-        { label: 'Milk',     items: MENU_DATA.addons.milks,    accent: 'chip-teal' },
-        { label: 'Syrups',   items: MENU_DATA.addons.syrups,   accent: 'chip-teal' },
-        { label: 'Toppings', items: MENU_DATA.addons.toppings,  accent: 'chip-teal' }
+        { label: 'Milk',     items: data.addons.milks,    accent: 'chip-teal' },
+        { label: 'Syrups',   items: data.addons.syrups,   accent: 'chip-teal' },
+        { label: 'Toppings', items: data.addons.toppings,  accent: 'chip-teal' }
       ];
       ac.innerHTML = rows.map(function(row) {
         return '<div class="custom-row"><span class="custom-label">' + row.label + '</span>' +
@@ -510,6 +514,15 @@
       }).join('');
     }
   }
+
+  // Live menu from HQ (edited at hq.commontides.com/menu). The menu-data.js
+  // script above stays as an offline fallback only — no more hash bumps needed.
+  fetch('https://hq.commontides.com/api/menu/public')
+    .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(pmRenderMenu)
+    .catch(function() {
+      if (typeof MENU_DATA !== 'undefined') pmRenderMenu(MENU_DATA);
+    });
 </script>
 </body>
 </html>
