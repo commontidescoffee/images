@@ -150,6 +150,10 @@
     gap: 8px; min-height: 36px;
   }
   .item:last-child { border-bottom: none; }
+  /* Compact mode: applied by JS only when live menu content overflows the
+     fixed sheet, so every item stays visible when printed. */
+  .menu-body.pm-compact .item { padding: 4px 13px; min-height: 30px; }
+  .menu-body.pm-compact .item-detail { line-height: 1.22; }
   .item-left { flex: 1; min-width: 0; }
   .item-name {
     font-size: 13px; font-weight: 700; color: var(--ink);
@@ -477,6 +481,17 @@
     return '<div class="item"><div class="item-left"><div class="item-name">' + item.name + badge + '</div>' + detail + '</div>' + price + '</div>';
   }
 
+
+  function pmFit() {
+    var mb = document.querySelector('.menu-body');
+    if (!mb) return;
+    mb.classList.remove('pm-compact');
+    var secs = mb.querySelectorAll('.section');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].scrollHeight > secs[i].clientHeight + 1) { mb.classList.add('pm-compact'); return; }
+    }
+  }
+
   function pmRender(id, items) {
     var el = document.getElementById(id);
     if (el && items) el.innerHTML = items.map(pmItem).join('');
@@ -513,6 +528,7 @@
           '<div class="chips">' + row.items.map(function(c) { return pmChip(c, row.accent); }).join('') + '</div></div>';
       }).join('');
     }
+    pmFit();
   }
 
   // Live menu from HQ (edited at hq.commontides.com/menu). The menu-data.js
