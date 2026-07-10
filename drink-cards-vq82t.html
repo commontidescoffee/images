@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Common Tides Coffee - Your Drink Cards</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #EDECEA;
+      font-family: 'DM Sans', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 20px 64px;
+      gap: 16px;
+    }
+
+    .screen-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      color: #999;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .intro {
+      max-width: 560px;
+      text-align: center;
+      color: #555;
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .intro h1 {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #1a1a1a;
+      margin-bottom: 10px;
+    }
+    .intro strong { color: #1a1a1a; }
+
+    .card-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 34px;
+      width: 100%;
+      max-width: 620px;
+    }
+
+    .block-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: #4A9E93;
+      text-transform: uppercase;
+    }
+
+    /* wrapper that scales the fixed-size card down on small screens */
+    .card-fit {
+      width: 100%;
+      max-width: 560px;
+      display: flex;
+      justify-content: center;
+    }
+    .card-scale { transform-origin: top center; }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .btn svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .btn-primary {
+      background: #4A9E93;
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(74, 158, 147, 0.35);
+    }
+    .btn-primary:hover { background: #3d8a80; }
+    .btn-ghost {
+      background: #fff;
+      color: #4A9E93;
+      border: 1.5px solid #cfe5e1;
+    }
+    .btn-ghost:hover { background: #f2faf9; }
+
+    .print-hint {
+      font-size: 12px;
+      color: #aaa;
+      text-align: center;
+      line-height: 1.7;
+      max-width: 480px;
+    }
+    .print-hint strong { color: #777; }
+
+    /* ── GIFT CARD ────────────────────────────────────────── */
+    .gift-card {
+      width: 560px;
+      height: 320px;
+      border-radius: 18px;
+      background: linear-gradient(140deg, #2d7a70 0%, #4A9E93 28%, #5EB3A7 55%, #78C8BC 78%, #A3DDD6 100%);
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow:
+        0 24px 64px rgba(45, 122, 112, 0.45),
+        0 6px 20px rgba(0,0,0,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.25);
+    }
+
+    .gift-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 180px;
+      opacity: 0.6;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.07);
+    }
+    .c1 { width: 260px; height: 260px; top: -110px; right: -80px; }
+    .c2 { width: 140px; height: 140px; bottom: -55px; left: -40px; }
+    .c3 { width: 80px;  height: 80px;  top: 55px; left: 210px; background: rgba(255,255,255,0.05); }
+
+    .wave-svg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 1;
+      opacity: 0.12;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      padding: 28px 30px 24px 32px;
+    }
+    .card-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card-right {
+      width: 176px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .logo-wrap img {
+      height: 48px;
+      width: auto;
+      filter: brightness(0) invert(1);
+      opacity: 0.92;
+      display: block;
+    }
+    .brand-sub {
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      color: rgba(255,255,255,0.65);
+      text-transform: uppercase;
+      margin-top: 7px;
+    }
+
+    .offer-eyebrow {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      color: rgba(255,255,255,0.7);
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+    .offer-headline {
+      font-size: 42px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.02;
+      text-shadow: 0 3px 14px rgba(0,0,0,0.18);
+      letter-spacing: -0.02em;
+    }
+    .offer-sub {
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.78);
+      margin-top: 6px;
+      letter-spacing: 0.01em;
+    }
+
+    .insta {
+      font-size: 9px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.06em;
+    }
+
+    .card-tag {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      color: rgba(255,255,255,0.55);
+      text-transform: uppercase;
+      text-align: right;
+    }
+
+    .code-box {
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.28);
+      border-radius: 10px;
+      padding: 11px 14px;
+      text-align: right;
+      backdrop-filter: blur(6px);
+    }
+    .code-label {
+      font-size: 7.5px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: rgba(255,255,255,0.65);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .code-value {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.12em;
+      white-space: nowrap;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.15);
+    }
+
+    .valid-text {
+      font-size: 8.5px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.58);
+      text-align: right;
+      line-height: 1.6;
+    }
+
+    /* ── PRINT: show only the card being printed, at 3.5in x 2in ── */
+    @media print {
+      body {
+        background: #fff;
+        margin: 0;
+        padding: 0;
+        display: block;
+      }
+      .screen-label, .intro, .btn-row, .print-hint, .block-title {
+        display: none !important;
+      }
+      .card-block { display: none; margin: 0; max-width: none; }
+      body[data-print="1"] #block1,
+      body[data-print="2"] #block2,
+      body[data-print="3"] #block3 {
+        display: flex;
+        width: 100%;
+        height: 100vh;
+        align-items: center;
+        justify-content: center;
+      }
+      .card-fit { max-width: none; width: auto; }
+      .card-scale { transform: none !important; height: auto !important; }
+
+      .gift-card {
+        width: 3.5in;
+        height: 2in;
+        border-radius: 0.18in;
+        box-shadow: none;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        color-adjust: exact;
+      }
+      .gift-card::before { display: none; }
+
+      .logo-wrap img   { height: 0.3in; }
+      .brand-sub       { font-size: 5.5pt; margin-top: 4pt; }
+      .offer-eyebrow   { font-size: 5pt; margin-bottom: 3pt; }
+      .offer-headline  { font-size: 25pt; text-shadow: none; }
+      .offer-sub       { font-size: 7pt; margin-top: 4pt; }
+      .insta           { font-size: 5.5pt; }
+      .card-tag        { font-size: 5pt; }
+      .code-box        { padding: 5pt 7pt; border-radius: 6pt; backdrop-filter: none; }
+      .code-label      { font-size: 4.5pt; margin-bottom: 2pt; }
+      .code-value      { font-size: 10pt; letter-spacing: 0.1em; text-shadow: none; }
+      .valid-text      { font-size: 5.5pt; }
+      .card-inner      { padding: 0.17in 0.18in 0.15in 0.2in; }
+      .card-right      { width: 1.15in; }
+
+      .c1 { width: 1.6in; height: 1.6in; top: -0.69in; right: -0.5in; }
+      .c2 { width: 0.88in; height: 0.88in; bottom: -0.34in; left: -0.25in; }
+      .c3 { width: 0.5in; height: 0.5in; top: 0.34in; left: 1.31in; }
+    }
+  </style>
+</head>
+<body>
+
+  <p class="screen-label">Common Tides Coffee &nbsp;&middot;&nbsp; Pre-Paid Drink Cards</p>
+
+  <div class="intro">
+    <h1>Your 3 Drink Cards</h1>
+    <p>Each card below is good for <strong>one craft drink</strong> (any menu item) at any Common Tides pop-up or market event in Wilmington, NC. Every card has its own code and can go to a different person. <strong>Download</strong> a card to text or email it, or <strong>print</strong> it at wallet size. Just show the card at the truck window. One drink per card.</p>
+  </div>
+
+  <!-- CARD 1 -->
+  <div class="card-block" id="block1">
+    <div class="block-title">Card 1 of 3</div>
+    <div class="card-fit">
+      <div class="card-scale">
+        <div class="gift-card">
+          <div class="circle c1"></div><div class="circle c2"></div><div class="circle c3"></div>
+          <svg class="wave-svg" viewBox="0 0 560 100" preserveAspectRatio="none">
+            <path d="M0,50 C100,15 200,80 320,45 C400,22 480,65 560,50 L560,100 L0,100 Z" fill="white"/>
+            <path d="M0,70 C130,35 260,90 400,55 C470,38 515,68 560,70 L560,100 L0,100 Z" fill="white" opacity="0.55"/>
+          </svg>
+          <div class="card-inner">
+            <div class="card-left">
+              <div>
+                <div class="logo-wrap"><img src="https://raw.githubusercontent.com/commontidescoffee/images/main/logo-03.png" alt="Common Tides Coffee Logo"></div>
+                <div class="brand-sub">Common Tides Coffee</div>
+              </div>
+              <div>
+                <div class="offer-eyebrow">Pre-Paid &middot; Good For</div>
+                <div class="offer-headline">1 Craft<br>Drink</div>
+                <div class="offer-sub">Any menu item of your choice</div>
+              </div>
+              <div class="insta">@commontidescoffee</div>
+            </div>
+            <div class="card-right">
+              <div class="card-tag">Drink Card &middot; 1 of 3</div>
+              <div class="code-box">
+                <div class="code-label">Redemption Code</div>
+                <div class="code-value">CT-3PK-A7Q2</div>
+              </div>
+              <div class="valid-text">Valid at any Common Tides<br>pop-up or market event<br>Wilmington, NC</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="drink-card-vq82t-1.png" download="Common-Tides-Drink-Card-1.png">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Card 1
+      </a>
+      <button class="btn btn-ghost" onclick="printCard(1)">
+        <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Print Card 1
+      </button>
+    </div>
+  </div>
+
+  <!-- CARD 2 -->
+  <div class="card-block" id="block2">
+    <div class="block-title">Card 2 of 3</div>
+    <div class="card-fit">
+      <div class="card-scale">
+        <div class="gift-card">
+          <div class="circle c1"></div><div class="circle c2"></div><div class="circle c3"></div>
+          <svg class="wave-svg" viewBox="0 0 560 100" preserveAspectRatio="none">
+            <path d="M0,50 C100,15 200,80 320,45 C400,22 480,65 560,50 L560,100 L0,100 Z" fill="white"/>
+            <path d="M0,70 C130,35 260,90 400,55 C470,38 515,68 560,70 L560,100 L0,100 Z" fill="white" opacity="0.55"/>
+          </svg>
+          <div class="card-inner">
+            <div class="card-left">
+              <div>
+                <div class="logo-wrap"><img src="https://raw.githubusercontent.com/commontidescoffee/images/main/logo-03.png" alt="Common Tides Coffee Logo"></div>
+                <div class="brand-sub">Common Tides Coffee</div>
+              </div>
+              <div>
+                <div class="offer-eyebrow">Pre-Paid &middot; Good For</div>
+                <div class="offer-headline">1 Craft<br>Drink</div>
+                <div class="offer-sub">Any menu item of your choice</div>
+              </div>
+              <div class="insta">@commontidescoffee</div>
+            </div>
+            <div class="card-right">
+              <div class="card-tag">Drink Card &middot; 2 of 3</div>
+              <div class="code-box">
+                <div class="code-label">Redemption Code</div>
+                <div class="code-value">CT-3PK-K4M8</div>
+              </div>
+              <div class="valid-text">Valid at any Common Tides<br>pop-up or market event<br>Wilmington, NC</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="drink-card-vq82t-2.png" download="Common-Tides-Drink-Card-2.png">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Card 2
+      </a>
+      <button class="btn btn-ghost" onclick="printCard(2)">
+        <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Print Card 2
+      </button>
+    </div>
+  </div>
+
+  <!-- CARD 3 -->
+  <div class="card-block" id="block3">
+    <div class="block-title">Card 3 of 3</div>
+    <div class="card-fit">
+      <div class="card-scale">
+        <div class="gift-card">
+          <div class="circle c1"></div><div class="circle c2"></div><div class="circle c3"></div>
+          <svg class="wave-svg" viewBox="0 0 560 100" preserveAspectRatio="none">
+            <path d="M0,50 C100,15 200,80 320,45 C400,22 480,65 560,50 L560,100 L0,100 Z" fill="white"/>
+            <path d="M0,70 C130,35 260,90 400,55 C470,38 515,68 560,70 L560,100 L0,100 Z" fill="white" opacity="0.55"/>
+          </svg>
+          <div class="card-inner">
+            <div class="card-left">
+              <div>
+                <div class="logo-wrap"><img src="https://raw.githubusercontent.com/commontidescoffee/images/main/logo-03.png" alt="Common Tides Coffee Logo"></div>
+                <div class="brand-sub">Common Tides Coffee</div>
+              </div>
+              <div>
+                <div class="offer-eyebrow">Pre-Paid &middot; Good For</div>
+                <div class="offer-headline">1 Craft<br>Drink</div>
+                <div class="offer-sub">Any menu item of your choice</div>
+              </div>
+              <div class="insta">@commontidescoffee</div>
+            </div>
+            <div class="card-right">
+              <div class="card-tag">Drink Card &middot; 3 of 3</div>
+              <div class="code-box">
+                <div class="code-label">Redemption Code</div>
+                <div class="code-value">CT-3PK-R9T5</div>
+              </div>
+              <div class="valid-text">Valid at any Common Tides<br>pop-up or market event<br>Wilmington, NC</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="drink-card-vq82t-3.png" download="Common-Tides-Drink-Card-3.png">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Card 3
+      </a>
+      <button class="btn btn-ghost" onclick="printCard(3)">
+        <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Print Card 3
+      </button>
+    </div>
+  </div>
+
+  <p class="print-hint">
+    Printing? Choose <strong>Letter</strong> paper, scale <strong>100%</strong>, and enable
+    <strong>background graphics</strong> for the full color card. It prints at real wallet size (3.5 x 2 inches).
+  </p>
+
+  <script>
+    function printCard(n) {
+      document.body.setAttribute('data-print', String(n));
+      window.print();
+    }
+    window.addEventListener('afterprint', function () {
+      document.body.removeAttribute('data-print');
+    });
+
+    // scale fixed 560px cards down to fit phone screens
+    function fitCards() {
+      document.querySelectorAll('.card-fit').forEach(function (fit) {
+        var scaleWrap = fit.querySelector('.card-scale');
+        var s = Math.min(1, fit.clientWidth / 560);
+        scaleWrap.style.transform = 'scale(' + s + ')';
+        scaleWrap.style.height = (320 * s) + 'px';
+      });
+    }
+    window.addEventListener('resize', fitCards);
+    fitCards();
+  </script>
+
+</body>
+</html>
