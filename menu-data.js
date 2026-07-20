@@ -55,9 +55,9 @@ const MENU_DATA = {
   // ── SPECIALTY LATTES ─────────────────────────────────────────────
   specialty: [
     {
-      name:   "New Special Coming Soon",
-      badge:  "Coming Soon",
-      detail: "Stay tuned for something new"
+      name:   "Latte Special",
+      badge:  "Rotating",
+      detail: "Check Out Our Special Board on the Truck"
     },
     {
       name:   "Salted Caramel Latte",
