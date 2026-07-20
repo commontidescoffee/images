@@ -25,30 +25,30 @@ const MENU_DATA = {
     {
       name:   "Espresso",
       detail: "Hot only · Double shot",
-      price:  "$3.75"
+      price:  "$3.95"
     },
     {
       name:   "Americano",
       detail: "Hot or Iced",
       sizes:  [
-        { label: "12 oz Hot",  price: "$4.25" },
-        { label: "16 oz Iced", price: "$4.75" }
+        { label: "12 oz Hot",  price: "$4.50" },
+        { label: "16 oz Iced", price: "$5.00" }
       ]
     },
     {
       name:   "Latte",
       detail: "Hot or Iced · 16 oz",
-      price:  "$6.00"
+      price:  "$6.25"
     },
     {
       name:   "Cappuccino",
       detail: "Hot only · 12 oz",
-      price:  "$5.25"
+      price:  "$5.50"
     },
     {
       name:   "Mocha",
       detail: "Hot or Iced · 16 oz",
-      price:  "$6.75"
+      price:  "$7.00"
     }
   ],
 
@@ -63,34 +63,37 @@ const MENU_DATA = {
       name:   "Salted Caramel Latte",
       badge:  "Signature",
       detail: "Pink Himalayan Sea Salt · Rich & Balanced · Hot or Iced",
-      price:  "$6.75"
+      price:  "$7.00"
     },
     {
       name:   "Maple Syrup Latte",
       detail: "Grade A Maple Syrup · Hot or Iced",
-      price:  "$6.75"
+      price:  "$7.00"
     },
     {
       name:   "Vanilla Latte",
       detail: "Classic & Smooth · Hot or Iced",
-      price:  "$6.75"
+      price:  "$7.00"
     }
   ],
 
   // ── MATCHA ───────────────────────────────────────────────────────
   matcha: [
     {
-      name:   "New Special Coming Soon",
-      badge:  "Coming Soon",
-      detail: "Stay tuned for something new"
+      name:   "Basic Matcha",
+      detail: "Ceremonial Grade Matcha · Milk of Your Choice",
+      sizes:  [
+        { label: "Hot 12oz",  price: "$5.25" },
+        { label: "Iced 16oz", price: "$5.75" }
+      ]
     },
     {
       name:   "Vanilla Matcha",
       badge:  "New",
       detail: "Ceremonial Grade Matcha · Vanilla · Milk of Your Choice",
       sizes:  [
-        { label: "Hot 12oz",  price: "$5.00" },
-        { label: "Iced 16oz", price: "$5.50" }
+        { label: "Hot 12oz",  price: "$6.00" },
+        { label: "Iced 16oz", price: "$6.50" }
       ]
     }
   ],
@@ -109,12 +112,12 @@ const MENU_DATA = {
     {
       name:   "Hot Chocolate",
       detail: "Hot · 12 oz · Oat or Almond Milk available +$1.00",
-      price:  "$4.75"
+      price:  "$5.00"
     },
     {
       name:   "London Fog",
       detail: "Earl Grey · Vanilla · Steamed Milk · 12 oz · Alt Milk +$1.00",
-      price:  "$4.00"
+      price:  "$4.50"
     },
     {
       name:   "Hot Tea",
@@ -128,6 +131,14 @@ const MENU_DATA = {
       price:  "$4.00"
     },
     {
+      name:   "FROSH Juice Box",
+      price:  "$3.50"
+    },
+    {
+      name:   "Apple & Eve Juice Box",
+      price:  "$1.50"
+    },
+    {
       name:   "Bottled Water",
       price:  "$1.00"
     }
@@ -136,7 +147,7 @@ const MENU_DATA = {
   // ── ADD-ONS ──────────────────────────────────────────────────────
   addons: {
     extras: [
-      { name: "Extra Shot",    price: "+$1.50" },
+      { name: "Extra Shot",    price: "+$1.75" },
       { name: "Oat Milk",      price: "+$1.00" },
       { name: "Almond Milk",   price: "+$1.00" },
       { name: "Flavor Syrup",  price: "+$0.75" },
