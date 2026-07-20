@@ -80,6 +80,11 @@ const MENU_DATA = {
   // ── MATCHA ───────────────────────────────────────────────────────
   matcha: [
     {
+      name:   "Matcha Special",
+      badge:  "Rotating",
+      detail: "Check Out Our Special Board on the Truck"
+    },
+    {
       name:   "Basic Matcha",
       detail: "Ceremonial Grade Matcha · Milk of Your Choice",
       sizes:  [
