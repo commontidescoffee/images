@@ -1,0 +1,62 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//BuildMyMap//Demo Food Truck Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Demo Food Truck
+X-WR-TIMEZONE:America/New_York
+BEGIN:VEVENT
+UID:bmm-demo-tue-uncw@buildmymap.commontides.com
+DTSTART;TZID=America/New_York:20260721T110000
+DTEND;TZID=America/New_York:20260721T140000
+RRULE:FREQ=WEEKLY;BYDAY=TU
+SUMMARY:UNCW Campus Commons
+LOCATION:601 S College Rd, Wilmington, NC 28403
+DESCRIPTION:Lunch service by the clock tower
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-demo-wed-mayfaire@buildmymap.commontides.com
+DTSTART;TZID=America/New_York:20260722T110000
+DTEND;TZID=America/New_York:20260722T140000
+RRULE:FREQ=WEEKLY;BYDAY=WE
+SUMMARY:Mayfaire Town Center
+LOCATION:6835 Main St, Wilmington, NC 28405
+DESCRIPTION:Lunch on the green
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-demo-thu-hospital@buildmymap.commontides.com
+DTSTART;TZID=America/New_York:20260723T080000
+DTEND;TZID=America/New_York:20260723T130000
+RRULE:FREQ=WEEKLY;BYDAY=TH
+SUMMARY:Novant Health NHRMC
+LOCATION:2131 S 17th St, Wilmington, NC 28401
+DESCRIPTION:Breakfast and lunch for hospital staff
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-demo-fri-brewery@buildmymap.commontides.com
+DTSTART;TZID=America/New_York:20260724T170000
+DTEND;TZID=America/New_York:20260724T210000
+RRULE:FREQ=WEEKLY;BYDAY=FR
+SUMMARY:Flying Machine Brewing Co.
+LOCATION:3130 Randall Pkwy, Wilmington, NC 28403
+DESCRIPTION:Friday night at the taproom
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-demo-sat-riverwalk@buildmymap.commontides.com
+DTSTART;TZID=America/New_York:20260725T090000
+DTEND;TZID=America/New_York:20260725T140000
+RRULE:FREQ=WEEKLY;BYDAY=SA
+SUMMARY:Riverfront Farmers Market
+LOCATION:10 N Water St, Wilmington, NC 28401
+DESCRIPTION:Saturday market on the Riverwalk
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-demo-sun-carolina-beach@buildmymap.commontides.com
+DTSTART;TZID=America/New_York:20260726T120000
+DTEND;TZID=America/New_York:20260726T160000
+RRULE:FREQ=WEEKLY;BYDAY=SU
+SUMMARY:Carolina Beach Boardwalk
+LOCATION:100 Cape Fear Blvd, Carolina Beach, NC 28428
+DESCRIPTION:Sunday afternoon at the boardwalk
+END:VEVENT
+END:VCALENDAR
