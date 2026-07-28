@@ -1,0 +1,62 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//BuildMyMap//Desert Bloom Boutique Demo//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Desert Bloom Boutique
+X-WR-TIMEZONE:America/Phoenix
+BEGIN:VEVENT
+UID:bmm-phx-we-tempe@buildmymap.com
+DTSTART;TZID=America/Phoenix:20260722T160000
+DTEND;TZID=America/Phoenix:20260722T210000
+RRULE:FREQ=WEEKLY;BYDAY=WE
+SUMMARY:Tempe Marketplace
+LOCATION:2000 E Rio Salado Pkwy, Tempe, AZ 85281
+DESCRIPTION:Evening pop-up by the fountain
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-phx-th-biltmore@buildmymap.com
+DTSTART;TZID=America/Phoenix:20260723T120000
+DTEND;TZID=America/Phoenix:20260723T190000
+RRULE:FREQ=WEEKLY;BYDAY=TH
+SUMMARY:Biltmore Fashion Park
+LOCATION:2502 E Camelback Rd, Phoenix, AZ 85016
+DESCRIPTION:Afternoon pop-up
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-phx-fr-roosevelt@buildmymap.com
+DTSTART;TZID=America/Phoenix:20260724T170000
+DTEND;TZID=America/Phoenix:20260724T220000
+RRULE:FREQ=WEEKLY;BYDAY=FR
+SUMMARY:Roosevelt Row Arts District
+LOCATION:918 N 2nd St, Phoenix, AZ 85004
+DESCRIPTION:Art walk night market
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-phx-sa-uptown@buildmymap.com
+DTSTART;TZID=America/Phoenix:20260725T080000
+DTEND;TZID=America/Phoenix:20260725T120000
+RRULE:FREQ=WEEKLY;BYDAY=SA
+SUMMARY:Uptown Farmers Market
+LOCATION:5757 N Central Ave, Phoenix, AZ 85012
+DESCRIPTION:Saturday morning market
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-phx-sa-scottsdale@buildmymap.com
+DTSTART;TZID=America/Phoenix:20260725T140000
+DTEND;TZID=America/Phoenix:20260725T190000
+RRULE:FREQ=WEEKLY;BYDAY=SA
+SUMMARY:Old Town Scottsdale
+LOCATION:7014 E Camelback Rd, Scottsdale, AZ 85251
+DESCRIPTION:Afternoon in Old Town
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-phx-su-gilbert@buildmymap.com
+DTSTART;TZID=America/Phoenix:20260726T090000
+DTEND;TZID=America/Phoenix:20260726T130000
+RRULE:FREQ=WEEKLY;BYDAY=SU
+SUMMARY:Gilbert Heritage District
+LOCATION:222 N Ash St, Gilbert, AZ 85234
+DESCRIPTION:Sunday market pop-up
+END:VEVENT
+END:VCALENDAR

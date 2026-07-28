@@ -1,0 +1,62 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//BuildMyMap//Lone Star Birria Demo//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Lone Star Birria
+X-WR-TIMEZONE:America/Chicago
+BEGIN:VEVENT
+UID:bmm-austin-mo-domain@buildmymap.com
+DTSTART;TZID=America/Chicago:20260720T110000
+DTEND;TZID=America/Chicago:20260720T140000
+RRULE:FREQ=WEEKLY;BYDAY=MO
+SUMMARY:The Domain
+LOCATION:11410 Century Oaks Terrace, Austin, TX 78758
+DESCRIPTION:Lunch service at the north lawn
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-austin-tu-congress@buildmymap.com
+DTSTART;TZID=America/Chicago:20260721T110000
+DTEND;TZID=America/Chicago:20260721T140000
+RRULE:FREQ=WEEKLY;BYDAY=TU
+SUMMARY:Downtown - Congress Ave
+LOCATION:500 Congress Ave, Austin, TX 78701
+DESCRIPTION:Office lunch rush downtown
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-austin-we-meanwhile@buildmymap.com
+DTSTART;TZID=America/Chicago:20260722T170000
+DTEND;TZID=America/Chicago:20260722T210000
+RRULE:FREQ=WEEKLY;BYDAY=WE
+SUMMARY:Meanwhile Brewing Co.
+LOCATION:3901 Promontory Point Dr, Austin, TX 78744
+DESCRIPTION:Evening service in the beer garden
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-austin-th-drag@buildmymap.com
+DTSTART;TZID=America/Chicago:20260723T110000
+DTEND;TZID=America/Chicago:20260723T150000
+RRULE:FREQ=WEEKLY;BYDAY=TH
+SUMMARY:The Drag at UT
+LOCATION:2400 Guadalupe St, Austin, TX 78705
+DESCRIPTION:Campus lunch on the Drag
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-austin-fr-zilker@buildmymap.com
+DTSTART;TZID=America/Chicago:20260724T160000
+DTEND;TZID=America/Chicago:20260724T210000
+RRULE:FREQ=WEEKLY;BYDAY=FR
+SUMMARY:Zilker Park
+LOCATION:2100 Barton Springs Rd, Austin, TX 78704
+DESCRIPTION:Sunset tacos by the park
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-austin-su-mueller@buildmymap.com
+DTSTART;TZID=America/Chicago:20260726T090000
+DTEND;TZID=America/Chicago:20260726T130000
+RRULE:FREQ=WEEKLY;BYDAY=SU
+SUMMARY:Mueller Farmers Market
+LOCATION:2006 Philomena St, Austin, TX 78723
+DESCRIPTION:Sunday market service
+END:VEVENT
+END:VCALENDAR

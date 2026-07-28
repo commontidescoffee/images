@@ -1,0 +1,62 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//BuildMyMap//Citrus Grove Kitchen Demo//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Citrus Grove Kitchen
+X-WR-TIMEZONE:America/New_York
+BEGIN:VEVENT
+UID:bmm-orlando-tu-health@buildmymap.com
+DTSTART;TZID=America/New_York:20260721T110000
+DTEND;TZID=America/New_York:20260721T140000
+RRULE:FREQ=WEEKLY;BYDAY=TU
+SUMMARY:Orlando Health Campus
+LOCATION:52 W Underwood St, Orlando, FL 32806
+DESCRIPTION:Lunch for hospital staff
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-orlando-we-ucf@buildmymap.com
+DTSTART;TZID=America/New_York:20260722T110000
+DTEND;TZID=America/New_York:20260722T143000
+RRULE:FREQ=WEEKLY;BYDAY=WE
+SUMMARY:UCF Student Union
+LOCATION:4000 Central Florida Blvd, Orlando, FL 32816
+DESCRIPTION:Campus lunch service
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-orlando-th-drphillips@buildmymap.com
+DTSTART;TZID=America/New_York:20260723T110000
+DTEND;TZID=America/New_York:20260723T140000
+RRULE:FREQ=WEEKLY;BYDAY=TH
+SUMMARY:Dr. Phillips
+LOCATION:7600 Dr Phillips Blvd, Orlando, FL 32819
+DESCRIPTION:Restaurant row lunch stop
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-orlando-fr-ivanhoe@buildmymap.com
+DTSTART;TZID=America/New_York:20260724T170000
+DTEND;TZID=America/New_York:20260724T220000
+RRULE:FREQ=WEEKLY;BYDAY=FR
+SUMMARY:Ivanhoe Park Brewing
+LOCATION:1300 Alden Rd, Orlando, FL 32803
+DESCRIPTION:Friday night at the brewery
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-orlando-sa-winterpark@buildmymap.com
+DTSTART;TZID=America/New_York:20260725T100000
+DTEND;TZID=America/New_York:20260725T150000
+RRULE:FREQ=WEEKLY;BYDAY=SA
+SUMMARY:Winter Park Village
+LOCATION:460 N Orlando Ave, Winter Park, FL 32789
+DESCRIPTION:Weekend service in Winter Park
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-orlando-su-lakeeola@buildmymap.com
+DTSTART;TZID=America/New_York:20260726T100000
+DTEND;TZID=America/New_York:20260726T160000
+RRULE:FREQ=WEEKLY;BYDAY=SU
+SUMMARY:Lake Eola Farmers Market
+LOCATION:512 E Washington St, Orlando, FL 32801
+DESCRIPTION:Sunday market at the lake
+END:VEVENT
+END:VCALENDAR

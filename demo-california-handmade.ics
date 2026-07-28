@@ -1,0 +1,53 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//BuildMyMap//Sea & Cedar Handmade Demo//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Sea & Cedar Handmade
+X-WR-TIMEZONE:America/Los_Angeles
+BEGIN:VEVENT
+UID:bmm-ca-we-santamonica@buildmymap.com
+DTSTART;TZID=America/Los_Angeles:20260722T080000
+DTEND;TZID=America/Los_Angeles:20260722T130000
+RRULE:FREQ=WEEKLY;BYDAY=WE
+SUMMARY:Santa Monica Farmers Market
+LOCATION:155 Arizona Ave, Santa Monica, CA 90401
+DESCRIPTION:Midweek market booth
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-ca-th-culver@buildmymap.com
+DTSTART;TZID=America/Los_Angeles:20260723T160000
+DTEND;TZID=America/Los_Angeles:20260723T210000
+RRULE:FREQ=WEEKLY;BYDAY=TH
+SUMMARY:Downtown Culver City
+LOCATION:9300 Culver Blvd, Culver City, CA 90232
+DESCRIPTION:Evening artisan market
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-ca-fr-abbotkinney@buildmymap.com
+DTSTART;TZID=America/Los_Angeles:20260724T150000
+DTEND;TZID=America/Los_Angeles:20260724T200000
+RRULE:FREQ=WEEKLY;BYDAY=FR
+SUMMARY:Abbot Kinney Blvd
+LOCATION:1300 Abbot Kinney Blvd, Venice, CA 90291
+DESCRIPTION:First Fridays style pop-up
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-ca-sa-elsegundo@buildmymap.com
+DTSTART;TZID=America/Los_Angeles:20260725T100000
+DTEND;TZID=America/Los_Angeles:20260725T160000
+RRULE:FREQ=WEEKLY;BYDAY=SA
+SUMMARY:The Point, El Segundo
+LOCATION:850 S Sepulveda Blvd, El Segundo, CA 90245
+DESCRIPTION:Weekend makers market
+END:VEVENT
+BEGIN:VEVENT
+UID:bmm-ca-su-melrose@buildmymap.com
+DTSTART;TZID=America/Los_Angeles:20260726T090000
+DTEND;TZID=America/Los_Angeles:20260726T170000
+RRULE:FREQ=WEEKLY;BYDAY=SU
+SUMMARY:Melrose Trading Post
+LOCATION:7850 Melrose Ave, Los Angeles, CA 90046
+DESCRIPTION:Sunday at the trading post
+END:VEVENT
+END:VCALENDAR
